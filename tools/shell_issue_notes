@@ -1,0 +1,119 @@
+OK so i think im slowly getting what's happening
+- the issue lies in the serial jtag driver. usb_serial_jtag.c
+- On a normal printf, 
+	- _serial_intr_handler gets called by mask 8 (0b1000), which is USB_SERIAL_JTAG_INTR_SERIAL_IN_EMPTY (8).
+	- assuming no read data we skip to line usb_serial_jtag.c:66
+	- `usb_serial_jtag_ll_txfifo_writeable()` returns 1 if USB_SERIAL_JTAG txfifo has room to write. it should
+	- tsrb_get_one(&serial_tx_rb) returns one byte from the serial tx ring buffer
+	- if that byte is a valid byte we put that to the serial jtag hardware write register. i think thats what that is at least
+	- do this until there's no valid bytes in our hands.
+	- flush the txfifo
+	- clear the interrupt using the mask we got before
+
+- If there's something to read, the interrupt value is 12
+
+- Once the quick payloads are delivered we no longer hit `_serial_intr_handler` the interrupt isnt firing
+- That's because it probably fired before. We check USB_SERIAL_JTAG.int_st.val for this this is where the interrupt flags are
+- Also our rx buffer has some unprocessed data. we look at them for the buffer to clear out. read USB_SERIAL_JTAG.ep1.rdwr_byte
+- To clear the interrupts though, you write the mask to USB_SERIAL_JTAG.int_clr.val to clear mask
+- After this point write something thru the shell. this will fire an interrupt but the flags will be 4. we need it to be 12 for writing to start happening
+
+- ahhh during the problem state we're unable to write 
+USB_SERIAL_JTAG.ep1_conf.wr_done=1;
+	which leads to the interrupt flag not being set.
+
+- The solution:
+- put these two lines
+
+		USB_SERIAL_JTAG.int_clr.val = 12; // JON HACK
+		USB_SERIAL_JTAG.ep1_conf.wr_done = 1;
+
+at the end of the _serial_intr_handler function. bit of a hack
+
+points of interest
+
+1) 
+/** usb_serial_jtag_ll.h
+ * @brief  Returns 1 if the USB_SERIAL_JTAG rxfifo has data available.
+ *
+ * @return 0 if no data available, 1 if data available
+ */
+static inline int usb_serial_jtag_ll_rxfifo_data_available(void)
+{
+    return USB_SERIAL_JTAG.ep1_conf.serial_out_ep_data_avail;
+}
+
+// This function / field contains info on if there's anything in the usb cdc buffer.
+
+2) 
+USB_SERIAL_JTAG.ep1.rdwr_byte // Holds bytes. you keep reading the head and on read it moves the head forward
+
+3) 
+/**
+ * @brief  Get the USB_SERIAL_JTAG interrupt status.
+ *
+ * @return The USB_SERIAL_JTAG interrupt status.
+ */
+static inline uint32_t usb_serial_jtag_ll_get_intsts_mask(void)
+{
+    return USB_SERIAL_JTAG.int_st.val;
+}
+
+// This holds the interrupt status. when in "bad" state, its value is 12
+// In a "good" state where an actual interrupt was hit, this is 4
+// What is 12?
+// ->
+
+4) 
+// Define USB_SERIAL_JTAG interrupts
+// Note the hardware has more interrupts, but they're only useful for debugging
+// the hardware.
+typedef enum {
+    USB_SERIAL_JTAG_INTR_SOF                    = (1 << 1),
+    USB_SERIAL_JTAG_INTR_SERIAL_OUT_RECV_PKT    = (1 << 2), # so 12 is this and (also 4)
+    USB_SERIAL_JTAG_INTR_SERIAL_IN_EMPTY        = (1 << 3), # this?
+    USB_SERIAL_JTAG_INTR_TOKEN_REC_IN_EP1       = (1 << 8),
+    USB_SERIAL_JTAG_INTR_BUS_RESET              = (1 << 9),
+    USB_SERIAL_JTAG_INTR_EP1_ZERO_PAYLOAD       = (1 << 10),
+} usb_serial_jtag_ll_intr_t;
+
+5) 
+/**
+ * @brief  Clear the USB_SERIAL_JTAG interrupt status based on the given mask.
+ *
+ * @param  mask The bitmap of the interrupts need to be cleared.
+ *
+ * @return None
+ */
+static inline void usb_serial_jtag_ll_clr_intsts_mask(uint32_t mask)
+{
+    USB_SERIAL_JTAG.int_clr.val = mask;
+}
+// This clears the interrupt value.
+
+6)
+/**
+ * @brief  Flushes the TX buffer, that is, make it available for the
+ *         host to pick up.
+ *
+ * @return na
+ */
+static inline void usb_serial_jtag_ll_txfifo_flush(void)
+{
+    USB_SERIAL_JTAG.ep1_conf.wr_done=1;
+}
+// This flushes the TX buffer
+
+7) 
+/**
+ * @brief  Returns 1 if the USB_SERIAL_JTAG txfifo has room.
+ *
+ * @return 0 if no data available, 1 if data available
+ */
+static inline int usb_serial_jtag_ll_txfifo_writable(void)
+{
+    return USB_SERIAL_JTAG.ep1_conf.serial_in_ep_data_free;
+}
+
+
+
