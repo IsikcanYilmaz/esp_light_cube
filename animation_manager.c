@@ -34,7 +34,7 @@ static bool animationManInitialized = false;
 
 static uint16_t autoAnimationSwitchMs = 30*60*1000;
 static uint32_t lastAutoAnimationSwitchTimestamp = 0;
-static bool autoAnimationSwitchEnabled = true;
+static bool autoAnimationSwitchEnabled = false;
 
 Animation_s animations[ANIMATION_MAX] = {
 	[ANIMATION_SCROLLER] = {

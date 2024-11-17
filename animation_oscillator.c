@@ -19,11 +19,14 @@ static float freq = 1;
 static Color_t currColor;
 
 static double hIncrement = -3;
-static double sIncrement = -0.005;
-static double vIncrement = -0.01;
+static double sIncrement = -0.05;
+static double vIncrement = -0.025;
 
 static EditableValue_t editableValues[] = 
 {
+	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -360.00, .ul.d = 360.00},
+	(EditableValue_t) {.name = "sIncrement", .valPtr = (union EightByteData_u *) &sIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 };
 static EditableValueList_t editableValuesList = {.name = "oscillator", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -47,19 +50,17 @@ static void RunningAction(void)
 	now = fmodf(now, 100.0);
 	freq = 0.5;
 
+	Visual_IncrementAllByHSV(hIncrement,sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
 
 	for (uint8_t i = 0; i < 16; i++)
 	{
 		// Red
-		float phase = i * 30.0 * M_PI / 180.0;
-		float sinout = 2 + 2 * sin(2.0 * M_PI * freq * now + phase);
+		float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
+		float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
-		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], 100, 0, 0);
+		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], 150, 0, 0);
 	}
-
-	Visual_IncrementAllByHSV(hIncrement,sIncrement,vIncrement);
-
 }
 
 bool AnimationOscillator_Init(void *arg)
@@ -117,14 +118,14 @@ void AnimationOscillator_ButtonInput(Button_e b, ButtonGesture_e g)
 
 void AnimationOscillator_UsrInput(int argc, char **argv)
 {
-	// ASSERT_ARGS(1);
-	// printf("Oscillator received usr input: \n");
-	// for (int i = 0; i < argc; i++)
-	// {
-	// 	printf(" %s", argv[i]);
-	// }
-	// printf("\n");
-	// AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+	ASSERT_ARGS(1);
+	printf("Oscillator received usr input: \n");
+	for (int i = 0; i < argc; i++)
+	{
+		printf(" %s", argv[i]);
+	}
+	printf("\n");
+	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 }
 
 void AnimationOscillator_ReceiveSignal(AnimationSignal_e s)

@@ -1,5 +1,9 @@
 #include <stdint.h>
 
+#ifndef M_PI // TODO where to put this
+    #define M_PI 3.14159265358979323846
+#endif
+
 typedef enum
 {
 	SIN,
@@ -29,4 +33,4 @@ typedef struct
 // ϕ is Phase
 Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double initialPhase);
 
-double CtrlSig_SinWave(double t, double freqHz, double initialPhase);
+float CtrlSig_Sin(float freq, float phase);

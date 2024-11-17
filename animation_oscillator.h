@@ -1,10 +1,6 @@
 #include "button.h"
 #include "animation_manager.h"
 
-#ifndef M_PI // TODO where to put this
-    #define M_PI 3.14159265358979323846
-#endif
-
 bool AnimationOscillator_Init(void *arg);
 void AnimationOscillator_Deinit(void);
 void AnimationOscillator_Start(void);

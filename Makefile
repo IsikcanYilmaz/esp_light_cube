@@ -23,12 +23,25 @@ FEATURES_OPTIONAL += periph_timer
 USEMODULE += ws281x_esp32
 USEMODULE += xtimer
 USEMODULE += shell
+USEMODULE += esp_wifi
+USEMODULE += shell_cmds_default
+USEMODULE += ps
 
+# External modules
+EXTERNAL_MODULE_DIRS += $(CURDIR)/submodules
+USEMODULE += colorspace-conversions
+
+# Use a network interface, if available. The handling is done in
+# Makefile.board.dep, which is processed recursively as part of the dependency
+# resolution.
+FEATURES_OPTIONAL += netif
+
+# Configs
 TIMER = 2
 FREQ = 16000000
 
-EXTERNAL_MODULE_DIRS += $(CURDIR)/submodules
-USEMODULE += colorspace-conversions
+WIFI_SSID = "TP-Link_B616"
+WIFI_PASS = "21854002"
 
 INC_DIR += $(CURDIR)/submodules/colorspace-conversions/
 CFLAGS += -I$(INC_DIR)
