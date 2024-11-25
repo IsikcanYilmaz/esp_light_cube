@@ -20,7 +20,7 @@ static Color_t currColor;
 
 static double hIncrement = -3;
 static double sIncrement = -0.05;
-static double vIncrement = -0.025;
+static double vIncrement = -0.03;
 
 static EditableValue_t editableValues[] = 
 {
@@ -48,9 +48,9 @@ static void RunningAction(void)
 	static uint8_t yvals[16];
 	float now = (float) ztimer_now(ZTIMER_USEC) / 1000000.0;
 	now = fmodf(now, 100.0);
-	freq = 0.5;
+	freq = 1;
 
-	Visual_IncrementAllByHSV(hIncrement,sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
+	Visual_IncrementAllByHSV(hIncrement * CtrlSig_Sin(0.01, 0), sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
 
 	for (uint8_t i = 0; i < 16; i++)
 	{
@@ -59,13 +59,13 @@ static void RunningAction(void)
 		float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
-		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], 150, 0, 0);
+		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], currColor.red, currColor.green, currColor.blue);
 	}
 }
 
 bool AnimationOscillator_Init(void *arg)
 {
-	currColor = Color_CreateFromRgb(50, 0, 0);
+	currColor = Color_CreateFromHsv(0.0, 1.0, 0.4);
 	state = ANIMATION_STATE_RUNNING;
 	return true;
 }

@@ -148,6 +148,52 @@ static void testsetpixel(ws281x_t *strip)
 	AddrLedDriver_SetPixelRgbInPanel(TOP, 0, 0, 20, 0, 0);
 }
 
+static Position_e CharToPosEnum(char c)
+{
+	Position_e pos = NUM_SIDES;
+	switch (c)
+	{
+		case 'n':
+			pos = NORTH;
+			break;
+		case 'e':
+			pos = EAST;
+			break;
+		case 's':
+			pos = SOUTH;
+			break;
+		case 'w':
+			pos = WEST;
+			break;
+		case 't':
+			pos = TOP;
+			break;
+		default:
+			printf("BAD SIDE DESCRIPTOR! %c\n", c);
+	}
+	// else if (c == 'e')
+	// {
+	// 	pos = EAST;
+	// }
+	// else if (c == 's')
+	// {
+	// 	pos = SOUTH;
+	// }
+	// else if (c == 'w')
+	// {
+	// 	pos = WEST;
+	// }
+	// else if (c == 't')
+	// {
+	// 	pos = TOP;
+	// }
+	// else
+	// {
+	// 	printf("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+	// }
+	return pos;
+}
+
 void AddrLedDriver_Test(void)
 {
 	teststrips(&neopixelHandle);
@@ -229,32 +275,67 @@ Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y)
 Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relativePos, uint8_t x, uint8_t y)
 {
 	uint8_t absX, absY;
-	switch(relativePos)
+	// HACK. meh it works 
+	if (pos == TOP)
 	{
-		case EAST:
+		switch(relativePos)
 		{
-			absX = y;
-			absY = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
-			break;
+			case EAST:
+			{
+				absX = x;
+				absY = y;
+				break;
+			}
+			case NORTH:
+			{
+				absX = NUM_LEDS_PER_PANEL_SIDE - 1 - y;;
+				absY = x;
+				break;
+			}
+			case WEST:
+			{
+				absX = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
+				absY = NUM_LEDS_PER_PANEL_SIDE - 1 - y;
+				break;
+			}
+			case SOUTH:
+			default:
+			{
+				absX = y;
+				absY = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
+				break;
+			}
 		}
-		case NORTH:
+	}
+	else
+	{
+		switch(relativePos)
 		{
-			absX = y;
-			absY = x;
-			break;
-		}
-		case WEST:
-		{
-			absX = NUM_LEDS_PER_PANEL_SIDE - 1 - y;
-			absY = x;
-			break;
-		}
-		case SOUTH:
-		default:
-		{
-			absX = x;
-			absY = y;
-			break;
+			case EAST:
+				{
+					absX = NUM_LEDS_PER_PANEL_SIDE - 1 - y;
+					absY = x;
+					break;
+			}
+			case NORTH:
+				{
+					absX = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
+					absY = NUM_LEDS_PER_PANEL_SIDE - 1 - y;
+					break;
+			}
+			case WEST:
+				{
+					absX = y;
+					absY = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
+					break;
+			}
+			case SOUTH:
+			default:
+				{
+					absX = x;
+					absY = y;
+					break;
+			}
 		}
 	}
 	return AddrLedDriver_GetPixelInPanel(pos, absX, absY);
@@ -302,37 +383,27 @@ void AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 	{
 		AddrLedDriver_Clear();
 	}
-	// else if (strcmp(argv[1], "relset") == 0)
-	// {
-	// 	// aled relset <pos> <relpos> <x> <y> <r> <g> <b>
-	// 	ASSERT_ARGS(9);
-	// 	Position_e pos = NUM_SIDES;
-	// 	if (strcmp(argv[2], "n") == 0)
-	// 	{
-	// 		pos = NORTH;
-	// 	}
-	// 	else if (strcmp(argv[2], "e") == 0)
-	// 	{
-	// 		pos = EAST;
-	// 	}
-	// 	else if (strcmp(argv[2], "s") == 0)
-	// 	{
-	// 		pos = SOUTH;
-	// 	}
-	// 	else if (strcmp(argv[2], "w") == 0)
-	// 	{
-	// 		pos = WEST;
-	// 	}
-	// 	else if (strcmp(argv[2], "t") == 0)
-	// 	{
-	// 		pos = TOP;
-	// 	}
-	// 	else
-	// 	{
-	// 		printf("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
-	// 		return;
-	// 	}
-	// }
+	else if (strcmp(argv[1], "relset") == 0)
+	{
+		// aled relset <pos> <relpos> <x> <y> <r> <g> <b>
+		ASSERT_ARGS(9);
+		Position_e pos = CharToPosEnum(argv[2][0]);
+		Position_e relPos = CharToPosEnum(argv[3][0]);
+		if (pos < NUM_SIDES && relPos < NUM_SIDES)
+		{
+			uint8_t x = atoi(argv[4]);
+			uint8_t y = atoi(argv[5]);
+			uint8_t r = atoi(argv[6]);
+			uint8_t g = atoi(argv[7]);
+			uint8_t b = atoi(argv[8]);
+			printf("Setting pixel %s relative to %s %d %d to %d %d %d\n", \
+					AddrLedDriver_GetPositionString(pos), \
+					AddrLedDriver_GetPositionString(relPos), \
+					x, y, r, g, b);
+			Pixel_t *relPixel = AddrLedDriver_GetPixelInPanelRelative(pos, relPos, x, y);
+			AddrLedDriver_SetPixelRgb(relPixel, r, g, b);
+		}
+	}
 	else if (strcmp(argv[1], "set") == 0)
 	{
 		// aled set <pos> <x> <y> <r> <g> <b>

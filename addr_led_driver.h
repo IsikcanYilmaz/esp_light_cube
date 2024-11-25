@@ -19,9 +19,9 @@
 // Sides enum
 typedef enum {
   NORTH,
-  EAST,
-  SOUTH,
   WEST,
+  SOUTH,
+  EAST,
   TOP,
   NUM_SIDES 
 } Position_e;
