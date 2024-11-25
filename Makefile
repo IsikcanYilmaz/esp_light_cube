@@ -20,6 +20,7 @@ QUIET ?= 1
 FEATURES_OPTIONAL += periph_timer
 
 # Modules
+USEMODULE += stdio_usb_serial_jtag
 USEMODULE += ws281x_esp32
 USEMODULE += xtimer
 USEMODULE += shell
