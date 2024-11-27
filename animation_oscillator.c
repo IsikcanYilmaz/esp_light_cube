@@ -15,9 +15,8 @@
 #include <stdio.h>
 #include <math.h>
 
-static float freq = 1;
 static Color_t currColor;
-
+static float freq = 0.5;
 static double hIncrement = -3;
 static double sIncrement = -0.05;
 static double vIncrement = -0.03;
