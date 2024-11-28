@@ -125,6 +125,7 @@ char * AddrLedDriver_GetPositionString(Position_e pos);
 AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos);
 Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y);
 Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relativePos, uint8_t x, uint8_t y);
+Position_e AddrLedDriver_GetOppositePanel(Position_e pos);
 AddrLedStrip_t* AddrLedDriver_GetStrip(void);
 void AddrLedDriver_TakeUsrCommand(int argc, char **argv);
 void AddrLedDriver_PrintPixels(void);

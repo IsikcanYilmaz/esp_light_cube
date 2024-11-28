@@ -317,6 +317,7 @@ Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relati
 					absY = x;
 					break;
 			}
+			case TOP:
 			case NORTH:
 				{
 					absX = NUM_LEDS_PER_PANEL_SIDE - 1 - x;
@@ -339,6 +340,30 @@ Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relati
 		}
 	}
 	return AddrLedDriver_GetPixelInPanel(pos, absX, absY);
+}
+
+Position_e AddrLedDriver_GetOppositePanel(Position_e pos)
+{
+	Position_e oppositePos;
+	switch(pos)
+	{
+		case NORTH:
+			oppositePos = SOUTH;
+			break;
+		case SOUTH:
+			oppositePos = NORTH;
+			break;
+		case EAST:
+			oppositePos = WEST;
+			break;
+		case WEST:
+			oppositePos = EAST;
+			break;
+		case TOP:
+			oppositePos = TOP; // TODO? Should this return, like, BOTTOM or something? whjich i dont have rn? 
+			break;
+	}
+	return oppositePos;
 }
 
 AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)

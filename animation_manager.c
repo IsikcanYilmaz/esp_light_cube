@@ -6,6 +6,7 @@
 #include "animation_oscillator.h"
 #include "animation_canvas.h"
 #include "animation_lines.h"
+#include "animation_toplines.h"
 #include "addr_led_driver.h"
 #include "animation_sparkles.h"
 #include <string.h>
@@ -34,7 +35,7 @@ static bool animationManInitialized = false;
 
 static uint16_t autoAnimationSwitchMs = 30*60*1000;
 static uint32_t lastAutoAnimationSwitchTimestamp = 0;
-static bool autoAnimationSwitchEnabled = true;
+static bool autoAnimationSwitchEnabled = false;
 
 Animation_s animations[ANIMATION_MAX] = {
 	[ANIMATION_SCROLLER] = {
@@ -96,6 +97,18 @@ Animation_s animations[ANIMATION_MAX] = {
 		.usrInput = AnimationOscillator_UsrInput,
 		.signal = AnimationOscillator_ReceiveSignal,
 		.getState = AnimationOscillator_GetState
+	},
+	[ANIMATION_TOPLINES] = {
+		.name = "toplines",
+		.init = AnimationToplines_Init,
+		.deinit = AnimationToplines_Deinit,
+		.start = AnimationToplines_Start,
+		.stop = AnimationToplines_Stop,
+		.update = AnimationToplines_Update,
+		.buttonInput = AnimationToplines_ButtonInput,
+		.usrInput = AnimationToplines_UsrInput,
+		.signal = AnimationToplines_ReceiveSignal,
+		.getState = AnimationToplines_GetState
 	}
 };
 

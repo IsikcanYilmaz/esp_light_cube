@@ -16,10 +16,10 @@
 #include <math.h>
 
 static Color_t currColor;
-static float freq = 0.5;
-static double hIncrement = -3;
-static double sIncrement = -0.05;
-static double vIncrement = -0.03;
+static float freq = 0.50;
+static double hIncrement = -2;
+static double sIncrement = -0;
+static double vIncrement = -0.01;
 
 static EditableValue_t editableValues[] = 
 {
@@ -42,7 +42,7 @@ static void FadeOffAction(void)
 	}
 }
 
-static void RunningAction(void)
+static void oldRunningAction(void)
 {
 	static uint8_t yvals[16];
 	float now = (float) ztimer_now(ZTIMER_USEC) / 1000000.0;
@@ -59,6 +59,43 @@ static void RunningAction(void)
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
 		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], currColor.red, currColor.green, currColor.blue);
+	}
+}
+
+static void RunningAction(void)
+{
+	static uint8_t yvals[16];
+	static uint8_t xOffset;
+	float now = (float) ztimer_now(ZTIMER_USEC) / 1000000.0;
+	now = fmodf(now, 100.0);
+
+	xOffset = 2 + 2 * CtrlSig_Sin(0.1, 0);
+
+	Visual_IncrementAllByHSV(hIncrement, sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
+
+	for (uint8_t i = 0; i < 16; i+=12)
+	{
+		// Red
+		// float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
+		float phaseDiffRadian = (i > 0 ? 1 : 0) * 45.0 * M_PI / 180.0;
+		float sinout = 6 + 6 * CtrlSig_Sin(freq, phaseDiffRadian);
+		yvals[i] = (int)sinout;
+		Position_e pos = i/4;
+		if (yvals[i] < 4)
+		{
+			AddrLedDriver_SetPixelRgbInPanel(pos, (xOffset+i)%4, yvals[i], currColor.red, currColor.green, currColor.blue);
+		}
+		else if (yvals[i] < 8) // TOP PANEL
+		{
+			Pixel_t *topPix = AddrLedDriver_GetPixelInPanelRelative(TOP, pos, (xOffset+i)%4, yvals[i]%4);
+			AddrLedDriver_SetPixelRgb(topPix, currColor.red, currColor.green, currColor.blue);
+		}
+		else // OPPOSITE PANEL
+		{
+			Position_e oppositePos = AddrLedDriver_GetOppositePanel(pos);
+			Pixel_t *oppositePix = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
+			AddrLedDriver_SetPixelRgb(oppositePix, currColor.red, currColor.green, currColor.blue);
+		}
 	}
 }
 
