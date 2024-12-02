@@ -80,18 +80,30 @@ void AddrLedDriver_Init(void)
 			for (int y = 0; y < NUM_LEDS_PER_PANEL_SIDE; y++)
 			{
 				Pixel_t *pix = AddrLedDriver_GetPixelInPanel(pos, x, y);
-				
-				// NSWE neighbors
-				if (x > 0)
+				Pixel_t *leftNeighbor, *rightNeighbor, *topNeighbor, *botNeighbor;
+				if (pos != TOP)
 				{
+					if (x == 0) // leftmost
+					{
+						
+					}
+					if (x == NUM_LEDS_PER_PANEL_SIDE-1) // rightmost
+					{
 
+					}
+					if (y == NUM_LEDS_PER_PANEL_SIDE-1) // top
+					{
+
+					}
+					if (y == 0) // bottom
+					{
+						
+					}
 				}
-
-				if (x < NUM_LEDS_PER_PANEL_SIDE-1)
+				else
 				{
-
+					
 				}
-
 			}
 		}
   }
@@ -364,6 +376,39 @@ Position_e AddrLedDriver_GetOppositePanel(Position_e pos)
 			break;
 	}
 	return oppositePos;
+}
+
+Position_e AddrLedDriver_GetNeighborPanel(Position_e pos, Direction_e direction)
+{
+	Position_e neighborPos = pos;
+	switch(pos)
+	{
+		case NORTH:
+		case SOUTH:
+		case EAST:
+		case WEST:
+			if (direction == LEFT)
+			{
+				neighborPos = (pos + 1) % TOP; 
+			}
+			else if (direction == RIGHT)
+			{
+				neighborPos = (pos == NORTH) ? EAST : (pos - 1) % TOP;
+			}
+			else if (direction == DOWN)
+			{
+				neighborPos = pos; // No down from a lower panel
+			}
+			else if (direction == UP)
+			{
+				neighborPos = TOP;
+			}
+			break;
+		case TOP:
+			neighborPos = (Position_e) direction;
+			break;
+	}
+	return neighborPos;
 }
 
 AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)

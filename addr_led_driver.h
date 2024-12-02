@@ -26,6 +26,14 @@ typedef enum {
   NUM_SIDES 
 } Position_e;
 
+typedef enum {
+	UP,
+	LEFT,
+	DOWN,
+	RIGHT,
+	NUM_DIRECTIONS
+} Direction_e; // TODO decide if you want this?
+
 // This driver mainly aims to drive a strip of neopixels. on top of that, it will have some low level data structures and definitions that implement the specific shape/layout of my strip, which is a cube; 5 sides that are 4x4 neopixel panels, made up of a single continuous strip. 
 
 // LEDs are arranged in a 1 dimensional array, even though they are physically arranged in a square shape (or else)
@@ -93,6 +101,8 @@ typedef struct {
 	struct Pixel_t *neighborUp;
 	struct Pixel_t *neighborDown;
 
+	struct Pixel_t *neighborPixels[4]; // TODO pick one convention and go with it
+
 	uint16_t stripIdx; // Index of the pixel in the strip // Addition for RIOT ws281x module
 } Pixel_t;
 
@@ -126,6 +136,7 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos);
 Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y);
 Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relativePos, uint8_t x, uint8_t y);
 Position_e AddrLedDriver_GetOppositePanel(Position_e pos);
+Position_e AddrLedDriver_GetNeighborPanel(Position_e pos, Direction_e direction);
 AddrLedStrip_t* AddrLedDriver_GetStrip(void);
 void AddrLedDriver_TakeUsrCommand(int argc, char **argv);
 void AddrLedDriver_PrintPixels(void);

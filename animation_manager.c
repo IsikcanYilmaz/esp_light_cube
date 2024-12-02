@@ -6,7 +6,7 @@
 #include "animation_oscillator.h"
 #include "animation_canvas.h"
 #include "animation_lines.h"
-#include "animation_toplines.h"
+#include "animation_snakes.h"
 #include "addr_led_driver.h"
 #include "animation_sparkles.h"
 #include <string.h>
@@ -98,17 +98,17 @@ Animation_s animations[ANIMATION_MAX] = {
 		.signal = AnimationOscillator_ReceiveSignal,
 		.getState = AnimationOscillator_GetState
 	},
-	[ANIMATION_TOPLINES] = {
-		.name = "toplines",
-		.init = AnimationToplines_Init,
-		.deinit = AnimationToplines_Deinit,
-		.start = AnimationToplines_Start,
-		.stop = AnimationToplines_Stop,
-		.update = AnimationToplines_Update,
-		.buttonInput = AnimationToplines_ButtonInput,
-		.usrInput = AnimationToplines_UsrInput,
-		.signal = AnimationToplines_ReceiveSignal,
-		.getState = AnimationToplines_GetState
+	[ANIMATION_SNAKES] = {
+		.name = "snakes",
+		.init = AnimationSnakes_Init,
+		.deinit = AnimationSnakes_Deinit,
+		.start = AnimationSnakes_Start,
+		.stop = AnimationSnakes_Stop,
+		.update = AnimationSnakes_Update,
+		.buttonInput = AnimationSnakes_ButtonInput,
+		.usrInput = AnimationSnakes_UsrInput,
+		.signal = AnimationSnakes_ReceiveSignal,
+		.getState = AnimationSnakes_GetState
 	}
 };
 
