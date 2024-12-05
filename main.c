@@ -21,6 +21,8 @@
 
 #include "thread.h"
 
+#include "dma_rmt_test.h"
+
 extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
@@ -52,8 +54,10 @@ int main(void)
 
 	// ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
 	srand(time(NULL));
+	// dma_rmt_test();
 	AddrLedDriver_Init();
 	AnimationMan_Init();
+	// AddrLedDriver_Test();
 
 	kernel_pid_t blink_threadId = thread_create(
 		blink_threadStack,
@@ -65,7 +69,7 @@ int main(void)
 		"blink_thread"
 	);
 
-	UserCommand_Init();
+	UserCommand_Init(); // inf loop
 
 	for (;;) 
 	{

@@ -150,6 +150,21 @@ static void teststrips(ws281x_t *strip)
 	onColor1 = !onColor1;
 }
 
+static void testfirstled(ws281x_t *strip)
+{
+	color_rgb_t color2 = {10, 0, 0};
+	color_rgb_t color1 = {10, 0, 10};
+	color_rgb_t colorBlank = {0,0,0};
+	color_rgb_t colorBasic = {1,0,0};
+	static bool onColor1 = true;
+	// ws281x_set(strip, 0, (onColor1) ? color1 : color2);
+	ws281x_set(strip, 0, colorBlank);
+	ws281x_set(strip, 1, colorBasic);
+	ws281x_set(strip, 2, colorBlank);
+	ws281x_set(strip, 3, colorBasic);
+	onColor1 = !onColor1;
+}
+
 static void testsetpixel(ws281x_t *strip)
 {
 	Pixel_t *northTop = AddrLedDriver_GetPixelInPanel(SOUTH, 1, 1);
@@ -208,11 +223,16 @@ static Position_e CharToPosEnum(char c)
 
 void AddrLedDriver_Test(void)
 {
-	teststrips(&neopixelHandle);
+	// teststrips(&neopixelHandle);
 	// ws281x_write(&neopixelHandle);
 
 	// testsetpixel(&neopixelHandle);
-	AddrLedDriver_DisplayStrip(&ledStrip0);
+	while(true)
+	{
+		testfirstled(&neopixelHandle);
+		AddrLedDriver_DisplayStrip(&ledStrip0);
+		ztimer_sleep(ZTIMER_USEC, 1 * US_PER_SEC);
+	}
 }
 
 void AddrLedDriver_DisplayStrip(AddrLedStrip_t *l)
