@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "ws281x.h"
+
 
 // Definitions of the cube
 #define NEOPIXEL_SIGNAL_GPIO_PIN (GPIO_PIN(0, 9)) //GPIO9
@@ -15,6 +15,9 @@
 #define NEOPIXEL_SIGNAL_BUFFER_LEN (sizeof(PixelPacket_t) * NUM_LEDS + 1)
 
 #define ADDR_LED_UPDATE_PERIOD_MS 100
+
+#define WS281X_PARAM_NUMOF (NUM_LEDS)
+#include "ws281x.h"
 
 // Sides enum
 typedef enum {
@@ -142,4 +145,5 @@ void AddrLedDriver_TakeUsrCommand(int argc, char **argv);
 void AddrLedDriver_PrintPixels(void);
 void AddrLedDriver_PrintPixelsRaw(void);
 void AddrLedDriver_Test(void);
+bool AddrLedDriver_IsInitialized(void);
 #endif

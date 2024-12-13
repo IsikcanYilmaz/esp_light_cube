@@ -201,6 +201,12 @@ void AnimationMan_ThreadHandler(void *arg)
 
 void AnimationMan_Init(void)
 {
+	if (!AddrLedDriver_IsInitialized())
+	{
+		printf("%s addr led driver not initialized!\n", __FUNCTION__);
+		return;
+	}
+
 	currentAnimation = AnimationMan_GetAnimationByIdx(ANIMATION_DEFAULT);
 	currentAnimationIdx = ANIMATION_DEFAULT;
 	currentAnimation->init(NULL);
@@ -216,18 +222,6 @@ void AnimationMan_Init(void)
 	);
 
 	animationManInitialized = true;
-}
-
-void AnimationMan_StartPollTimer(void)
-{
-	printf("%s\n", __FUNCTION__);
-	// add_repeating_timer_ms(ANIMATION_UPDATE_PERIOD_MS, AnimationMan_PollCallback, NULL, &(animationManUpdateTimer));
-}
-
-void AnimationMan_StopPollTimer(void)
-{
-	printf("%s\n", __FUNCTION__);
-	// cancel_repeating_timer(&(animationManUpdateTimer));
 }
 
 void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)

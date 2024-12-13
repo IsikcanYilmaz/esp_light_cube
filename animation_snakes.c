@@ -77,6 +77,7 @@ static void RunningAction(void)
 			Pixel_t *oppositePix = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
 			AddrLedDriver_SetPixelRgb(oppositePix, c->red, c->green, c->blue);
 		}
+		break;
 	}
 }
 

@@ -22,6 +22,7 @@ FEATURES_OPTIONAL += periph_timer
 # Modules
 USEMODULE += stdio_usb_serial_jtag
 USEMODULE += ws281x_esp32
+# USEMODULE += ws281x_esp32_non_blocking_rmt
 USEMODULE += xtimer
 USEMODULE += shell
 USEMODULE += esp_wifi

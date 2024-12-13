@@ -237,7 +237,17 @@ void AddrLedDriver_Test(void)
 
 void AddrLedDriver_DisplayStrip(AddrLedStrip_t *l)
 {
+	// static uint32_t avg = 0;
+	// static uint32_t sum = 0;
+	// static uint32_t ctr = 0;
+	// uint32_t t0 = ztimer_now(ZTIMER_USEC);
 	ws281x_write(&neopixelHandle);
+	// uint32_t t1 = ztimer_now(ZTIMER_USEC);
+	// ctr++;
+	// sum += (t1-t0);
+	// avg = sum/ctr;
+	// printf("Display Strip took %d us\n", t1-t0);
+	// printf("avg %d us\n", avg);
 	pixelChanged = false;
 }
 
@@ -532,4 +542,9 @@ void AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 		printf("Setting pixel %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
 		AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
 	}
+}
+
+bool AddrLedDriver_IsInitialized(void)
+{
+	return addrLedDriverInitialized;
 }

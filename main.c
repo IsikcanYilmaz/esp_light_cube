@@ -50,6 +50,7 @@ void *blink_threadHandler(void *arg)
 
 int main(void)
 {
+	// ztimer_sleep(ZTIMER_USEC, 5 * US_PER_SEC);
 	printf("Light Cube RIOT\n");
 
 	// ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
