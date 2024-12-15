@@ -4,6 +4,7 @@
 #include "visual_util.h"
 #include "editable_value.h"
 #include "usr_commands.h"
+#include "logger.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -90,7 +91,7 @@ static void RunningAction(void)
 			Color_t c = Color_CreateFromHsv(phaseH + (midSection ? 5 * rowHDiff : 4 * rowHDiff), currS, currV);
 			// if (midSection)
 			// {
-			// 	printf("%d %d ", row, col);
+			// 	logprint("%d %d ", row, col);
 			// 	Color_PrintColor(c);
 			// }
 			AddrLedDriver_SetPixelRgb(p, c.red, c.green, c.blue);
@@ -105,7 +106,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		printf("Fade off done state %d\n", state);
+		logprint("Fade off done state %d\n", state);
 	}
 }
 
@@ -119,7 +120,7 @@ static void FadeUpAction(void)
 	if (currV >= ulV)
 	{
 		state = ANIMATION_STATE_RUNNING;
-		printf("Fade up done state %d\n", state);
+		logprint("Fade up done state %d\n", state);
 	}
 }
 
@@ -152,7 +153,7 @@ bool AnimationScroller_Init(void *arg)
 	}
 
 	state = ANIMATION_STATE_STARTING;
-	printf("%s\n", __FUNCTION__);
+	logprint("%s\n", __FUNCTION__);
 }
 
 void AnimationScroller_Deinit(void)
@@ -211,12 +212,12 @@ void AnimationScroller_ButtonInput(Button_e b, ButtonGesture_e g)
 void AnimationScroller_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	printf("Scroller received usr input:");
+	logprint("Scroller received usr input:");
 	for (int i = 0; i < argc; i++)
 	{
-		printf(" %s", argv[i]);
+		logprint(" %s", argv[i]);
 	}
-	printf("\n");
+	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 }
 

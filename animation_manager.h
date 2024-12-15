@@ -4,8 +4,7 @@
 #include "button.h"
 #include "editable_value.h"
 
-#define ANIMATION_UPDATE_PERIOD_MS 10
-#define ANIMATION_DEFAULT (ANIMATION_OSCILLATOR) //(ANIMATION_SNAKES) //(ANIMATION_CANVAS)
+#define ANIMATION_DEFAULT (ANIMATION_SNAKES) //(ANIMATION_CANVAS)
 
 typedef enum AnimationIdx_e_
 {
@@ -67,7 +66,7 @@ void AnimationMan_Init(void);
 void AnimationMan_StartPollTimer(void);
 void AnimationMan_StopPollTimer(void);
 void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately);
-void AnimationMan_TakeUsrCommand(int argc, char **argv);
+int AnimationMan_TakeUsrCommand(int argc, char **argv);
 void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv);
 
 void AnimationMan_ThreadHandler(void *arg);

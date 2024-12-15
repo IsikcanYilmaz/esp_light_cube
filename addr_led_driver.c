@@ -8,6 +8,11 @@
 #include "xtimer.h"
 #include "thread.h"
 
+#include "mutex.h"
+#include "logger.h"
+
+mutex_t lock;
+
 // WS2812B Related 
 ws281x_t neopixelHandle;
 uint8_t pixelBuffer[NEOPIXEL_SIGNAL_BUFFER_LEN];
@@ -118,12 +123,12 @@ void AddrLedDriver_Init(void)
 	// Init the ws281x module 
 	if(ws281x_init(&neopixelHandle, &neopixelParams) != 0) 
 	{
-		printf("Failed to initialize ws281\n");
+		logprint("Failed to initialize ws281\n");
 		return;
 	}
 	else 
 	{
-		printf("Initialized ws281x. Data length %d one length %d zero length %d\n", WS281X_T_DATA_NS, WS281X_T_DATA_ONE_NS, WS281X_T_DATA_ZERO_NS);
+		logprint("Initialized ws281x. Data length %d one length %d zero length %d\n", WS281X_T_DATA_NS, WS281X_T_DATA_ONE_NS, WS281X_T_DATA_ZERO_NS);
 	}
 
 	addrLedDriverInitialized = true;
@@ -196,7 +201,7 @@ static Position_e CharToPosEnum(char c)
 			pos = TOP;
 			break;
 		default:
-			printf("BAD SIDE DESCRIPTOR! %c\n", c);
+			logprint("BAD SIDE DESCRIPTOR! %c\n", c);
 	}
 	// else if (c == 'e')
 	// {
@@ -216,7 +221,7 @@ static Position_e CharToPosEnum(char c)
 	// }
 	// else
 	// {
-	// 	printf("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+	// 	logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
 	// }
 	return pos;
 }
@@ -237,26 +242,26 @@ void AddrLedDriver_Test(void)
 
 void AddrLedDriver_DisplayStrip(AddrLedStrip_t *l)
 {
-	// static uint32_t avg = 0;
-	// static uint32_t sum = 0;
-	// static uint32_t ctr = 0;
-	// uint32_t t0 = ztimer_now(ZTIMER_USEC);
 	ws281x_write(&neopixelHandle);
-	// uint32_t t1 = ztimer_now(ZTIMER_USEC);
-	// ctr++;
-	// sum += (t1-t0);
-	// avg = sum/ctr;
-	// printf("Display Strip took %d us\n", t1-t0);
-	// printf("avg %d us\n", avg);
-	pixelChanged = false;
+	
 }
 
 void AddrLedDriver_DisplayCube(void)
 {
-	// ztimer_now_t t0 = ztimer_now(ZTIMER_USEC); // Takes around 140 ms which is too goddam much. pico takes 5ms because it dmas the data TODO do that here
+	// mutex_lock(&lock);
+	// static uint32_t avg = 0;
+	// static uint32_t sum = 0;
+	// static uint32_t ctr = 0;
+	// uint32_t t0 = ztimer_now(ZTIMER_USEC);
 	AddrLedDriver_DisplayStrip(&ledStrip0);
-	// ztimer_now_t t1 = ztimer_now(ZTIMER_USEC);
-	// printf("Display strip took %d ms\n", (t1-t0));
+	// uint32_t t1 = ztimer_now(ZTIMER_USEC);
+	// ctr++;
+	// sum += (t1-t0);
+	// avg = sum/ctr;
+	// logprint("Display Strip took %d us\n", t1-t0);
+	// logprint("avg %d us\n", avg);
+	// pixelChanged = false;
+	// mutex_unlock(&lock);
 }
 
 void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
@@ -273,9 +278,9 @@ void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
 void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b)
 {
   // sanity checks
-  if (pos >= NUM_SIDES || x > NUM_LEDS_PER_PANEL_SIDE || y > NUM_LEDS_PER_PANEL_SIDE)
+  if (pos >= NUM_SIDES || x >= NUM_LEDS_PER_PANEL_SIDE || y >= NUM_LEDS_PER_PANEL_SIDE)
   {
-    printf("Incorrect args to SetPixelRgb %d %d %d\n", pos, x, y);
+    logprint("Incorrect args to SetPixelRgb %d %d %d\n", pos, x, y);
     return;  // TODO have an error type
   }
   AddrLedPanel_t *panel = AddrLedDriver_GetPanelByLocation(pos);
@@ -296,11 +301,15 @@ Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y)
   AddrLedPanel_t *panel = AddrLedDriver_GetPanelByLocation(pos);
   AddrLedStrip_t *strip = panel->strip;
   uint8_t ledIdx;
+
+	if (pos != TOP) // HACK !
+	{
 #if LEDS_BEGIN_AT_BOTTOM
-  y = NUM_LEDS_PER_PANEL_SIDE - y - 1;
+		y = NUM_LEDS_PER_PANEL_SIDE - y - 1;
 #endif
-	y = NUM_LEDS_PER_PANEL_SIDE - 1 - y;// HACK ! y seems inverted. flip it
-	
+		y = NUM_LEDS_PER_PANEL_SIDE - 1 - y;// HACK ! y seems inverted. flip it
+	}
+
   if (y % 2 == 0)
   {
     ledIdx = x + (NUM_LEDS_PER_PANEL_SIDE * y);
@@ -348,6 +357,7 @@ Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relati
 				break;
 			}
 		}
+		absY = NUM_LEDS_PER_PANEL_SIDE - 1 - absY; // HACK i really should refactor this stuff
 	}
 	else
 	{
@@ -445,7 +455,7 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)
 {
 	if (pos >= NUM_SIDES)
 	{
-		printf("Bad pos %d for %s\n", pos, __FUNCTION__);
+		logprint("Bad pos %d for %s\n", pos, __FUNCTION__);
 		return NULL;
 	}
   return &ledPanels[pos];
@@ -461,7 +471,7 @@ char * AddrLedDriver_GetPositionString(Position_e pos)
 {
 	if (pos >= NUM_SIDES)
 	{
-		printf("Bad pos %d to %s\n", pos, __FUNCTION__);
+		logprint("Bad pos %d to %s\n", pos, __FUNCTION__);
 		return NULL;
 	}
 	return positionStrings[pos];
@@ -472,11 +482,11 @@ AddrLedStrip_t* AddrLedDriver_GetStrip(void)
 	return &ledStrip0;
 }
 
-void AddrLedDriver_TakeUsrCommand(int argc, char **argv)
+int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 {
 	if (!addrLedDriverInitialized)
 	{
-		return;
+		return 1;
 	}
 	ASSERT_ARGS(2);
 	if (strcmp(argv[1], "clear") == 0)
@@ -496,7 +506,7 @@ void AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 			uint8_t r = atoi(argv[6]);
 			uint8_t g = atoi(argv[7]);
 			uint8_t b = atoi(argv[8]);
-			printf("Setting pixel %s relative to %s %d %d to %d %d %d\n", \
+			logprint("Setting pixel %s relative to %s %d %d to %d %d %d\n", \
 					AddrLedDriver_GetPositionString(pos), \
 					AddrLedDriver_GetPositionString(relPos), \
 					x, y, r, g, b);
@@ -531,17 +541,18 @@ void AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 		}
 		else
 		{
-			printf("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
-			return;
+			logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+			return 1;
 		}
 		uint8_t x = atoi(argv[3]);
 		uint8_t y = atoi(argv[4]);
 		uint8_t r = atoi(argv[5]);
 		uint8_t g = atoi(argv[6]);
 		uint8_t b = atoi(argv[7]);
-		printf("Setting pixel %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
+		// logprint("Setting pixel %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
 		AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
 	}
+	return 0;
 }
 
 bool AddrLedDriver_IsInitialized(void)

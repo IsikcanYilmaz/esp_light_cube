@@ -7,6 +7,7 @@
 #include "editable_value.h"
 #include "usr_commands.h"
 // #include "hardware/timer.h"
+#include "logger.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -108,7 +109,7 @@ static Color_t GenerateRandomColor(void)
 	double h = fmod(rand(), (randomUpperLimH - randomLowerLimH + 1)) + randomLowerLimH;
 	double s = (double) randomLowerLimS + fmod((rand() % 1000) / 100, (randomUpperLimS - randomLowerLimS + 0.01));
 	double v = (double) randomLowerLimV + fmod((rand() % 1000) / 100, (randomUpperLimV - randomLowerLimV + 0.01));
-	// printf("%f %f %f\n", h, s, v);
+	// logprint("%f %f %f\n", h, s, v);
 	Color_t c = Color_CreateFromHsv(h, s, v);
 	// Color_PrintColor(c);
 	return c;
@@ -149,12 +150,12 @@ static bool CheckShouldBurst(void)
 		case SPARKLES_BURST_TIMED:
 		{
 			return (burstPeriod < ztimer_now(ZTIMER_USEC)/1000 - lastBurstTimestampMs);
-			printf("SPARKLES_BURST_TIMED not yet implemented\n");
+			logprint("SPARKLES_BURST_TIMED not yet implemented\n");
 			break;
 		}
 		default:
 		{
-			printf("Bad burst mode!\n");
+			logprint("Bad burst mode!\n");
 			return false;
 		}
 	}
@@ -210,7 +211,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		printf("Fade off done state %d\n", state);
+		logprint("Fade off done state %d\n", state);
 	}
 }
 
@@ -233,7 +234,7 @@ bool AnimationSparkles_Init(void *arg)
 	InitColors();
 	AddrLedDriver_Clear();
 	state = ANIMATION_STATE_RUNNING;
-	printf("%s\n", __FUNCTION__);
+	logprint("%s\n", __FUNCTION__);
 	return true;
 }
 
@@ -288,18 +289,18 @@ void AnimationSparkles_ButtonInput(Button_e b, ButtonGesture_e g)
 void AnimationSparkles_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	printf("Sparkles received usr input:");
+	logprint("Sparkles received usr input:");
 	for (int i = 0; i < argc; i++)
 	{
-		printf(" %s", argv[i]);
+		logprint(" %s", argv[i]);
 	}
-	printf("\n");
+	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 }
 
 void AnimationSparkles_ReceiveSignal(AnimationSignal_e s)
 {
-	printf("%s signal received %d\n", __FUNCTION__, s);
+	logprint("%s signal received %d\n", __FUNCTION__, s);
 	switch(s)
 	{
 		case ANIMATION_SIGNAL_START:
@@ -314,7 +315,7 @@ void AnimationSparkles_ReceiveSignal(AnimationSignal_e s)
 		}
 		default:
 		{
-			printf("%s bad signal %d\n", __FUNCTION__, s);
+			logprint("%s bad signal %d\n", __FUNCTION__, s);
 			break;
 		}
 	}

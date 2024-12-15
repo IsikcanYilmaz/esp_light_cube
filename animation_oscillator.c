@@ -19,7 +19,7 @@ static Color_t currColor;
 static float freq = 0.25;
 static double hIncrement = -2;
 static double sIncrement = -0;
-static double vIncrement = -0.03;
+static double vIncrement = -0.06;
 
 static EditableValue_t editableValues[] = 
 {
@@ -58,7 +58,8 @@ static void RunningAction(void)
 		float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
-		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i], currColor.red, currColor.green, currColor.blue);
+		yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
+		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, currColor.red, currColor.green, currColor.blue);
 	}
 }
 
@@ -101,7 +102,7 @@ static void newRunningAction(void)
 
 bool AnimationOscillator_Init(void *arg)
 {
-	currColor = Color_CreateFromHsv(0.0, 1.0, 0.4);
+	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8);
 	state = ANIMATION_STATE_RUNNING;
 	return true;
 }

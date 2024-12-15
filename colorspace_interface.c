@@ -1,4 +1,5 @@
 #include "colorspace_interface.h"
+#include "logger.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -48,5 +49,5 @@ Color_t Color_CreateFromHsv(double h, double s, double v)
 
 void Color_PrintColor(Color_t c)
 {
-	printf("r:%d g:%d b:%d | h:%f s:%f v:%f\n", c.red, c.green, c.blue, c.hue, c.saturation, c.value);
+	logprint("r:%d g:%d b:%d | h:%f s:%f v:%f\n", c.red, c.green, c.blue, c.hue, c.saturation, c.value);
 }

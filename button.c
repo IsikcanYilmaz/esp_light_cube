@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "button.h"
+#include "logger.h"
 // #include "hardware/gpio.h"
 
 ButtonContext_s buttonContext;
@@ -41,7 +42,7 @@ char *buttonGestureStrings[] = {
 //
 // static void Button_PrintContext(void)
 // {
-// 	printf("b0:%d b1:%d | taps:%d gesture:%s ts:%llu\n", buttonContext.buttonState[BUTTON_0], buttonContext.buttonState[BUTTON_1], buttonContext.currentNumTaps, buttonGestureStrings[buttonContext.currentGesture], buttonContext.currentTapTimestamp);
+// 	logprint("b0:%d b1:%d | taps:%d gesture:%s ts:%llu\n", buttonContext.buttonState[BUTTON_0], buttonContext.buttonState[BUTTON_1], buttonContext.currentNumTaps, buttonGestureStrings[buttonContext.currentGesture], buttonContext.currentTapTimestamp);
 // }
 //
 // static Button_e Button_GetLockedPressedButtons(void)
@@ -62,7 +63,7 @@ char *buttonGestureStrings[] = {
 // 	Button_e currPressed = Button_GetPressedButtons();
 // 	ButtonGesture_e g = GESTURE_NONE;
 // 	Button_e b = Button_GetLockedPressedButtons();
-// 	// printf("BUTTON CALLBACK %s LOCKED %s\n", buttonEnumStrings[currPressed], buttonEnumStrings[b]);
+// 	// logprint("BUTTON CALLBACK %s LOCKED %s\n", buttonEnumStrings[currPressed], buttonEnumStrings[b]);
 // 	
 // 	// Button presses are done. time to process
 // 	if (currPressed == BUTTON_NONE)
@@ -122,7 +123,7 @@ char *buttonGestureStrings[] = {
 // static void Button_GpioIrqCallback(uint gpio, uint32_t events) 
 // {
 // 	// Button_e eventButton = Button_GpioToButtonEnum(gpio);
-// 	// // printf("GPIO %d EVENTS 0x%x B%d S%d\n", gpio, events, eventButton, buttonContext.buttonState[eventButton]);
+// 	// // logprint("GPIO %d EVENTS 0x%x B%d S%d\n", gpio, events, eventButton, buttonContext.buttonState[eventButton]);
 // 	// switch(events)
 // 	// {
 // 	// 	case BUTTON_EVENT_LEVEL_LOW:
@@ -161,7 +162,7 @@ char *buttonGestureStrings[] = {
 // 	// 	}
 // 	// 	default:
 // 	// 	{
-// 	// 		printf("Button Gpio bad event %x\n", events);
+// 	// 		logprint("Button Gpio bad event %x\n", events);
 // 	// 		return;
 // 	// 	}
 // 	// }
@@ -209,7 +210,7 @@ void Button_Init(void)
 // 		}
 // 		default:
 // 		{
-// 			printf("Wrong argument to Button_IsPressed %d\n", b);
+// 			logprint("Wrong argument to Button_IsPressed %d\n", b);
 // 			return false;
 // 		}
 // 	}
@@ -228,7 +229,7 @@ Button_e Button_GetPressedButtons(void)
 void Button_GestureHappened(Button_e b, ButtonGesture_e g)
 {
 	// // TODO make this section critical! disable irq
-	// printf("Button press %s %d:%s\n", buttonEnumStrings[b], g, buttonGestureStrings[g]);
+	// logprint("Button press %s %d:%s\n", buttonEnumStrings[b], g, buttonGestureStrings[g]);
 	// if (g < GESTURE_NONE && b < BUTTON_NONE)
 	// {
 	// 	// Misc_TakeButtonInput(b, g);

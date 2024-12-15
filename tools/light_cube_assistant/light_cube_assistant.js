@@ -105,14 +105,13 @@ var FILL_COLOR = "#6541d6";
 
 ////////////////////////
 var DIR_NORTH = 0;
-var DIR_EAST  = 1;
+var DIR_WEST  = 1;
 var DIR_SOUTH = 2;
-var DIR_WEST  = 3;
+var DIR_EAST  = 3;
 var DIR_TOP   = 4;
-var dirStrings = ["DIR_NORTH", "DIR_EAST", "DIR_SOUTH", "DIR_WEST", "DIR_TOP"];
-var panels = [DIR_NORTH, DIR_EAST, DIR_SOUTH, DIR_WEST, DIR_TOP];
-var panelChars = ['n', 'e', 's', 'w', 't'];
-var panelCharsHack = ['e', 'n', 'w', 's', 't'];
+var dirStrings = ["DIR_NORTH", "DIR_WEST", "DIR_SOUTH", "DIR_EAST", "DIR_TOP"];
+var panels = [DIR_NORTH, DIR_WEST, DIR_SOUTH, DIR_EAST, DIR_TOP];
+var panelChars = ['n', 'w', 's', 'e', 't'];
 
 class Pixel
 {
@@ -365,8 +364,8 @@ function mouseClicked()
   p.setHsv(hsv);
 
   //
-  // var cmd = "set_pixel " + panelCharsHack[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
-	var cmd = "aled set " + panelCharsHack[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
+	console.log("PAN", pan);
+	var cmd = "aled set " + panelChars[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
   writeToStream(cmd);
 }
 
@@ -409,7 +408,7 @@ function reset()
 
 const fixedPts = 3;
 const intChange = 1;
-const floatChange = 0.01;
+const floatChange = 0.001;
 var floatChangeStr = floatChange.toString();
 var intChangeStr = intChange.toString();
 
@@ -500,7 +499,7 @@ function newAnimConfPanel(name)
 	tableDom.innerHTML = "";
 	var row = tableDom.insertRow(0);
 	row.align = "left";
-	row.innerHTML = `<td></td><td>.....val_name.....</td><td>.type.</td><td>..........val..........</td><td>ll</td><td>ul</td>`;
+	row.innerHTML = `<td></td><td>.....val_name.....</td><td>.type.</td><td>.......val.......</td><td>ll</td><td>ul</td>`;
 	var nameDom = document.getElementById("animConfName");
 	nameDom.innerHTML = `Animation Config: ${name}`;
 }
@@ -513,11 +512,48 @@ function addToAnimConfPanel(idx, name, type, currVal, ll, ul)
 	var isFloatDouble = typeIsFloatOrDouble(type)
 	if (!isFloatDouble) // int
 	{
-		inputDom = `<td><input type="range" min=${ll} max=${ul} value=${currVal} class="slider" id="${name}_confSlider" oninput="confChanged(this)" onchange="confRefresh()"></td><td><input type="button" value="-" id="${name}_minus" onclick="confChanged(this)"></input></td><td><input type="button" value="+" id="${name}_plus" onclick="confChanged(this)"></input></td>`;
+		inputDom = `
+			<td>
+				<input type="range" min=${ll} max=${ul} value=${currVal} class="slider" id="${name}_confSlider" 
+					oninput="confChanged(this)" 
+					onmouseup="confRefresh()"
+				>
+			</td>
+			<td>
+				<input type="button" value="-" id="${name}_minus" 
+					onclick="confChanged(this)"
+				>
+			</input>
+			</td>
+			<td>
+				<input type="button" value="+" id="${name}_plus" 
+					onclick="confChanged(this)"
+				>
+			</input>
+			</td>`;
 	}
 	else // float or double
 	{
-		inputDom = `<td><input type="range" min=${ll} max=${ul} value=${currVal} class="slider" id="${name}_confSlider" oninput="confChanged(this)" onchange="confRefresh()" step="${floatChangeStr}"></td><td><input type="button" value="-" id="${name}_minus" onclick="confChanged(this)"></input></td><td><input type="button" value="+" id="${name}_plus" onclick="confChanged(this)"></input></td>`;
+		inputDom = `
+			<td>
+				<input type="range" min=${ll} max=${ul} value=${currVal} class="slider" id="${name}_confSlider" 
+					oninput="confChanged(this)"
+					onmouseup="confRefresh()"
+					step="${floatChangeStr}"
+				>
+			</td>
+			<td>
+				<input type="button" value="-" id="${name}_minus" 
+					onclick="confChanged(this)"
+				>
+			</input>
+			</td>
+			<td>
+				<input type="button" value="+" id="${name}_plus" 
+					onclick="confChanged(this)"
+				>
+			</input>
+			</td>`;
 	}
 	var row = tableDom.insertRow(currTableLen);
 	row.align = "left";
@@ -579,15 +615,15 @@ function clearButtonPressed()
 
 function resetButtonPressed(boot)
 {
-	var cmd = "reset ";
-	if (boot)
-	{
-		cmd += "boot";
-	}
-	else
-	{
-		cmd += "sw";
-	}
+	var cmd = "reboot";
+	// if (boot) // This was for the rp2040 port
+	// {
+	// 	cmd += "boot";
+	// }
+	// else
+	// {
+	// 	cmd += "sw";
+	// }
 	writeToStream(cmd);
 }
 

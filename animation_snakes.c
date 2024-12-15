@@ -11,6 +11,7 @@
 #include "xtimer.h"
 #include "colorspace_interface.h"
 #include "addr_led_driver.h"
+#include "logger.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
@@ -38,7 +39,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		printf("Fade off done state %d\n", state);
+		logprint("Fade off done state %d\n", state);
 	}
 }
 
@@ -140,12 +141,12 @@ void AnimationSnakes_ButtonInput(Button_e b, ButtonGesture_e g)
 void AnimationSnakes_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	printf("Snakes received usr input: \n");
+	logprint("Snakes received usr input: \n");
 	for (int i = 0; i < argc; i++)
 	{
-		printf(" %s", argv[i]);
+		logprint(" %s", argv[i]);
 	}
-	printf("\n");
+	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 }
 

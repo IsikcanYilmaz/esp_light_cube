@@ -9,6 +9,7 @@
 #include "animation_snakes.h"
 #include "addr_led_driver.h"
 #include "animation_sparkles.h"
+#include "logger.h"
 #include <string.h>
 #include "usr_commands.h"
 
@@ -116,7 +117,7 @@ static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
 {
 	if (idx >= ANIMATION_MAX)
 	{
-		printf("Bad anim idx %d at %s\n", idx, __FUNCTION__);
+		logprint("Bad anim idx %d at %s\n", idx, __FUNCTION__);
 		return NULL;
 	}
 	return &animations[idx];
@@ -138,7 +139,7 @@ static void AnimationMan_HandleAutoSwitch(void)
 		uint32_t now = ztimer_now(ZTIMER_USEC)/1000;
 		if (ztimer_now(ZTIMER_USEC)/1000 - lastAutoAnimationSwitchTimestamp > autoAnimationSwitchMs) // Time to switch animations
 		{
-			printf("Auto anim switch at %d. %d %d\n", now, lastAutoAnimationSwitchTimestamp, autoAnimationSwitchMs);
+			logprint("Auto anim switch at %d. %d %d\n", now, lastAutoAnimationSwitchTimestamp, autoAnimationSwitchMs);
 			AnimationMan_PlayNextAnimation();
 			lastAutoAnimationSwitchTimestamp = now;
 		}
@@ -175,7 +176,7 @@ void AnimationMan_ThreadHandler(void *arg)
 				{
 					if (currentAnimation->getState() == ANIMATION_STATE_STOPPED)
 					{
-						printf("Animation faded off. Starting next animation\n");
+						logprint("Animation faded off. Starting next animation\n");
 						AnimationMan_SetAnimation(targetAnimationIdx, true);
 					}
 					else
@@ -190,7 +191,7 @@ void AnimationMan_ThreadHandler(void *arg)
 			}
 			default:
 				{
-					printf("%s state invalid or not implemented yet %d\n", __FUNCTION__, animationManState);
+					logprint("%s state invalid or not implemented yet %d\n", __FUNCTION__, animationManState);
 					animationManState = ANIMATION_MAN_STATE_RUNNING; // TODO placeholder. eventually implement the stopped state. will need for temperature or deep sleep reasons? 
 					break;
 			}
@@ -203,7 +204,7 @@ void AnimationMan_Init(void)
 {
 	if (!AddrLedDriver_IsInitialized())
 	{
-		printf("%s addr led driver not initialized!\n", __FUNCTION__);
+		logprint("%s addr led driver not initialized!\n", __FUNCTION__);
 		return;
 	}
 
@@ -228,7 +229,7 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 {
 	if (anim >= ANIMATION_MAX)
 	{
-		printf("Bad anim idx %d to %s\n", anim, __FUNCTION__);
+		logprint("Bad anim idx %d to %s\n", anim, __FUNCTION__);
 		return;
 	}
 
@@ -250,19 +251,19 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 		animationManState = ANIMATION_MAN_STATE_SWITCHING;
 	}
 
-	printf("%s Setting animation to %s. %s\n", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
+	logprint("%s Setting animation to %s. %s\n", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
 }
 
-void AnimationMan_TakeUsrCommand(int argc, char **argv)
+int AnimationMan_TakeUsrCommand(int argc, char **argv)
 {
 	// if (argc < 3) {
-	// 	printf("usage: %s <id> <on|off|toggle>\n", argv[0]);
+	// 	logprint("usage: %s <id> <on|off|toggle>\n", argv[0]);
 	// 	return -1;
 	// }
 
 	if (!animationManInitialized)
 	{
-		return;
+		return 1;
 	}
 	ASSERT_ARGS(2);
 	if (strcmp(argv[1], "set") == 0)
@@ -273,7 +274,7 @@ void AnimationMan_TakeUsrCommand(int argc, char **argv)
 			if (strcmp(argv[2], animations[i].name) == 0)
 			{
 				AnimationMan_SetAnimation(i, false);
-				return;
+				return 0;
 			}
 		}
 	}
@@ -284,12 +285,13 @@ void AnimationMan_TakeUsrCommand(int argc, char **argv)
 	else if (strcmp(argv[1], "auto") == 0)
 	{
 		autoAnimationSwitchEnabled = !autoAnimationSwitchEnabled;
-		printf("Auto switch toggled to %d\n", autoAnimationSwitchEnabled);
+		logprint("Auto switch toggled to %d\n", autoAnimationSwitchEnabled);
 	}
 	else
 	{
 		currentAnimation->usrInput(argc-1, &argv[1]);
 	}
+	return 0;
 }
 
 void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv)
@@ -298,7 +300,7 @@ void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **
 	{
 		ASSERT_ARGS(3);
 		bool ret = EditableValue_FindAndSetValueFromString(l, argv[1], argv[2]);
-		printf("%s set to %s %s\n", argv[1], argv[2], (ret) ? "SUCCESS" : "FAIL");
+		logprint("%s set to %s %s\n", argv[1], argv[2], (ret) ? "SUCCESS" : "FAIL");
 	}
 	else if (strcmp(argv[0], "getval") == 0)
 	{
@@ -315,10 +317,10 @@ void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **
 				uint16_t valIdx = atoi(argv[1]);
 				if (valIdx >= l->len)
 				{
-					printf("%s bad val idx %d!\n", __FUNCTION__, valIdx);
+					logprint("%s bad val idx %d!\n", __FUNCTION__, valIdx);
 					return;
 				}
-				printf("%d ", valIdx);
+				logprint("%d ", valIdx);
 				EditableValue_PrintValue(&(l->values[valIdx]));
 			}
 			else
@@ -326,7 +328,7 @@ void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **
 				EditableValue_t *ev = EditableValue_FindValueFromString(l, argv[1]);
 				if (ev)
 				{
-					printf("%d ", EditableValue_GetValueIdxFromString(l, argv[1]));
+					logprint("%d ", EditableValue_GetValueIdxFromString(l, argv[1]));
 					EditableValue_PrintValue(ev);
 				}
 			}

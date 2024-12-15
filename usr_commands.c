@@ -8,7 +8,15 @@ char line_buf[SHELL_BUFFER_SIZE];
 
 static int test_command(int argc, char **argv)
 {
-	printf("%d\n", argc);
+	char *str = "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet \n \
+Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet\n";
+	logprint("%s\n", str);
+	AddrLedDriver_SetPixelRgbInPanel(SOUTH, 0, 0, 10, 0, 0);
 	return 0;
 }
 

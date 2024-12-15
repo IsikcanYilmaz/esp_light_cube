@@ -23,6 +23,8 @@
 
 #include "dma_rmt_test.h"
 
+#include "logger.h"
+
 extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
@@ -51,7 +53,7 @@ void *blink_threadHandler(void *arg)
 int main(void)
 {
 	// ztimer_sleep(ZTIMER_USEC, 5 * US_PER_SEC);
-	printf("Light Cube RIOT\n");
+	logprint("Light Cube RIOT\n");
 
 	// ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
 	srand(time(NULL));
