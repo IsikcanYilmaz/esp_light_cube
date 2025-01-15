@@ -23,11 +23,13 @@
 
 #include "dma_rmt_test.h"
 
+#include "mic.h"
 #include "logger.h"
 
 extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
+char mictest_threadStack[THREAD_STACKSIZE_DEFAULT];
 
 bool on = false;
 
@@ -47,6 +49,17 @@ void *blink_threadHandler(void *arg)
 		}
 		on = !on;
 		ztimer_sleep(ZTIMER_USEC, 1 * US_PER_SEC);
+	}
+}
+
+void *mictest_threadHandler(void *arg)
+{
+	(void) arg;
+	Mic_Init();
+	while(true)
+	{
+		Mic_Test();
+		ztimer_sleep(ZTIMER_MSEC, 200);
 	}
 }
 
@@ -71,6 +84,18 @@ int main(void)
 		NULL,
 		"blink_thread"
 	);
+
+	kernel_pid_t mictest_threadId = thread_create(
+		mictest_threadStack,
+		sizeof(mictest_threadStack),
+		THREAD_PRIORITY_MAIN - 1,
+		THREAD_CREATE_STACKTEST,
+		mictest_threadHandler,
+		NULL,
+		"mictest_thread"
+	);
+
+
 
 	UserCommand_Init(); // inf loop
 

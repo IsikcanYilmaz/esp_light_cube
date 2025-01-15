@@ -86,6 +86,8 @@ void AddrLedDriver_Init(void)
 			{
 				Pixel_t *pix = AddrLedDriver_GetPixelInPanel(pos, x, y);
 				Pixel_t *leftNeighbor, *rightNeighbor, *topNeighbor, *botNeighbor;
+				Position_e panelToTheRight = (pos + 1) % TOP;
+				Position_e panelToTheLeft = (pos + 1) % TOP;
 				if (pos != TOP)
 				{
 					if (x == 0) // leftmost
@@ -243,7 +245,6 @@ void AddrLedDriver_Test(void)
 void AddrLedDriver_DisplayStrip(AddrLedStrip_t *l)
 {
 	ws281x_write(&neopixelHandle);
-	
 }
 
 void AddrLedDriver_DisplayCube(void)

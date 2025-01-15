@@ -29,6 +29,9 @@ USEMODULE += esp_wifi
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
+# Mic
+USEMODULE += periph_adc
+
 # External modules
 EXTERNAL_MODULE_DIRS += $(CURDIR)/submodules
 USEMODULE += colorspace-conversions

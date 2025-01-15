@@ -38,6 +38,8 @@ static uint16_t autoAnimationSwitchMs = 30*60*1000;
 static uint32_t lastAutoAnimationSwitchTimestamp = 0;
 static bool autoAnimationSwitchEnabled = true;
 
+static uint16_t framePerSecond = 30;
+
 Animation_s animations[ANIMATION_MAX] = {
 	[ANIMATION_SCROLLER] = {
 		.name = "scroller",
@@ -161,6 +163,7 @@ void AnimationMan_ThreadHandler(void *arg)
 		AnimationMan_HandleAutoSwitch();
 
 		// Main animation switch/case
+		uint32_t t0 = ztimer_now(ZTIMER_USEC);
 		switch(animationManState)
 		{
 			case ANIMATION_MAN_STATE_RUNNING:
@@ -196,6 +199,7 @@ void AnimationMan_ThreadHandler(void *arg)
 					break;
 			}
 		}
+		uint32_t t1 = ztimer_now(ZTIMER_USEC);
 		ztimer_sleep(ZTIMER_USEC, 0.01 * US_PER_SEC);
 	}
 }

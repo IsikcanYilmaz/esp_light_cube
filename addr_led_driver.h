@@ -31,11 +31,15 @@ typedef enum {
 
 typedef enum {
 	UP,
+	UP_LEFT,
 	LEFT,
+	DOWN_LEFT,
 	DOWN,
+	DOWN_RIGHT,
 	RIGHT,
+	UP_RIGHT,
 	NUM_DIRECTIONS
-} Direction_e; // TODO decide if you want this?
+} Direction_e; 
 
 // This driver mainly aims to drive a strip of neopixels. on top of that, it will have some low level data structures and definitions that implement the specific shape/layout of my strip, which is a cube; 5 sides that are 4x4 neopixel panels, made up of a single continuous strip. 
 
@@ -104,7 +108,7 @@ typedef struct {
 	struct Pixel_t *neighborUp;
 	struct Pixel_t *neighborDown;
 
-	struct Pixel_t *neighborPixels[4]; // TODO pick one convention and go with it
+	struct Pixel_t *neighborPixels[8]; // TODO pick one convention and go with it
 
 	uint16_t stripIdx; // Index of the pixel in the strip // Addition for RIOT ws281x module
 } Pixel_t;
