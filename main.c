@@ -68,7 +68,7 @@ int main(void)
 	// ztimer_sleep(ZTIMER_USEC, 5 * US_PER_SEC);
 	logprint("Light Cube RIOT\n");
 
-	// ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
+	ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
 	srand(time(NULL));
 	// dma_rmt_test();
 	AddrLedDriver_Init();
@@ -85,18 +85,16 @@ int main(void)
 		"blink_thread"
 	);
 
-	kernel_pid_t mictest_threadId = thread_create(
-		mictest_threadStack,
-		sizeof(mictest_threadStack),
-		THREAD_PRIORITY_MAIN - 1,
-		THREAD_CREATE_STACKTEST,
-		mictest_threadHandler,
-		NULL,
-		"mictest_thread"
-	);
-
-
-
+	// kernel_pid_t mictest_threadId = thread_create(
+	// 	mictest_threadStack,
+	// 	sizeof(mictest_threadStack),
+	// 	THREAD_PRIORITY_MAIN - 1,
+	// 	THREAD_CREATE_STACKTEST,
+	// 	mictest_threadHandler,
+	// 	NULL,
+	// 	"mictest_thread"
+	// );
+	
 	UserCommand_Init(); // inf loop
 
 	for (;;) 

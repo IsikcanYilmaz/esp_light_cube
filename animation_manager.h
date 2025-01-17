@@ -4,7 +4,7 @@
 #include "button.h"
 #include "editable_value.h"
 
-#define ANIMATION_DEFAULT (ANIMATION_SNAKES) //(ANIMATION_CANVAS)
+#define ANIMATION_DEFAULT (ANIMATION_CANVAS)
 
 typedef enum AnimationIdx_e_
 {

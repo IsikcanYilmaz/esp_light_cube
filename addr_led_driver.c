@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include "addr_led_driver.h"
+#include "button.h"
 #include "usr_commands.h"
 
 #include "ztimer.h"
@@ -35,6 +36,17 @@ char *positionStrings[NUM_SIDES] = {
 	[SOUTH] = "SOUTH",
 	[WEST] = "WEST",
 	[TOP] = "TOP"
+};
+
+char *directionStrings[NUM_DIRECTIONS] = {
+	[UP] = "UP",
+	[UP_LEFT] = "UP_LEFT",
+	[LEFT] = "LEFT",
+	[DOWN_LEFT] = "DOWN_LEFT",
+	[DOWN] = "DOWN",
+	[DOWN_RIGHT] = "DOWN_RIGHT",
+	[RIGHT] = "RIGHT",
+	[UP_RIGHT] = "UP_RIGHT"
 };
 
 static void InitPanel(AddrLedPanel_t *p)
@@ -85,31 +97,128 @@ void AddrLedDriver_Init(void)
 			for (int y = 0; y < NUM_LEDS_PER_PANEL_SIDE; y++)
 			{
 				Pixel_t *pix = AddrLedDriver_GetPixelInPanel(pos, x, y);
+				pix->x = x; 
+				pix->y = y;
+				pix->pos = pos;
+				memset(pix->neighborPixels, 0, sizeof(Pixel_t *) * NUM_DIRECTIONS);
+				pix->neighborPixels;
 				Pixel_t *leftNeighbor, *rightNeighbor, *topNeighbor, *botNeighbor;
 				Position_e panelToTheRight = (pos + 1) % TOP;
 				Position_e panelToTheLeft = (pos + 1) % TOP;
-				if (pos != TOP)
+				// TODO refactor the block below.
+				if (pos != TOP) // SIDE PANELS
 				{
-					if (x == 0) // leftmost
+					if (x == 0) // leftmost column
 					{
-						
-					}
-					if (x == NUM_LEDS_PER_PANEL_SIDE-1) // rightmost
-					{
+						// left neighbors are going to be in the panel to the left
+						Position_e leftPanelPos = (pos - 1 > 0) ? (pos - 1) : EAST;
+						pix->neighborPixels[LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1, y);
+
+						// if we're above the bottom
+						if (y > 0)
+						{
+							// pix->neighborPixels[DOWN_LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1, y);
+						}
+
+						// if we're a corner, there is no top left neighbor
+						// if we're not in a corner then there is a top left neighbor
+						if (y < NUM_LEDS_PER_PANEL_SIDE-1)
+						{
+							// pix->neighborPixels[UP_LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1, y+1);
+						}
 
 					}
-					if (y == NUM_LEDS_PER_PANEL_SIDE-1) // top
+					else if (x == NUM_LEDS_PER_PANEL_SIDE-1) // rightmost column
 					{
+					// 	// right neighbors are going to be in the panel to the right 
+					// 	Position_e rightPanelPos = (pos + 1) % TOP;
+					// 	pix->neighborPixels[RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, 0, y);
+					//
+					// 	// if we're above the bottom
+					// 	if (y > 0)
+					// 	{
+					// 		pix->neighborPixels[DOWN_RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, 0, y);
+					// 	}
+					//
+					// 	// if we're a corner, there is no top right neighbor
+					// 	// if we're not in a corner then there is a top right neighbor
+					// 	if (y < NUM_LEDS_PER_PANEL_SIDE-1)
+					// 	{
+					// 		pix->neighborPixels[UP_RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, 0, y+1);
+					// 	}
+					}
+					else // middle two columns
+					{
+						// pix->neighborPixels[LEFT] = AddrLedDriver_GetPixelInPanel(pos, x-1, y);
+						// pix->neighborPixels[RIGHT] = AddrLedDriver_GetPixelInPanel(pos, x+1, y);
+					}
 
-					}
-					if (y == 0) // bottom
-					{
-						
-					}
+					// Upper neighbor
+					pix->neighborPixels[UP] = (y < NUM_LEDS_PER_PANEL_SIDE-1) ? AddrLedDriver_GetPixelInPanel(pos, x, y+1) : AddrLedDriver_GetPixelInPanelRelative(TOP, pos, x, 0);
+
+					// Lower neighbor
+					pix->neighborPixels[DOWN] = (y > 0) ? AddrLedDriver_GetPixelInPanel(pos, x, y-1) : NULL;
 				}
-				else
+				else // TOP PANEL 
 				{
+					// we assume we're looking at the cube from the pov of S
+					// So
+					//   N   ^
+					// W T E |
+					//   S   |
+					//
+					if (x == 0) // leftmost column
+					{
+						// left neighbors are going to be in the panel to the left
+						Position_e leftPanelPos = WEST;
+						pix->neighborPixels[LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1-y, NUM_LEDS_PER_PANEL_SIDE-1);
+						pix->neighborPixels[RIGHT] = AddrLedDriver_GetPixelInPanel(pos, 1, y);
+
+						// if we're above the bottom
+						if (y > 0)
+						{
+							// pix->neighborPixels[DOWN_LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1, y-1);
+						}
+
+						// if we're a corner, there is no top left neighbor
+						// if we're not in a corner then there is a top left neighbor
+						if (y < NUM_LEDS_PER_PANEL_SIDE-1)
+						{
+							// pix->neighborPixels[UP_LEFT] = AddrLedDriver_GetPixelInPanel(leftPanelPos, NUM_LEDS_PER_PANEL_SIDE-1, y+1);
+						}
+
+					}
+					else if (x == NUM_LEDS_PER_PANEL_SIDE-1) // rightmost column // TODO you can do all this in the if block above
+					{
+						// right neighbors are going to be in the panel to the right 
+						Position_e rightPanelPos = EAST;
+						pix->neighborPixels[RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, y, NUM_LEDS_PER_PANEL_SIDE-1);
+						pix->neighborPixels[LEFT] = AddrLedDriver_GetPixelInPanel(pos, 2, y);
+
+						// if we're above the bottom
+						if (y > 0)
+						{
+							// pix->neighborPixels[DOWN_RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, 0, y);
+						}
+
+						// if we're a corner, there is no top right neighbor
+						// if we're not in a corner then there is a top right neighbor
+						if (y < NUM_LEDS_PER_PANEL_SIDE-1)
+						{
+							// pix->neighborPixels[UP_RIGHT] = AddrLedDriver_GetPixelInPanel(rightPanelPos, 0, y+1);
+						}
+					}
+					else // middle two columns
+					{
+						pix->neighborPixels[LEFT] = AddrLedDriver_GetPixelInPanel(pos, x-1, y);
+						pix->neighborPixels[RIGHT] = AddrLedDriver_GetPixelInPanel(pos, x+1, y);
+					}
 					
+					// Upper neighbor
+					pix->neighborPixels[UP] = (y < NUM_LEDS_PER_PANEL_SIDE-1) ? AddrLedDriver_GetPixelInPanel(pos, x, y+1) : AddrLedDriver_GetPixelInPanelRelative(NORTH, pos, x, 0);
+
+					// Lower neighbor
+					pix->neighborPixels[DOWN] = (y > 0) ? AddrLedDriver_GetPixelInPanel(pos, x, y-1) : AddrLedDriver_GetPixelInPanel(SOUTH, x, NUM_LEDS_PER_PANEL_SIDE-1);
 				}
 			}
 		}
@@ -305,10 +414,18 @@ Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y)
 
 	if (pos != TOP) // HACK !
 	{
-#if LEDS_BEGIN_AT_BOTTOM
+// #if LEDS_BEGIN_AT_BOTTOM
+// 		y = NUM_LEDS_PER_PANEL_SIDE - y - 1;
+// #endif
+// 		y = NUM_LEDS_PER_PANEL_SIDE - 1 - y;// HACK ! y seems inverted. flip it
 		y = NUM_LEDS_PER_PANEL_SIDE - y - 1;
-#endif
-		y = NUM_LEDS_PER_PANEL_SIDE - 1 - y;// HACK ! y seems inverted. flip it
+	}
+	else
+	{
+		// HAAAACK!
+		uint8_t tmpx = y;
+		y = x;
+		x = tmpx;
 	}
 
   if (y % 2 == 0)
@@ -462,6 +579,21 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)
   return &ledPanels[pos];
 }
 
+void AddrLedDriver_PrintPixel(Pixel_t *p)
+{
+	logprint("Pixel panel:%s x:%d y:%d\n neighbors: \n", AddrLedDriver_GetPositionString(p->pos), p->x, p->y);
+	for (uint8_t dir = 0; dir < NUM_DIRECTIONS; dir++)
+	{
+		Pixel_t *n = p->neighborPixels[dir];
+		if (n == NULL)
+		{
+			logprint("%s \n", AddrLedDriver_GetDirectionString(dir));
+			continue;
+		}
+		logprint("%s -> %s x:%d y:%d\n", AddrLedDriver_GetDirectionString(dir), AddrLedDriver_GetPositionString(n->pos), n->x, n->y);
+	}
+}
+
 bool AddrLedDriver_ShouldRedraw(void)
 {
 	return true;
@@ -476,6 +608,15 @@ char * AddrLedDriver_GetPositionString(Position_e pos)
 		return NULL;
 	}
 	return positionStrings[pos];
+}
+
+char * AddrLedDriver_GetDirectionString(Direction_e dir)
+{
+	if (dir >= NUM_DIRECTIONS)
+	{
+		logprint("Bad dir %d to %s\n", dir, __FUNCTION__);
+	}
+	return directionStrings[dir];
 }
 
 AddrLedStrip_t* AddrLedDriver_GetStrip(void)
@@ -552,6 +693,84 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 		uint8_t b = atoi(argv[7]);
 		// logprint("Setting pixel %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
 		AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
+	}
+	else if (strcmp(argv[1], "nei") == 0)
+	{
+		// aled print <pos> <x> <y>
+		ASSERT_ARGS(5);
+		Position_e pos = NUM_SIDES;
+		if (strcmp(argv[2], "n") == 0)
+		{
+			pos = NORTH;
+		}
+		else if (strcmp(argv[2], "e") == 0)
+		{
+			pos = EAST;
+		}
+		else if (strcmp(argv[2], "s") == 0)
+		{
+			pos = SOUTH;
+		}
+		else if (strcmp(argv[2], "w") == 0)
+		{
+			pos = WEST;
+		}
+		else if (strcmp(argv[2], "t") == 0)
+		{
+			pos = TOP;
+		}
+		else
+		{
+			logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+			return 1;
+		}
+		uint8_t x = atoi(argv[3]);
+		uint8_t y = atoi(argv[4]);
+		AddrLedDriver_Clear();
+		Pixel_t *p = AddrLedDriver_GetPixelInPanel(pos, x, y);
+		AddrLedDriver_SetPixelRgb(p, 10, 0, 0);
+		for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
+		{
+			if (p->neighborPixels[i] == NULL)
+			{
+				continue;
+			}
+			AddrLedDriver_SetPixelRgb(p->neighborPixels[i], 10, 0, 10);
+		}
+	}
+	else if (strcmp(argv[1], "print") == 0)
+	{
+		// aled print <pos> <x> <y>
+		ASSERT_ARGS(5);
+		Position_e pos = NUM_SIDES;
+		if (strcmp(argv[2], "n") == 0)
+		{
+			pos = NORTH;
+		}
+		else if (strcmp(argv[2], "e") == 0)
+		{
+			pos = EAST;
+		}
+		else if (strcmp(argv[2], "s") == 0)
+		{
+			pos = SOUTH;
+		}
+		else if (strcmp(argv[2], "w") == 0)
+		{
+			pos = WEST;
+		}
+		else if (strcmp(argv[2], "t") == 0)
+		{
+			pos = TOP;
+		}
+		else
+		{
+			logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+			return 1;
+		}
+		uint8_t x = atoi(argv[3]);
+		uint8_t y = atoi(argv[4]);
+		AddrLedDriver_PrintPixel(AddrLedDriver_GetPixelInPanel(pos, x, y));
 	}
 	return 0;
 }

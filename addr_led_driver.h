@@ -17,6 +17,7 @@
 #define ADDR_LED_UPDATE_PERIOD_MS 100
 
 #define WS281X_PARAM_NUMOF (NUM_LEDS)
+
 #include "ws281x.h"
 
 // Sides enum
@@ -92,6 +93,7 @@ typedef struct {
   uint8_t green;
   uint8_t red;
   uint8_t blue;
+	Position_e pos;
   uint8_t x; // X, Y of the pixel IN it's panel // todo think about moving these to manager
   uint8_t y;
   uint8_t globalX;
@@ -109,7 +111,7 @@ typedef struct {
 	struct Pixel_t *neighborDown;
 
 	struct Pixel_t *neighborPixels[8]; // TODO pick one convention and go with it
-
+	
 	uint16_t stripIdx; // Index of the pixel in the strip // Addition for RIOT ws281x module
 } Pixel_t;
 
@@ -139,6 +141,8 @@ void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b);
 void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b);
 void AddrLedDriver_Clear(void);
 char * AddrLedDriver_GetPositionString(Position_e pos);
+char * AddrLedDriver_GetDirectionString(Direction_e dir);
+void AddrLedDriver_PrintPixel(Pixel_t *p);
 AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos);
 Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y);
 Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relativePos, uint8_t x, uint8_t y);
@@ -146,7 +150,6 @@ Position_e AddrLedDriver_GetOppositePanel(Position_e pos);
 Position_e AddrLedDriver_GetNeighborPanel(Position_e pos, Direction_e direction);
 AddrLedStrip_t* AddrLedDriver_GetStrip(void);
 int AddrLedDriver_TakeUsrCommand(int argc, char **argv);
-void AddrLedDriver_PrintPixels(void);
 void AddrLedDriver_PrintPixelsRaw(void);
 void AddrLedDriver_Test(void);
 bool AddrLedDriver_IsInitialized(void);
