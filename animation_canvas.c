@@ -8,10 +8,10 @@
 #include "logger.h"
 #include <stdio.h>
 
-uint8_t testval1 = 50;
-uint8_t testval2 = 20;
+static uint8_t testval1 = 50;
+static uint8_t testval2 = 20;
 
-double vDecay = -0.0;
+static double vDecay = -0.0;
 
 static EditableValue_t editableValues[] = 
 {

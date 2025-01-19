@@ -244,7 +244,7 @@ class Panel
       var rawY = int((mouseY - this.y) / PIXEL_WIDTH);
       var [transX, transY] = this.transformCoords(rawX, rawY, this.pos);
       console.log("PANEL ", dirStrings[this.pos], "LOCAL X", transX, "LOCAL Y", transY);
-      return [this.getPixel(transX, transY), transX, transY];
+      return [this.getPixel(transX, transY), transX, transY, this.pos];
     }
   }
 
@@ -347,7 +347,7 @@ function mouseClicked()
 
   // Find which pixel (raw coords)
   var p, transX, transY;
-  [p, transX, transY] = myCanvas.panels[pan].getPixelFromGlobalCoords(mouseX, mouseY);
+  [p, transX, transY, pos] = myCanvas.panels[pan].getPixelFromGlobalCoords(mouseX, mouseY);
 
   if (pan == lastPanel && transX == lastTransX && transY == lastTransY)
   {
@@ -364,8 +364,10 @@ function mouseClicked()
   p.setHsv(hsv);
 
   //
-	console.log("PAN", pan);
-	var cmd = "aled set " + panelChars[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
+	console.log("PAN", pan, pos); // 
+	// var cmd = "aled set " + panelChars[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
+	// var cmd = "aled nei " + panelChars[pos] + " " + transX + " " + transY ; 
+	var cmd = "anim alive " + panelChars[pos] + " " + transX + " " + transY ; 
   writeToStream(cmd);
 }
 

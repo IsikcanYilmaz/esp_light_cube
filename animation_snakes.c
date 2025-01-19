@@ -22,11 +22,14 @@ static double hIncrement = -2;
 static double sIncrement = -0;
 static double vIncrement = -0.01;
 
+static uint8_t size = 1;
+
 static EditableValue_t editableValues[] = 
 {
 	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -360.00, .ul.d = 360.00},
 	(EditableValue_t) {.name = "sIncrement", .valPtr = (union EightByteData_u *) &sIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "size", .valPtr = (union EightByteData_u *) &size, .type = UINT8_T, .ll.u8 = 1, .ul.u8 = 3},
 };
 static EditableValueList_t editableValuesList = {.name = "snakes", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -63,20 +66,44 @@ static void RunningAction(void)
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
 		Color_t *c = &currColor[i];
+		Pixel_t *targetPixel;
+
 		if (yvals[i] < 4)
 		{
-			AddrLedDriver_SetPixelRgbInPanel(pos, (xOffset+i)%4, yvals[i], c->red, c->green, c->blue);
+			targetPixel = AddrLedDriver_GetPixelInPanel(pos, (xOffset+i)%4, yvals[i]);
 		}
 		else if (yvals[i] < 8) // TOP PANEL
 		{
-			Pixel_t *topPix = AddrLedDriver_GetPixelInPanelRelative(TOP, pos, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(topPix, c->red, c->green, c->blue);
+			targetPixel = AddrLedDriver_GetPixelInPanelRelative(TOP, pos, (xOffset+i)%4, yvals[i]%4);
 		}
 		else // OPPOSITE PANEL
 		{
 			Position_e oppositePos = AddrLedDriver_GetOppositePanel(pos);
-			Pixel_t *oppositePix = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(oppositePix, c->red, c->green, c->blue);
+			targetPixel = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
+		}
+
+		if (size == 1)
+		{
+			AddrLedDriver_SetPixelRgb(targetPixel, c->red, c->green, c->blue);
+		}
+		else if (size == 2)
+		{
+			AddrLedDriver_SetPixelRgb(targetPixel, c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[UP], c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[UP_RIGHT], c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[RIGHT], c->red, c->green, c->blue);
+		}
+		else if (size == 3)
+		{
+			AddrLedDriver_SetPixelRgb(targetPixel, c->red, c->green, c->blue);
+			for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
+			{
+				Pixel_t *p = targetPixel->neighborPixels[i];
+				if (p)
+				{
+					AddrLedDriver_SetPixelRgb(p, c->red, c->green, c->blue);
+				}
+			}
 		}
 		break;
 	}

@@ -7,8 +7,9 @@
 #include "animation_canvas.h"
 #include "animation_lines.h"
 #include "animation_snakes.h"
-#include "addr_led_driver.h"
 #include "animation_sparkles.h"
+#include "animation_game_of_life.h"
+#include "addr_led_driver.h"
 #include "logger.h"
 #include <string.h>
 #include "usr_commands.h"
@@ -112,7 +113,19 @@ Animation_s animations[ANIMATION_MAX] = {
 		.usrInput = AnimationSnakes_UsrInput,
 		.signal = AnimationSnakes_ReceiveSignal,
 		.getState = AnimationSnakes_GetState
-	}
+	},
+	[ANIMATION_GAME_OF_LIFE] = {
+		.name = "gameoflife",
+		.init = AnimationGameOfLife_Init,
+		.deinit = AnimationGameOfLife_Deinit,
+		.start = AnimationGameOfLife_Start,
+		.stop = AnimationGameOfLife_Stop,
+		.update = AnimationGameOfLife_Update,
+		.buttonInput = AnimationGameOfLife_ButtonInput,
+		.usrInput = AnimationGameOfLife_UsrInput,
+		.signal = AnimationGameOfLife_ReceiveSignal,
+		.getState = AnimationGameOfLife_GetState
+	},
 };
 
 static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
@@ -136,7 +149,7 @@ static void AnimationMan_HandleAutoSwitch(void)
 	{
 		return;
 	}
-	else
+	else if (currentAnimationIdx != ANIMATION_CANVAS)
 	{
 		uint32_t now = ztimer_now(ZTIMER_USEC)/1000;
 		if (ztimer_now(ZTIMER_USEC)/1000 - lastAutoAnimationSwitchTimestamp > autoAnimationSwitchMs) // Time to switch animations

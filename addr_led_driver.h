@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-
 // Definitions of the cube
 #define NEOPIXEL_SIGNAL_GPIO_PIN (GPIO_PIN(0, 9)) //GPIO9
 #define NUM_LEDS_PER_PANEL_SIDE (4)
@@ -96,23 +95,8 @@ typedef struct {
 	Position_e pos;
   uint8_t x; // X, Y of the pixel IN it's panel // todo think about moving these to manager
   uint8_t y;
-  uint8_t globalX;
-  uint8_t globalY;
-  uint8_t globalZ;
-
-  struct Pixel_t *neighborN; // The pixel to the North, East, South, West of this pixel
-  struct Pixel_t *neighborE;
-  struct Pixel_t *neighborS;
-  struct Pixel_t *neighborW;
-
-	struct Pixel_t *neighborLeft;
-	struct Pixel_t *neighborRight;
-	struct Pixel_t *neighborUp;
-	struct Pixel_t *neighborDown;
-
-	struct Pixel_t *neighborPixels[8]; // TODO pick one convention and go with it
-	
 	uint16_t stripIdx; // Index of the pixel in the strip // Addition for RIOT ws281x module
+	struct Pixel_t *neighborPixels[8]; // TODO pick one convention and go with it
 } Pixel_t;
 
 // Below structure denotes the encapsulation of one continuous LED strip (can be in any form. location of pixels handled by upper layer)
@@ -132,7 +116,6 @@ typedef struct {
   struct AddrLedPanel_t *neighborPanels[4];
 } AddrLedPanel_t;
 
-
 void AddrLedDriver_Init(void);
 void AddrLedDriver_DisplayStrip(AddrLedStrip_t *l);
 void AddrLedDriver_DisplayCube(void);
@@ -144,6 +127,7 @@ char * AddrLedDriver_GetPositionString(Position_e pos);
 char * AddrLedDriver_GetDirectionString(Direction_e dir);
 void AddrLedDriver_PrintPixel(Pixel_t *p);
 AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos);
+Pixel_t* AddrLedDriver_GetPixelByIdx(uint16_t idx); // a bit strip/situaiton dependent but oh well
 Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y);
 Pixel_t* AddrLedDriver_GetPixelInPanelRelative(Position_e pos, Position_e relativePos, uint8_t x, uint8_t y);
 Position_e AddrLedDriver_GetOppositePanel(Position_e pos);

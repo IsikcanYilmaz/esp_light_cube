@@ -17,8 +17,9 @@ typedef enum SparklesBurstMode_e_
 
 typedef enum SparklesSparkMode_e_
 {
+	SPARKLES_MODE_NORMAL,
 	SPARKLES_MODE_DROPS,
-	SPARKLES_MODE_WAVE,
+	SPARKLES_MODE_SQUARES,
 	SPARKLES_MODE_MAX
 } SparklesSparkMode_e;
 

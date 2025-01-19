@@ -78,7 +78,7 @@ static double vChange = DEFAULT_PIXEL_V_CHANGE_PER_ITER;
 static uint8_t burstChance = DEFAULT_SPARKLE_CHANCE_PERCENT;
 static uint8_t burstSize = DEFAULT_NUM_SPARKLES_PER_BURST;
 static uint32_t burstPeriod = DEFAULT_BURST_PERIOD;
-                  
+
 static volatile AnimationState_e state = ANIMATION_STATE_UNINITIALIZED;
 
 static EditableValue_t editableValues[] = 

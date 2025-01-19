@@ -111,7 +111,6 @@ void AddrLedDriver_Init(void)
 				Position_e panelToTheRight = (pos + 1) % TOP;
 				Position_e panelToTheLeft = (pos + 1) % TOP;
 				// TODO refactor the block below.
-				logprint("%s %d %d\n", AddrLedDriver_GetPositionString(pos), x, y);
 				if (pos != TOP) // SIDE PANELS
 				{
 					if (x == 0) // leftmost column
@@ -427,6 +426,11 @@ void AddrLedDriver_DisplayCube(void)
 
 void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
 {
+	if (p == NULL)
+	{
+		logprint("%s received null pixel_t pointer!\n", __FUNCTION__);
+		return;
+	}
   p->red = r;
   p->green = g;
   p->blue = b;
@@ -455,6 +459,16 @@ void AddrLedDriver_Clear(void)
 	{
 		AddrLedDriver_SetPixelRgb(&ledStrip0.pixels[i], 0, 0, 0);
 	}
+}
+
+Pixel_t* AddrLedDriver_GetPixelByIdx(uint16_t idx) // a bit strip/situaiton dependent but oh well
+{
+	if (idx >= NUM_LEDS)
+	{
+		logprint("%s bad pixel idx %d\n", idx);
+		return NULL;
+	}
+	return &ledStrip0Pixels[idx];
 }
 
 Pixel_t* AddrLedDriver_GetPixelInPanel(Position_e pos, uint8_t x, uint8_t y)
