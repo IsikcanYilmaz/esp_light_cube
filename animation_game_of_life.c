@@ -200,7 +200,7 @@ bool AnimationGameOfLife_Init(void *arg)
 	state = ANIMATION_STATE_RUNNING;
 	memset(&cellStatusCurrent, 0, sizeof(uint8_t) * NUM_LEDS);
 	memset(&cellStatusNext, 0, sizeof(uint8_t) * NUM_LEDS);
-	printCurrentFrame();
+	// printCurrentFrame();
 	return true;
 }
 
@@ -277,7 +277,7 @@ void AnimationGameOfLife_UsrInput(int argc, char **argv)
 		uint8_t y = atoi(argv[3]);
 		logprint("Setting %s %d %d alive\n", AddrLedDriver_GetPositionString(pos), x, y);
 		setCellByCoordinate(pos, x, y, ALIVE);
-		printCurrentFrame();
+		// printCurrentFrame();
 		return;
 	}
 
