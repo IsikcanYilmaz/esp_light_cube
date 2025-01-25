@@ -34,6 +34,15 @@ void EditableValue_PrintValue(EditableValue_t *editable)
 			logprint("val: %f lowerLimit: %f upperLimit: %f\n", editable->valPtr->f, editable->ll.f, editable->ul.f);
 			break;
 		}
+		case BOOLEAN:
+		{
+			logprint("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->b, editable->ll.b, editable->ul.b);
+			break;
+		}
+		default:
+		{
+			break;
+		}
 	}
 
 	// Hexdump
@@ -119,6 +128,11 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 			editable->valPtr->f = value->f;
 			break;
 		}
+	case BOOLEAN:
+		{
+			editable->valPtr->b = value->b;
+			break;
+		}
 		default:
 		{
 			return false;
@@ -161,6 +175,19 @@ bool EditableValue_SetValueFromString(EditableValue_t *editable, char *valStr)
 		case FLOAT:
 		{
 			tmpVal.f = (float) atof(valStr);
+			return EditableValue_SetValue(editable, &tmpVal);
+			break;
+		}
+		case BOOLEAN:
+		{
+			if (strcmp(valStr, "true") == 0 || strcmp(valStr, "t") == 0 || strcmp(valStr, "1") == 0)
+			{
+				tmpVal.b = true;
+			}
+			else 
+			{
+				tmpVal.b = false;
+			}
 			return EditableValue_SetValue(editable, &tmpVal);
 			break;
 		}

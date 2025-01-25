@@ -422,13 +422,14 @@ function typeIsFloatOrDouble(type)
 	// UINT32_T,
 	// DOUBLE,
 	// FLOAT,
+	// BOOLEAN
 	var isFloat = false;
 	if (type == 3 || type == 4)
 	{
 		isFloat = true;
 	}
 
-	if (type < 0 || type > 4)
+	if (type < 0 || type > 5)
 	{
 		console.log(`Bad type! ${type}`);
 	}

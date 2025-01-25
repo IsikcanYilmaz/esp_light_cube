@@ -12,25 +12,31 @@
 #include <stdio.h>
 #include <string.h>
 
-static double hIncrement = -2;
-static double sIncrement = -0;
-static double vIncrement = -0.01;
+// Configs
+static double hIncrement = -12.556; //-2;
+static double sIncrement = -0.02; //-0;
+static double vIncrement = -0.011; //-0.01;
 
+static uint16_t skipFrames = 5; //TODO maybe find a better solution for this?
+
+static bool randomInput = true;
+static uint16_t randomInputChancePercent = 21;
+
+// Internal
 static GoLCellStatus_e cellStatusCurrent[NUM_LEDS];
 static GoLCellStatus_e cellStatusNext[NUM_LEDS];
 static GoLCellStatus_e *currentFramePointer = &cellStatusCurrent;
-
-static uint16_t totalAlive = 0;
-static uint16_t skipFrames = 100; //TODO maybe find a better solution for this?
-
+static uint16_t cellChangesThisTurn = 0;
 static uint16_t skipFrameCounter = 0;
 
 static EditableValue_t editableValues[] = 
 {
-	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -360.00, .ul.d = 360.00},
+	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
 	(EditableValue_t) {.name = "sIncrement", .valPtr = (union EightByteData_u *) &sIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
-	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT16_T, .ll.u16 = 0, .ul.u16 = 100},
+	(EditableValue_t) {.name = "randomInput", .valPtr = (union EightByteData_u *) &randomInput, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomInputChancePercent", .valPtr = (union EightByteData_u *) &randomInputChancePercent, .type = UINT16_T, .ll.u16 = 0, .ul.u16 = 100},
 };
 static EditableValueList_t editableValuesList = {.name = "gameoflife", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -85,6 +91,31 @@ static void setCellByCoordinate(Direction_e pos, uint8_t x, uint8_t y, GoLCellSt
 	setCellByIdx(p->stripIdx, status);
 }
 
+static void setRandomCells(void)
+{
+	uint16_t idx = rand() % NUM_LEDS;
+	Pixel_t *p = AddrLedDriver_GetPixelByIdx(idx);
+	setCellByIdx(idx, ALIVE);
+	for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
+	{
+		if (p->neighborPixels[i] != NULL)
+		{
+			Pixel_t *n = p->neighborPixels[i];
+			setCellByIdx(n->stripIdx, (rand()%2) > 0 ? ALIVE : DEAD);
+		}
+	}
+}
+
+static uint16_t getNumAliveCells(void)
+{
+	uint16_t sum = 0;
+	for (uint8_t i = 0; i < NUM_LEDS; i++)
+	{
+		sum += cellStatusCurrent[i];
+	}
+	return sum;
+}
+
 static void drawFrame(void)
 {
 	// Can draw now
@@ -112,6 +143,11 @@ static void RunningAction(void)
 	skipFrameCounter = 0;
 
 	// logprint("FRAME\n");
+	
+	if (randomInput && rand() % 100 < randomInputChancePercent)
+	{
+		setRandomCells();
+	}
 	
 	// For every cell, go thru each one of their neighbors of current 
 	for (uint16_t pIdx = 0; pIdx < NUM_LEDS; pIdx++)
