@@ -39,7 +39,8 @@ static uint16_t autoAnimationSwitchMs = 30*60*1000;
 static uint32_t lastAutoAnimationSwitchTimestamp = 0;
 static bool autoAnimationSwitchEnabled = true;
 
-static uint16_t framePerSecond = 30;
+static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
+static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
 
 Animation_s animations[ANIMATION_MAX] = {
 	[ANIMATION_SCROLLER] = {
@@ -161,6 +162,18 @@ static void AnimationMan_HandleAutoSwitch(void)
 	}
 }
 
+static void AnimationMan_SetFps(uint32_t fps)
+{
+	framePerSecond = fps;
+	framePeriodUs = US_PER_SEC/fps;
+	logprint("New fps %d, period %d\n", fps, framePeriodUs);
+}
+
+static uint32_t AnimationMan_GetFps(void)
+{
+	return framePerSecond;
+}
+
 void AnimationMan_ThreadHandler(void *arg)
 {
 	(void) arg;
@@ -169,7 +182,8 @@ void AnimationMan_ThreadHandler(void *arg)
 	// Main thread for animations. What it should be doing is:
 	// Go through list of interruptions
 	// Interact with the currently running animation
-	// Display current animation
+	// Let currentlyl running animation do its pixel settings
+	// Display current state of the strip/s 
 	while (true)
 	{
 		// Handle auto switching first
@@ -213,7 +227,10 @@ void AnimationMan_ThreadHandler(void *arg)
 			}
 		}
 		uint32_t t1 = ztimer_now(ZTIMER_USEC);
-		ztimer_sleep(ZTIMER_USEC, 0.01 * US_PER_SEC);
+		uint32_t processingLatencyUs = (t1-t0);
+		uint32_t sleepUntilNextFrames = framePeriodUs - processingLatencyUs;
+		// logprint("proclat %d, sleep %d, calcperiod %d, netcalcperiod %d\n", processingLatencyUs, (uint32_t)(0.05 * US_PER_SEC), framePeriodUs, sleepUntilNextFrames);
+		ztimer_sleep(ZTIMER_USEC, sleepUntilNextFrames);
 	}
 }
 

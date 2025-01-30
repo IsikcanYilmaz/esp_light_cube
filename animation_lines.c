@@ -56,10 +56,6 @@ static Color_t colorArr[MAX_COLORS];
 static Color_t *currColor = &colorArr[0];
 static uint8_t colorIdx = 0;
 
-// static LinesSparkMode_e sparkMode = DEFAULT_SPARK_MODE;
-// static LinesColorMode_e colorMode = DEFAULT_COLOR_MODE;
-// static LinesBurstMode_e burstMode = DEFAULT_BURST_MODE;
-
 static double randomLowerLimH = DEFAULT_RANDOM_LOWER_LIM_H;
 static double randomUpperLimH = DEFAULT_RANDOM_UPPER_LIM_H;
 
@@ -82,7 +78,7 @@ static uint8_t lineY = 0;
 static uint8_t lineIdx = 0; // Testing this idea
 static uint8_t loopRow = 0;
 
-static uint16_t delay = 6;
+static uint16_t delay = 3;
 static uint16_t loops = 0;
 
 static int8_t row = 0;

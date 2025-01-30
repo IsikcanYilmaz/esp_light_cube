@@ -29,6 +29,11 @@ USEMODULE += esp_wifi
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
+# Bluetooth
+USEPKG += nimble
+USEMODULE += nimble_scanner
+USEMODULE += nimble_scanlist
+
 # Mic
 USEMODULE += periph_adc
 
@@ -53,5 +58,10 @@ CFLAGS += -I$(INC_DIR)
 
 CFLAGS += -g -O0
 CFLAGS_OPT = -Os # -O0
+
+# ESP32_SDK_LOCATION = $(RIOTBASE)/build/pkg/esp32_sdk/
+# SRC += $(ESP32_SDK_LOCATION)/components/driver/gdma.c \
+#     $(ESP32_SDK_LOCATION)/components/hal/gdma_hal.c \
+#     $(ESP32_SDK_LOCATION)/components/soc/esp32s3/gdma_periph.c 
 
 include $(RIOTBASE)/Makefile.include

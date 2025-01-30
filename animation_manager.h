@@ -5,6 +5,7 @@
 #include "editable_value.h"
 
 #define ANIMATION_DEFAULT (ANIMATION_GAME_OF_LIFE) //(ANIMATION_CANVAS)
+#define ANIMATION_MANAGER_DEFAULT_FPS (40)
 
 typedef enum AnimationIdx_e_
 {
