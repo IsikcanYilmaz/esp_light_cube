@@ -5,7 +5,6 @@ APPLICATION = light_cube
 BOARD ?= seeedstudio-esp32s3
 
 # This has to be the absolute path to the RIOT base directory:
-# RIOTBASE ?= $(CURDIR)/../..
 RIOTBASE ?= $(CURDIR)/../RIOT/
 
 # Comment this out to disable code in RIOT that does safety checking

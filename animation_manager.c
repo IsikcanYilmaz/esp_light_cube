@@ -10,6 +10,7 @@
 #include "animation_sparkles.h"
 #include "animation_game_of_life.h"
 #include "addr_led_driver.h"
+#include "editable_value.h"
 #include "logger.h"
 #include <string.h>
 #include "usr_commands.h"
@@ -35,12 +36,20 @@ AnimationIdx_e targetAnimationIdx; // for when we're waiting for the switching o
 // TODO could have animations time out as a failsafe?
 static bool animationManInitialized = false;
 
-static uint16_t autoAnimationSwitchMs = 30*60*1000;
-static uint32_t lastAutoAnimationSwitchTimestamp = 0;
-static bool autoAnimationSwitchEnabled = true;
+static uint32_t autoSwitchTimestampMs = 0;
 
 static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
 static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
+
+static uint32_t autoSwitchMs = 1*60*1000;
+static bool autoSwitchEnabled = true;
+
+static EditableValue_t editableValues[] =
+{
+	(EditableValue_t) {.name = "autoSwitchMs", .valPtr = (union EightByteData_u *) &autoSwitchMs, .type = UINT32_T, .ll.b = 1000, .ul.b = 0xffffffff},
+	(EditableValue_t) {.name = "autoSwitchEnabled", .valPtr = (union EightByteData_u *) &autoSwitchEnabled, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+};
+static EditableValueList_t editableValueList = {.name = "animationmanager", .values = &editableValues[0], .len=sizeof(editableValues)/sizeof(EditableValue_t)};
 
 Animation_s animations[ANIMATION_MAX] = {
 	[ANIMATION_SCROLLER] = {
@@ -146,18 +155,18 @@ static void AnimationMan_PlayNextAnimation(void)
 
 static void AnimationMan_HandleAutoSwitch(void)
 {
-	if (!autoAnimationSwitchEnabled)
+	if (!autoSwitchEnabled)
 	{
 		return;
 	}
 	else if (currentAnimationIdx != ANIMATION_CANVAS)
 	{
 		uint32_t now = ztimer_now(ZTIMER_USEC)/1000;
-		if (ztimer_now(ZTIMER_USEC)/1000 - lastAutoAnimationSwitchTimestamp > autoAnimationSwitchMs) // Time to switch animations
+		if (ztimer_now(ZTIMER_USEC)/1000 - autoSwitchTimestampMs > autoSwitchMs) // Time to switch animations
 		{
-			logprint("Auto anim switch at %d. %d %d\n", now, lastAutoAnimationSwitchTimestamp, autoAnimationSwitchMs);
+			logprint("Auto anim switch at %d. %d %d\n", now, autoSwitchTimestampMs, autoSwitchMs);
 			AnimationMan_PlayNextAnimation();
-			lastAutoAnimationSwitchTimestamp = now;
+			autoSwitchTimestampMs = now;
 		}
 	}
 }
@@ -272,6 +281,12 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 	targetAnimationIdx = anim;
 	if (immediately)
 	{
+		// Special case; if CANVAS was just on, wait full wait time to do a auto switch once we get out of it
+		if (currentAnimationIdx == ANIMATION_CANVAS && autoSwitchEnabled)
+		{
+			autoSwitchTimestampMs = ztimer_now(ZTIMER_MSEC);
+		}
+
 		currentAnimation->deinit();
 		AddrLedDriver_Clear();
 		currentAnimation = &animations[targetAnimationIdx];
@@ -312,14 +327,18 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 			}
 		}
 	}
+	else if (strcmp(argv[1], "conf") == 0)
+	{
+		AnimationMan_GenericGetSetValPath(&editableValueList, argc-2, &argv[2]);
+	}
 	else if (strcmp(argv[1], "next") == 0)
 	{
 		AnimationMan_PlayNextAnimation();
 	}
 	else if (strcmp(argv[1], "auto") == 0)
 	{
-		autoAnimationSwitchEnabled = !autoAnimationSwitchEnabled;
-		logprint("Auto switch toggled to %d\n", autoAnimationSwitchEnabled);
+		autoSwitchEnabled = !autoSwitchEnabled;
+		logprint("Auto switch toggled to %d\n", autoSwitchEnabled);
 	}
 	else
 	{
@@ -328,8 +347,10 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 	return 0;
 }
 
+// This function doesnt take the entire command line, it takes a line starting with getval or setval
 void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv)
 {
+	ASSERT_ARGS(1);
 	if (strcmp(argv[0], "setval") == 0)
 	{
 		ASSERT_ARGS(3);
