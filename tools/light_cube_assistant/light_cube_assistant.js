@@ -364,10 +364,16 @@ function mouseClicked()
   p.setHsv(hsv);
 
   //
-	console.log("PAN", pan, pos); // 
-	// var cmd = "aled set " + panelChars[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
+	console.log("PAN", pan, pos); //
+	if (currentAnimation == "gameoflife")
+	{
+		var cmd = "anim alive " + panelChars[pos] + " " + transX + " " + transY ; 
+	}
+	else
+	{
+		var cmd = "aled set " + panelChars[pan] + " " + transX + " " + transY + " " + rgb.r + " " + rgb.g + " " + rgb.b;
 	// var cmd = "aled nei " + panelChars[pos] + " " + transX + " " + transY ; 
-	var cmd = "anim alive " + panelChars[pos] + " " + transX + " " + transY ; 
+	}
   writeToStream(cmd);
 }
 
@@ -413,6 +419,7 @@ const intChange = 1;
 const floatChange = 0.001;
 var floatChangeStr = floatChange.toString();
 var intChangeStr = intChange.toString();
+var currentAnimation = "canvas";
 
 function typeIsFloatOrDouble(type)
 {
@@ -582,6 +589,7 @@ function parseSerialDataLine(line)
 			var len = lineArr[5];
 			console.log(`Editable List: ${name} len: ${len}`);
 			newAnimConfPanel(name);
+			currentAnimation = name;
 		}
 		else if (lines[lid].includes("Editable val")) // single config line
 		{ 
@@ -614,6 +622,18 @@ function clearButtonPressed()
 		myCanvas.panels[i].clear();
 	}
 	myCanvas.clear();
+}
+
+function autoButtonPressed()
+{
+	var cmd = "anim auto";
+  writeToStream(cmd);
+}
+
+function nextAnimButtonPressed()
+{
+	var cmd = "anim next";
+  writeToStream(cmd);
 }
 
 function resetButtonPressed(boot)
