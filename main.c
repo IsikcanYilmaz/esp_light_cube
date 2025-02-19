@@ -27,10 +27,13 @@
 #include "mic.h"
 #include "logger.h"
 
+#include "ringbuffer.h"
+
 extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
 char mictest_threadStack[THREAD_STACKSIZE_DEFAULT];
+char ringbuffer_threadStack[THREAD_STACKSIZE_DEFAULT]; // TODO rm
 
 bool on = false;
 
@@ -65,8 +68,31 @@ void *mictest_threadHandler(void *arg)
 		uint32_t t0 = ztimer_now(ZTIMER_USEC);
 		Mic_Test();
 		uint32_t t1 = ztimer_now(ZTIMER_USEC);
-		logprint("%d latency\n", t1-t0);
+		// logprint("%d latency\n", t1-t0);
 		ztimer_sleep(ZTIMER_MSEC, 200);
+	}
+}
+
+void print_ringbuffer(ringbuffer_t *rb)
+{
+	logprint("ringbuffer size: %d, start: %d, avail: %d\n", rb->size, rb->start, rb->avail);
+}
+
+void *ringbuffer_threadHandler(void *arg)
+{
+	(void) arg;
+	logprint("Ringbuffer test\n");
+	char rawbuf[16];
+	ringbuffer_t ringbuf;
+	ringbuffer_init(&ringbuf, &rawbuf, sizeof(rawbuf));
+	uint8_t ctr = 0;
+	while(true)
+	{
+		logprint("Ringbuffer test\n");
+		print_ringbuffer(&ringbuf);
+		ringbuffer_add_one(&ringbuf, ctr);
+		ctr++;
+		ztimer_sleep(ZTIMER_MSEC, 1000);
 	}
 }
 
@@ -76,7 +102,7 @@ int main(void)
 	logprint("Light Cube RIOT\n");
 
 	ztimer_sleep(ZTIMER_USEC, 4 * US_PER_SEC); 
-	srand(time(NULL));
+	// srand(time(NULL));
 	// dma_rmt_test();
 	AddrLedDriver_Init();
 	AnimationMan_Init();
@@ -102,7 +128,17 @@ int main(void)
 	// 	"mictest_thread"
 	// );
 
-	Ble_Init();
+	// kernel_pid_t ringbuffer_threadId = thread_create(
+	// 	ringbuffer_threadStack,
+	// 	sizeof(ringbuffer_threadStack),
+	// 	THREAD_PRIORITY_MAIN - 1,
+	// 	THREAD_CREATE_STACKTEST,
+	// 	ringbuffer_threadHandler,
+	// 	NULL,
+	// 	"mictest_thread"
+	// );
+
+	// Ble_Init();
 
 	UserCommand_Init(); // inf loop
 

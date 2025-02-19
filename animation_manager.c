@@ -9,6 +9,7 @@
 #include "animation_snakes.h"
 #include "animation_sparkles.h"
 #include "animation_game_of_life.h"
+#include "animation_walker.h"
 #include "addr_led_driver.h"
 #include "editable_value.h"
 #include "logger.h"
@@ -136,6 +137,18 @@ Animation_s animations[ANIMATION_MAX] = {
 		.signal = AnimationGameOfLife_ReceiveSignal,
 		.getState = AnimationGameOfLife_GetState
 	},
+	[ANIMATION_WALKER] = {
+		.name = "walker",
+		.init = AnimationWalker_Init,
+		.deinit = AnimationWalker_Deinit,
+		.start = AnimationWalker_Start,
+		.stop = AnimationWalker_Stop,
+		.update = AnimationWalker_Update,
+		.buttonInput = AnimationWalker_ButtonInput,
+		.usrInput = AnimationWalker_UsrInput,
+		.signal = AnimationWalker_ReceiveSignal,
+		.getState = AnimationWalker_GetState
+	},
 };
 
 static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
@@ -258,7 +271,7 @@ void AnimationMan_Init(void)
 	kernel_pid_t animationMan_threadId = thread_create(
 		animationMan_threadStack,
 		sizeof(animationMan_threadStack),
-		THREAD_PRIORITY_MAIN - 1,
+		1,
 		THREAD_CREATE_STACKTEST,
 		AnimationMan_ThreadHandler,
 		NULL,

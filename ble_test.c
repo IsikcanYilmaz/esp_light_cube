@@ -12,6 +12,14 @@
 #include "nimble_scanner.h"
 #include "nimble_scanlist.h"
 
+// #include "nimble_riot.h"
+// #include "nimble_autoadv.h"
+// #include "host/ble_hs.h"
+// #include "host/util/util.h"
+// #include "host/ble_gatt.h"
+// #include "services/gap/ble_svc_gap.h"
+// #include "services/gatt/ble_svc_gatt.h"
+
 #include "usr_commands.h"
 
 #include <stdbool.h>

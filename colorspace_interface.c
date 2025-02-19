@@ -8,7 +8,7 @@
 // rgb values from 0 to 255
 // hsv values h 0.0 - 360.0, s 0.0 - 1.0, v 0.0 - 1.0
 
-// we straight up use some dude's color conversion code. there are wrappers on that code in color.c/h
+// i straight up use some dude's color conversion code. there are wrappers on that code in color.c/h
 // said code is here: https://github.com/dystopiancode/colorspace-conversions thanks dystopiancode.
 Color_t Color_CreateFromRgb(uint8_t r, uint8_t g, uint8_t b)
 {
