@@ -43,7 +43,7 @@ static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
 static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
 
 static uint32_t autoSwitchMs = 1*60*1000;
-static bool autoSwitchEnabled = true;
+static bool autoSwitchEnabled = false;
 
 static EditableValue_t editableValues[] =
 {

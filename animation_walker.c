@@ -8,6 +8,7 @@
 #include "colorspace_interface.h"
 #include "usr_commands.h"
 #include "logger.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -24,13 +25,18 @@ typedef struct Walker_s
 	Color_t color;
 } Walker_t;
 
-static double hChange = 4.0;
+static Walker_t walkers[MAX_WALKERS];
+
+static double hChange = -1.0;
 static double sChange = 0.0;
-static double vChange = -0.1;
+static double vChange = -0.046;
+
+static bool diagonalMoveAllowed = true;
+static bool sideMoveAllowed = true;
+
+static uint8_t moveChancePercent = 50;
 
 static uint8_t numWalkers = DEFAULT_NUM_WALKERS;
-
-static Walker_t walkers[MAX_WALKERS];
 
 static uint8_t randomBreak = 10;
 static uint8_t skipFrames = 3; // TODO find a better solution to this before more animation does this 
@@ -42,8 +48,11 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "hChange", .valPtr = (union EightByteData_u *) &hChange, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
 	(EditableValue_t) {.name = "sChange", .valPtr = (union EightByteData_u *) &sChange, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "vChange", .valPtr = (union EightByteData_u *) &vChange, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
-	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT16_T, .ll.u16 = 0, .ul.u16 = 100},
+	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
+	(EditableValue_t) {.name = "moveChancePercent", .valPtr = (union EightByteData_u *) &moveChancePercent, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "numWalkers", .valPtr = (union EightByteData_u *) &numWalkers, .type = UINT8_T, .ll.u16 = 1, .ul.u16 = MAX_WALKERS},
+	(EditableValue_t) {.name = "diagonalMoveAllowed", .valPtr = (union EightByteData_u *) &diagonalMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "sideMoveAllowed", .valPtr = (union EightByteData_u *) &sideMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 };
 static EditableValueList_t editableValuesList = {.name = "walker", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -51,45 +60,52 @@ static volatile AnimationState_e state = ANIMATION_STATE_UNINITIALIZED;
 
 static void walkerMoveRandomly(Walker_t *w)
 {
-	// Walker should move to one of the neighbors but not where we just came from
-	Direction_e dir;
-	Pixel_t *nextPix = NULL;
-
-	uint8_t ctr = 0; // TODO hack, to not get stuck. but really this could use a better random walk algo
-	// logprint("w curr pix %x\n", w->pix[0]);
-	do
+	// Depending on chance
+	if (rand() % 100 >= moveChancePercent)
 	{
-		dir = (Direction_e) rand() % NUM_DIRECTIONS; // TODO this can get stuck 
-		nextPix = w->pix[0]->neighborPixels[dir];
-		// logprint("%d %x %d\n", dir, w->pix[0]->neighborPixels[dir], ctr);
-		ctr++;
-		if (ctr == randomBreak)
-		{
-			break;
-		}
-	} while(nextPix == NULL || nextPix == w->prevPix);
-
-	if (nextPix == NULL) // TODO make sure this doesnt happen and this check not needed
-	{
-		logprint("NULL PIXEL IN %s\n", __FUNCTION__);
 		return;
 	}
 
-	if (ctr == 4)
+	// Jot down possible directions. Impossible directions mean the direction we just came from, diagonals maybe, or NULL directions
+	uint8_t numPossibleDirections = 0;
+	Direction_e possibleDirections[NUM_DIRECTIONS];
+	
+	if (!diagonalMoveAllowed && !sideMoveAllowed)
 	{
-		logprint("%s ctr == %d!\n", __FUNCTION__, randomBreak);
-	}
-	else
-	{
-		w->prevPix = w->pix[0];
-		w->pix[0] = nextPix;
-		// logprint("Setting next pixel to %x x%d y%d\n", nextPix, nextPix->x, nextPix->y);
+		return; 
 	}
 
-	if (w->pix[0] == NULL)
+	for (int dir = 0; dir < NUM_DIRECTIONS; dir++)
+	{
+		bool isDiagonal = ((dir % 2) != 0);
+		if (!diagonalMoveAllowed && isDiagonal)
+		{
+			continue;
+		}
+		if (!sideMoveAllowed && !isDiagonal)
+		{
+			continue;
+		}
+		Pixel_t *pix = w->pix[0]->neighborPixels[dir];
+		if (pix == NULL || pix == w->prevPix)
+		{
+			continue;
+		}
+		possibleDirections[numPossibleDirections] = dir;
+		numPossibleDirections++;
+	}
+	uint8_t randomDirection = rand() % numPossibleDirections;
+	Pixel_t *nextPix = w->pix[0]->neighborPixels[possibleDirections[randomDirection]];
+
+	if (nextPix == NULL)
 	{
 		logprint("NULL PIXEL IN %s\n", __FUNCTION__);
+		logprint("randomDirection %d\n", randomDirection);
+		logprint("numPossibleDirections %d\n", numPossibleDirections);
+		return;
 	}
+	w->prevPix = w->pix[0];
+	w->pix[0] = nextPix;
 }
 
 static void FadeOffAction(void)
@@ -116,6 +132,11 @@ static void RunningAction(void)
 		return;
 	}
 
+	if (vChange <= 0)
+	{
+		Visual_IncrementAllByHSV(hChange,sChange,vChange);
+	}
+
 	// Update and draw our walkers
 	for (int walkerId = 0; walkerId < numWalkers; walkerId++)
 	{
@@ -129,10 +150,6 @@ static void RunningAction(void)
 		}
 	}
 
-	if (vChange <= 0)
-	{
-		Visual_IncrementAllByHSV(hChange,sChange,vChange);
-	}
 }
 
 bool AnimationWalker_Init(void *arg)

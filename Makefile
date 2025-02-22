@@ -24,7 +24,7 @@ USEMODULE += ws281x_esp32
 # USEMODULE += ws281x_esp32_non_blocking_rmt
 USEMODULE += xtimer
 USEMODULE += shell
-# USEMODULE += esp_wifi
+USEMODULE += esp_wifi
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
