@@ -27,18 +27,28 @@ typedef struct Walker_s
 
 static Walker_t walkers[MAX_WALKERS];
 
+// HSV change per frame
 static double hChange = -1.0;
 static double sChange = 0.0;
 static double vChange = -0.046;
 
-static bool diagonalMoveAllowed = true;
+// Colors of the walkers
+static double hBase = 0.0;
+static double sBase = 1.0;
+static double vBase = 0.9;
+
+// HSV change per walker. i.e. for each walker change hsv by these much
+static double hDiff = 0.0;
+static double sDiff = 0.0;
+static double vDiff = 0.0;
+
+static bool diagonalMoveAllowed = false;
 static bool sideMoveAllowed = true;
 
-static uint8_t moveChancePercent = 50;
+static uint8_t moveChancePercent = 100;
 
 static uint8_t numWalkers = DEFAULT_NUM_WALKERS;
 
-static uint8_t randomBreak = 10;
 static uint8_t skipFrames = 3; // TODO find a better solution to this before more animation does this 
 
 static uint8_t skipFrameCtr = 0;
@@ -48,6 +58,15 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "hChange", .valPtr = (union EightByteData_u *) &hChange, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
 	(EditableValue_t) {.name = "sChange", .valPtr = (union EightByteData_u *) &sChange, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "vChange", .valPtr = (union EightByteData_u *) &vChange, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
+
+	(EditableValue_t) {.name = "hBase", .valPtr = (union EightByteData_u *) &hBase, .type = DOUBLE, .ll.d = -360.0, .ul.d = 360.0},
+	(EditableValue_t) {.name = "sBase", .valPtr = (union EightByteData_u *) &sBase, .type = DOUBLE, .ll.d = 0.0, .ul.d = 1.0},
+	(EditableValue_t) {.name = "vBase", .valPtr = (union EightByteData_u *) &vBase, .type = DOUBLE, .ll.d = 0.0, .ul.d = 1.0},
+
+	(EditableValue_t) {.name = "hDiff", .valPtr = (union EightByteData_u *) &hDiff, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
+	(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "vDiff", .valPtr = (union EightByteData_u *) &vDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
+
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "moveChancePercent", .valPtr = (union EightByteData_u *) &moveChancePercent, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "numWalkers", .valPtr = (union EightByteData_u *) &numWalkers, .type = UINT8_T, .ll.u16 = 1, .ul.u16 = MAX_WALKERS},
@@ -146,7 +165,8 @@ static void RunningAction(void)
 		// Draw our walker
 		for (int i = 0; i < walker->length; i++)
 		{
-			AddrLedDriver_SetPixelRgb(walker->pix[i], walker->color.red, walker->color.green, walker->color.blue);
+			Color_t c = Color_CreateFromHsv(hBase, sBase, vBase);
+			AddrLedDriver_SetPixelRgb(walker->pix[i], c.red, c.green, c.blue);
 		}
 	}
 

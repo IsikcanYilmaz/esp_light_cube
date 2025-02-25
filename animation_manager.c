@@ -45,6 +45,8 @@ static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
 static uint32_t autoSwitchMs = 1*60*1000;
 static bool autoSwitchEnabled = false;
 
+static double fadeOutV = 1.0;
+
 static EditableValue_t editableValues[] =
 {
 	(EditableValue_t) {.name = "autoSwitchMs", .valPtr = (union EightByteData_u *) &autoSwitchMs, .type = UINT32_T, .ll.b = 1000, .ul.b = 0xffffffff},
