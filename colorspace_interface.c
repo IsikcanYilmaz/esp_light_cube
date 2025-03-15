@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <math.h>
 
-// #warn "COMPILING COLORSPACE IFACE"
-
 // rgb values from 0 to 255
 // hsv values h 0.0 - 360.0, s 0.0 - 1.0, v 0.0 - 1.0
 
@@ -51,3 +49,15 @@ void Color_PrintColor(Color_t c)
 {
 	logprint("r:%d g:%d b:%d | h:%f s:%f v:%f\n", c.red, c.green, c.blue, c.hue, c.saturation, c.value);
 }
+
+Color_t Color_GenerateRandomColor(llH, ulH, llS, ulS, llV, ulV)
+{
+	double h = fmod(rand(), (ulH - llH + 1)) + llH;
+	double s = (double) llS + fmod((rand() % 1000) / 100, (ulS - llS + 0.01));
+	double v = (double) llV + fmod((rand() % 1000) / 100, (ulV - llV + 0.01));
+	// logprint("%f %f %f\n", h, s, v);
+	Color_t c = Color_CreateFromHsv(h, s, v);
+	// Color_PrintColor(c);
+	return c;
+}
+

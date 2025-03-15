@@ -38,20 +38,23 @@ static double sBase = 1.0;
 static double vBase = 0.9;
 
 // HSV change per walker. i.e. for each walker change hsv by these much
-static double hDiff = 0.0;
+static double hDiff = 10.0;
 static double sDiff = 0.0;
 static double vDiff = 0.0;
 
 static bool diagonalMoveAllowed = false;
 static bool sideMoveAllowed = true;
+static bool collisionDetection = true;
 
 static uint8_t moveChancePercent = 100;
 
 static uint8_t numWalkers = DEFAULT_NUM_WALKERS;
 
 static uint8_t skipFrames = 3; // TODO find a better solution to this before more animation does this 
+static uint8_t skipSteps = 0;
 
 static uint8_t skipFrameCtr = 0;
+static uint8_t skipStepsCtr = 0;
 
 static EditableValue_t editableValues[] = 
 {
@@ -63,15 +66,19 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "sBase", .valPtr = (union EightByteData_u *) &sBase, .type = DOUBLE, .ll.d = 0.0, .ul.d = 1.0},
 	(EditableValue_t) {.name = "vBase", .valPtr = (union EightByteData_u *) &vBase, .type = DOUBLE, .ll.d = 0.0, .ul.d = 1.0},
 
-	(EditableValue_t) {.name = "hDiff", .valPtr = (union EightByteData_u *) &hDiff, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
-	(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
-	(EditableValue_t) {.name = "vDiff", .valPtr = (union EightByteData_u *) &vDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
+	(EditableValue_t) {.name = "hDiff", .valPtr = (union EightByteData_u *) &hDiff, .type = DOUBLE, .ll.d = -100.00, .ul.d = 100.00},
+	/*(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},*/
+	/*(EditableValue_t) {.name = "vDiff", .valPtr = (union EightByteData_u *) &vDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},*/
 
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
+	(EditableValue_t) {.name = "skipSteps", .valPtr = (union EightByteData_u *) &skipSteps, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
+
 	(EditableValue_t) {.name = "moveChancePercent", .valPtr = (union EightByteData_u *) &moveChancePercent, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "numWalkers", .valPtr = (union EightByteData_u *) &numWalkers, .type = UINT8_T, .ll.u16 = 1, .ul.u16 = MAX_WALKERS},
 	(EditableValue_t) {.name = "diagonalMoveAllowed", .valPtr = (union EightByteData_u *) &diagonalMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 	(EditableValue_t) {.name = "sideMoveAllowed", .valPtr = (union EightByteData_u *) &sideMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+
+	(EditableValue_t) {.name = "collisionDetection", .valPtr = (union EightByteData_u *) &collisionDetection, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 };
 static EditableValueList_t editableValuesList = {.name = "walker", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -96,6 +103,7 @@ static void walkerMoveRandomly(Walker_t *w)
 
 	for (int dir = 0; dir < NUM_DIRECTIONS; dir++)
 	{
+    // Check our diagonal and side moving rules
 		bool isDiagonal = ((dir % 2) != 0);
 		if (!diagonalMoveAllowed && isDiagonal)
 		{
@@ -104,15 +112,30 @@ static void walkerMoveRandomly(Walker_t *w)
 		if (!sideMoveAllowed && !isDiagonal)
 		{
 			continue;
-		}
+		} 
+
 		Pixel_t *pix = w->pix[0]->neighborPixels[dir];
+
 		if (pix == NULL || pix == w->prevPix)
 		{
 			continue;
 		}
+
+    // If collisionDetection is on, check if pixel is already on. if so, dont go there
+    if (collisionDetection && !Visual_IsDark(pix))
+    {
+      continue;
+    }
+
 		possibleDirections[numPossibleDirections] = dir;
 		numPossibleDirections++;
 	}
+
+  if (numPossibleDirections == 0)
+  {
+    return;
+  }
+
 	uint8_t randomDirection = rand() % numPossibleDirections;
 	Pixel_t *nextPix = w->pix[0]->neighborPixels[possibleDirections[randomDirection]];
 
@@ -151,24 +174,50 @@ static void RunningAction(void)
 		return;
 	}
 
+  // skip walking if needed
+  if (skipSteps > 0 && skipStepsCtr < skipSteps)
+  {
+    skipStepsCtr++;
+  }
+  else
+  {
+    skipStepsCtr = 0;
+
+    // Update and draw our walkers
+    for (int walkerId = 0; walkerId < numWalkers; walkerId++)
+    {
+      Walker_t *walker = &walkers[walkerId];
+      walkerMoveRandomly(walker);
+    }
+  }
+
+  // Apply decay/rise changes
 	if (vChange <= 0)
 	{
 		Visual_IncrementAllByHSV(hChange,sChange,vChange);
 	}
 
-	// Update and draw our walkers
-	for (int walkerId = 0; walkerId < numWalkers; walkerId++)
-	{
-		Walker_t *walker = &walkers[walkerId];
-		walkerMoveRandomly(walker);
+  // Draw our walker
+  for (int walkerId = 0; walkerId < numWalkers; walkerId++)
+  {
+    Walker_t *walker = &walkers[walkerId];
+    Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), sBase, vBase);
+    AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
+  }
 
-		// Draw our walker
-		for (int i = 0; i < walker->length; i++)
-		{
-			Color_t c = Color_CreateFromHsv(hBase, sBase, vBase);
-			AddrLedDriver_SetPixelRgb(walker->pix[i], c.red, c.green, c.blue);
-		}
-	}
+	// Update and draw our walkers
+	/*for (int walkerId = 0; walkerId < numWalkers; walkerId++)*/
+	/*{*/
+	/*	Walker_t *walker = &walkers[walkerId];*/
+	/*	walkerMoveRandomly(walker);*/
+	/**/
+	/*	// Draw our walker*/
+	/*	for (int i = 0; i < walker->length; i++)*/
+	/*	{*/
+	/*		Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), sBase, vBase);*/
+	/*		AddrLedDriver_SetPixelRgb(walker->pix[i], c.red, c.green, c.blue);*/
+	/*	}*/
+	/*}*/
 
 }
 

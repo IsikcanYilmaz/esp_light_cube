@@ -27,13 +27,17 @@
 #include "mic.h"
 #include "logger.h"
 
-#include "ringbuffer.h"
+// CCNL
+// #include "msg.h"
+// #include "ccn-lite-riot.h"
+// #include "net/gnrc/netif.h"
+// #include "net/gnrc/pktdump.h"
+
 
 extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
 char mictest_threadStack[THREAD_STACKSIZE_DEFAULT];
-char ringbuffer_threadStack[THREAD_STACKSIZE_DEFAULT]; // TODO rm
 
 bool on = false;
 
@@ -73,29 +77,6 @@ void *mictest_threadHandler(void *arg)
 	}
 }
 
-void print_ringbuffer(ringbuffer_t *rb)
-{
-	logprint("ringbuffer size: %d, start: %d, avail: %d\n", rb->size, rb->start, rb->avail);
-}
-
-void *ringbuffer_threadHandler(void *arg)
-{
-	(void) arg;
-	logprint("Ringbuffer test\n");
-	char rawbuf[16];
-	ringbuffer_t ringbuf;
-	ringbuffer_init(&ringbuf, &rawbuf, sizeof(rawbuf));
-	uint8_t ctr = 0;
-	while(true)
-	{
-		logprint("Ringbuffer test\n");
-		print_ringbuffer(&ringbuf);
-		ringbuffer_add_one(&ringbuf, ctr);
-		ctr++;
-		ztimer_sleep(ZTIMER_MSEC, 1000);
-	}
-}
-
 int main(void)
 {
 	// ztimer_sleep(ZTIMER_USEC, 5 * US_PER_SEC);
@@ -124,16 +105,6 @@ int main(void)
 	// 	THREAD_PRIORITY_MAIN - 1,
 	// 	THREAD_CREATE_STACKTEST,
 	// 	mictest_threadHandler,
-	// 	NULL,
-	// 	"mictest_thread"
-	// );
-
-	// kernel_pid_t ringbuffer_threadId = thread_create(
-	// 	ringbuffer_threadStack,
-	// 	sizeof(ringbuffer_threadStack),
-	// 	THREAD_PRIORITY_MAIN - 1,
-	// 	THREAD_CREATE_STACKTEST,
-	// 	ringbuffer_threadHandler,
 	// 	NULL,
 	// 	"mictest_thread"
 	// );

@@ -24,7 +24,7 @@ USEMODULE += ws281x_esp32
 # USEMODULE += ws281x_esp32_non_blocking_rmt
 USEMODULE += xtimer
 USEMODULE += shell
-USEMODULE += esp_wifi
+# USEMODULE += esp_wifi
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
@@ -54,9 +54,29 @@ USEMODULE += periph_adc
 # USEMODULE += netstats_l2
 # USEMODULE += netstats_ipv6
 # USEMODULE += netstats_rpl
-#
 
 # gnrc_networking end
+
+# CCN LITE
+
+# CFLAGS += -DUSE_LINKLAYER
+# CFLAGS += -DUSE_RONR
+# CFLAGS += -DCCNL_UAPI_H_
+# CFLAGS += -DUSE_SUITE_NDNTLV
+# CFLAGS += -DNEEDS_PREFIX_MATCHING
+# CFLAGS += -DNEEDS_PACKET_CRAFTING
+#
+# USEMODULE += ps
+# USEMODULE += shell_cmds_default
+# # Include packages that pull up and auto-init the link layer.
+# # NOTE: 6LoWPAN will be included if IEEE802.15.4 devices are present
+# USEMODULE += netdev_default
+# USEMODULE += auto_init_gnrc_netif
+# # This application dumps received packets to STDIO using the pktdump module
+# USEMODULE += gnrc_pktdump
+# USEMODULE += prng_xorshift
+#
+# USEPKG += ccn-lite
 
 # External modules
 EXTERNAL_MODULE_DIRS += $(CURDIR)/submodules

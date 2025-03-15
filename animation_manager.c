@@ -273,7 +273,7 @@ void AnimationMan_Init(void)
 	kernel_pid_t animationMan_threadId = thread_create(
 		animationMan_threadStack,
 		sizeof(animationMan_threadStack),
-		1,
+		0,
 		THREAD_CREATE_STACKTEST,
 		AnimationMan_ThreadHandler,
 		NULL,
