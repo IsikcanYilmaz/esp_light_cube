@@ -1,6 +1,7 @@
 ESP32S3 Light Cube
 =====
 
+WIP Demo:
 [![Demo](https://img.youtube.com/vi/rb5LZi5gW-o/0.jpg)](https://www.youtube.com/watch?v=rb5LZi5gW-o)
 
 3rd iteration of the Light Cube. This time on an ESP32S3, running on RIOT OS!
