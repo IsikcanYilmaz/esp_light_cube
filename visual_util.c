@@ -87,3 +87,30 @@ bool Visual_IsAllDark(void)
 	}
 	return true;
 }
+
+Pixel_t * Visual_GetRandomBlankPixel(void)
+{
+  uint16_t blankPixelIds[NUM_LEDS]; 
+  int numBlankPixels = 0;
+  for (uint16_t i = 0; i < NUM_LEDS; i++)
+  {
+    Pixel_t *p = AddrLedDriver_GetPixelByIdx(i);
+    if (Visual_IsDark(p))
+    {
+      blankPixelIds[numBlankPixels] = i;
+      numBlankPixels++;
+    }
+  }
+
+  if (numBlankPixels == 0)
+  {
+    return NULL;
+  }
+
+  else
+  {
+    uint16_t randomBlankPixelId = blankPixelIds[rand() % numBlankPixels];
+    return AddrLedDriver_GetPixelByIdx(randomBlankPixelId);
+  }
+}
+

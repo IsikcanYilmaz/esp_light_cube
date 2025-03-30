@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#define WALKER_MAX_LENGTH 10 // TODO Implement long walkers? if you want?
+#define WALKER_MAX_LENGTH 1 // TODO Implement long walkers? if you want?
 #define DEFAULT_NUM_WALKERS 2
 #define MAX_WALKERS 10
 
@@ -23,28 +23,30 @@ typedef struct Walker_s
 	Pixel_t* prevPix;
 	uint8_t length;
 	Color_t color;
+  bool alive;
 } Walker_t;
 
 static Walker_t walkers[MAX_WALKERS];
 
 // HSV change per frame
-static double hChange = -1.0;
+static double hChange = -0.44;
 static double sChange = 0.0;
-static double vChange = -0.046;
+static double vChange = -0.017;
 
 // Colors of the walkers
 static double hBase = 0.0;
-static double sBase = 1.0;
-static double vBase = 0.9;
+static double sBase = 0.95;
+static double vBase = 0.6;
 
 // HSV change per walker. i.e. for each walker change hsv by these much
-static double hDiff = 10.0;
-static double sDiff = 0.0;
+static double hDiff = -21.0;
+static double sDiff = -0.05;
 static double vDiff = 0.0;
 
 static bool diagonalMoveAllowed = false;
 static bool sideMoveAllowed = true;
 static bool collisionDetection = true;
+static bool teleportWhenStuck = false;
 
 static uint8_t moveChancePercent = 100;
 
@@ -67,7 +69,7 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "vBase", .valPtr = (union EightByteData_u *) &vBase, .type = DOUBLE, .ll.d = 0.0, .ul.d = 1.0},
 
 	(EditableValue_t) {.name = "hDiff", .valPtr = (union EightByteData_u *) &hDiff, .type = DOUBLE, .ll.d = -100.00, .ul.d = 100.00},
-	/*(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},*/
+	(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	/*(EditableValue_t) {.name = "vDiff", .valPtr = (union EightByteData_u *) &vDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},*/
 
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
@@ -79,6 +81,7 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "sideMoveAllowed", .valPtr = (union EightByteData_u *) &sideMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 
 	(EditableValue_t) {.name = "collisionDetection", .valPtr = (union EightByteData_u *) &collisionDetection, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "teleportWhenStuck", .valPtr = (union EightByteData_u *) &teleportWhenStuck, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 };
 static EditableValueList_t editableValuesList = {.name = "walker", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -133,6 +136,12 @@ static void walkerMoveRandomly(Walker_t *w)
 
   if (numPossibleDirections == 0)
   {
+    // If setting is set, have our walker teleport some open location
+    if (teleportWhenStuck)
+    {
+      Pixel_t *teleportPixel = Visual_GetRandomBlankPixel();
+      w->pix[0] = (teleportPixel != NULL) ? teleportPixel : w->pix[0];
+    }
     return;
   }
 
@@ -174,6 +183,12 @@ static void RunningAction(void)
 		return;
 	}
 
+  // Apply decay/rise changes
+	if (vChange <= 0)
+	{
+		Visual_IncrementAllByHSV(hChange,sChange,vChange);
+	}
+
   // skip walking if needed
   if (skipSteps > 0 && skipStepsCtr < skipSteps)
   {
@@ -191,33 +206,13 @@ static void RunningAction(void)
     }
   }
 
-  // Apply decay/rise changes
-	if (vChange <= 0)
-	{
-		Visual_IncrementAllByHSV(hChange,sChange,vChange);
-	}
-
   // Draw our walker
   for (int walkerId = 0; walkerId < numWalkers; walkerId++)
   {
     Walker_t *walker = &walkers[walkerId];
-    Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), sBase, vBase);
+    Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), (sBase + (walkerId * sDiff)) > 1.00 ? 1.00 : (sBase + (walkerId * sDiff)), vBase);
     AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
   }
-
-	// Update and draw our walkers
-	/*for (int walkerId = 0; walkerId < numWalkers; walkerId++)*/
-	/*{*/
-	/*	Walker_t *walker = &walkers[walkerId];*/
-	/*	walkerMoveRandomly(walker);*/
-	/**/
-	/*	// Draw our walker*/
-	/*	for (int i = 0; i < walker->length; i++)*/
-	/*	{*/
-	/*		Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), sBase, vBase);*/
-	/*		AddrLedDriver_SetPixelRgb(walker->pix[i], c.red, c.green, c.blue);*/
-	/*	}*/
-	/*}*/
 
 }
 
@@ -233,6 +228,7 @@ bool AnimationWalker_Init(void *arg)
 		walker->color = Color_CreateFromHsv(i * 50.0, 1.0, 0.9);
 		walker->pix[0] = AddrLedDriver_GetPixelByIdx(0);
 		walker->prevPix = walker->pix[0];
+    walker->alive = true;
 	}
 	return true;
 }
