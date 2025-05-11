@@ -31,17 +31,19 @@ static Walker_t walkers[MAX_WALKERS];
 // HSV change per frame
 static double hChange = -0.44;
 static double sChange = 0.0;
-static double vChange = -0.017;
+static double vChange = -0.017; // -0.042
 
 // Colors of the walkers
-static double hBase = 0.0;
-static double sBase = 0.95;
+static double hBase = 0.0; // 297.8
+static double sBase = 0.95; 
 static double vBase = 0.6;
 
 // HSV change per walker. i.e. for each walker change hsv by these much
-static double hDiff = -21.0;
-static double sDiff = -0.05;
+static double hDiff = -21.0; // -42.9
+static double sDiff = -0.05; // -0.1
 static double vDiff = 0.0;
+
+static uint8_t numSameWalkers = 1;
 
 static bool diagonalMoveAllowed = false;
 static bool sideMoveAllowed = true;
@@ -72,11 +74,13 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "sDiff", .valPtr = (union EightByteData_u *) &sDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	/*(EditableValue_t) {.name = "vDiff", .valPtr = (union EightByteData_u *) &vDiff, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},*/
 
+	(EditableValue_t) {.name = "numSameWalkers", .valPtr = (union EightByteData_u *) &numSameWalkers, .type = UINT8_T, .ll.u8 = 1, .ul.u8 = MAX_WALKERS},
+
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "skipSteps", .valPtr = (union EightByteData_u *) &skipSteps, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 
 	(EditableValue_t) {.name = "moveChancePercent", .valPtr = (union EightByteData_u *) &moveChancePercent, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
-	(EditableValue_t) {.name = "numWalkers", .valPtr = (union EightByteData_u *) &numWalkers, .type = UINT8_T, .ll.u16 = 1, .ul.u16 = MAX_WALKERS},
+	(EditableValue_t) {.name = "numWalkers", .valPtr = (union EightByteData_u *) &numWalkers, .type = UINT8_T, .ll.u8 = 1, .ul.u8 = MAX_WALKERS},
 	(EditableValue_t) {.name = "diagonalMoveAllowed", .valPtr = (union EightByteData_u *) &diagonalMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 	(EditableValue_t) {.name = "sideMoveAllowed", .valPtr = (union EightByteData_u *) &sideMoveAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 
@@ -207,10 +211,14 @@ static void RunningAction(void)
   }
 
   // Draw our walker
+  Color_t c;
   for (int walkerId = 0; walkerId < numWalkers; walkerId++)
   {
     Walker_t *walker = &walkers[walkerId];
-    Color_t c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), (sBase + (walkerId * sDiff)) > 1.00 ? 1.00 : (sBase + (walkerId * sDiff)), vBase);
+    if (walkerId % numSameWalkers == 0)
+    {
+      c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), (sBase + (walkerId * sDiff)) > 1.00 ? 1.00 : (sBase + (walkerId * sDiff)), vBase);
+    }
     AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
   }
 
