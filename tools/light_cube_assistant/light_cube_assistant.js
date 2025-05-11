@@ -509,7 +509,7 @@ function newAnimConfPanel(name)
 	tableDom.innerHTML = "";
 	var row = tableDom.insertRow(0);
 	row.align = "left";
-	row.innerHTML = `<td></td><td>.....val_name.....</td><td>.type.</td><td>.......val.......</td><td>ll</td><td>ul</td>`;
+	row.innerHTML = `<td></td><td>.....val_name.....</td><td>.type.</td><td>..val..</td><td>ll</td><td>ul</td>`;
 	var nameDom = document.getElementById("animConfName");
 	nameDom.innerHTML = `Animation Config: ${name}`;
 }
