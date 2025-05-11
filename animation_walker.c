@@ -217,7 +217,7 @@ static void RunningAction(void)
     Walker_t *walker = &walkers[walkerId];
     if (walkerId % numSameWalkers == 0)
     {
-      c = Color_CreateFromHsv(fmod(hBase + (walkerId * hDiff), 360.0), (sBase + (walkerId * sDiff)) > 1.00 ? 1.00 : (sBase + (walkerId * sDiff)), vBase);
+      c = Color_CreateFromHsv(fmod(hBase + ((walkerId/numSameWalkers) * hDiff), 360.0), (sBase + ((walkerId/numSameWalkers) * sDiff)) > 1.00 ? 1.00 : (sBase + ((walkerId/numSameWalkers) * sDiff)), vBase);
     }
     AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
   }
