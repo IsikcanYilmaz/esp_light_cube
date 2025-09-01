@@ -16,7 +16,6 @@ static double vDecay = -0.0;
 static EditableValue_t editableValues[] = 
 {
 	(EditableValue_t) {.name = "testval1", .valPtr = (union EightByteData_u *) &testval1, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
-	(EditableValue_t) {.name = "testval2", .valPtr = (union EightByteData_u *) &testval2, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 100},
 	(EditableValue_t) {.name = "vDecay", .valPtr = (union EightByteData_u *) &vDecay, .type = DOUBLE, .ll.d = -1.0, .ul.d = 0.0},
 };
 static EditableValueList_t editableValuesList = {.name = "canvas", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};

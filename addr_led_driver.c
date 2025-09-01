@@ -2,12 +2,10 @@
 #include <stdbool.h>
 #include <assert.h>
 #include "addr_led_driver.h"
-#include "button.h"
 #include "usr_commands.h"
 
 #include "ztimer.h"
 #include "xtimer.h"
-#include "thread.h"
 
 #include "mutex.h"
 #include "logger.h"

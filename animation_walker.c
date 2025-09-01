@@ -8,6 +8,7 @@
 #include "colorspace_interface.h"
 #include "usr_commands.h"
 #include "logger.h"
+#include "ztimer.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -49,6 +50,15 @@ static bool diagonalMoveAllowed = false;
 static bool sideMoveAllowed = true;
 static bool collisionDetection = true;
 static bool teleportWhenStuck = false;
+static bool dyingAllowed = false;
+static bool randomizeAfterDeath = false;
+static bool randomizeAfterSeconds = true;
+static bool randomizeHbase = true;
+static bool randomizeSbase = true;
+static bool randomizeHdiff = true;
+static bool randomizeSdiff = true;
+static uint8_t cyclesUntilRandomize = 5;
+static uint8_t secondsUntilRandomize = 10;
 
 static uint8_t moveChancePercent = 100;
 
@@ -59,6 +69,8 @@ static uint8_t skipSteps = 0;
 
 static uint8_t skipFrameCtr = 0;
 static uint8_t skipStepsCtr = 0;
+
+static bool mirror = false;
 
 static EditableValue_t editableValues[] = 
 {
@@ -86,10 +98,45 @@ static EditableValue_t editableValues[] =
 
 	(EditableValue_t) {.name = "collisionDetection", .valPtr = (union EightByteData_u *) &collisionDetection, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 	(EditableValue_t) {.name = "teleportWhenStuck", .valPtr = (union EightByteData_u *) &teleportWhenStuck, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "dyingAllowed", .valPtr = (union EightByteData_u *) &dyingAllowed, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+
+	(EditableValue_t) {.name = "randomizeAfterDeath", .valPtr = (union EightByteData_u *) &randomizeAfterDeath, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomizeAfterSeconds", .valPtr = (union EightByteData_u *) &randomizeAfterSeconds, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomizeHbase", .valPtr = (union EightByteData_u *) &randomizeHbase, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomizeSbase", .valPtr = (union EightByteData_u *) &randomizeSbase, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomizeHdiff", .valPtr = (union EightByteData_u *) &randomizeHdiff, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+	(EditableValue_t) {.name = "randomizeSdiff", .valPtr = (union EightByteData_u *) &randomizeSdiff, .type = BOOLEAN, .ll.b = false, .ul.b = true},
+  (EditableValue_t) {.name = "cyclesUntilRandomize", .valPtr = (union EightByteData_u *) &cyclesUntilRandomize, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 255},
+  (EditableValue_t) {.name = "secondsUntilRandomize", .valPtr = (union EightByteData_u *) &secondsUntilRandomize, .type = UINT8_T, .ll.u8 = 0, .ul.u8 = 255},
+
+	(EditableValue_t) {.name = "mirror", .valPtr = (union EightByteData_u *) &mirror, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 };
 static EditableValueList_t editableValuesList = {.name = "walker", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
 static volatile AnimationState_e state = ANIMATION_STATE_UNINITIALIZED;
+
+static uint32_t randomizeCycleCount = 0;
+static uint32_t lastRandomizeTimestampMs = 0;
+
+static void randomize(void)
+{
+  if (randomizeHbase)
+  {
+    hBase = ((double)rand()/(double)(RAND_MAX)) * 360.00;
+  }
+  if (randomizeHdiff)
+  {
+    hDiff = ((double)rand()/(double)(RAND_MAX)) * 360.00;
+  }
+  if (randomizeSbase)
+  {
+    sBase = 0.5 + ((double)rand()/(double)(RAND_MAX)) * 0.5;
+  }
+  if (randomizeSdiff)
+  {
+    sDiff = ((double)rand()/(double)(RAND_MAX)) * 0.4;
+  }
+}
 
 static void walkerMoveRandomly(Walker_t *w)
 {
@@ -146,6 +193,10 @@ static void walkerMoveRandomly(Walker_t *w)
       Pixel_t *teleportPixel = Visual_GetRandomBlankPixel();
       w->pix[0] = (teleportPixel != NULL) ? teleportPixel : w->pix[0];
     }
+    else if (dyingAllowed)
+    {
+      w->alive = false;
+    }
     return;
   }
 
@@ -176,6 +227,8 @@ static void FadeOffAction(void)
 
 static void RunningAction(void)
 {
+  bool allDead = true;
+
 	// skip frames if needed
 	skipFrameCtr++;
 	if (skipFrameCtr >= skipFrames)
@@ -206,8 +259,35 @@ static void RunningAction(void)
     for (int walkerId = 0; walkerId < numWalkers; walkerId++)
     {
       Walker_t *walker = &walkers[walkerId];
+      if (!walker->alive)
+      {
+        continue;
+      }
+      allDead = false;
       walkerMoveRandomly(walker);
     }
+  }
+
+  // If all dead and cube is all dark revive our walkers
+  if (allDead && Visual_IsAllDark())
+  {
+    randomizeCycleCount++;
+    if (randomizeAfterDeath && randomizeCycleCount % cyclesUntilRandomize == 0)
+    {
+      randomize();
+    }
+    for (int walkerId = 0; walkerId < numWalkers; walkerId++)
+    {
+      walkers[walkerId].alive = true;
+    }
+  }
+
+  // Handle time based randomization case
+  uint32_t now = ztimer_now(ZTIMER_MSEC);
+  if (randomizeAfterSeconds && now - lastRandomizeTimestampMs > 1000 * secondsUntilRandomize)
+  {
+    randomize();
+    lastRandomizeTimestampMs = now;
   }
 
   // Draw our walker
@@ -219,7 +299,14 @@ static void RunningAction(void)
     {
       c = Color_CreateFromHsv(fmod(hBase + ((walkerId/numSameWalkers) * hDiff), 360.0), (sBase + ((walkerId/numSameWalkers) * sDiff)) > 1.00 ? 1.00 : (sBase + ((walkerId/numSameWalkers) * sDiff)), vBase);
     }
-    AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
+    if (walker->alive)
+    {
+      AddrLedDriver_SetPixelRgb(walker->pix[0], c.red, c.green, c.blue);
+      if (mirror)
+      {
+        // AddrLedDriver_SetPixelRgb(Visual_GetMirrorPixel(walker->pix[0]), c.red, c.green, c.blue);
+      }
+    }
   }
 
 }

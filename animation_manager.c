@@ -27,7 +27,7 @@
 #include "ws281x.h"
 #include "thread.h"
 
-#include "colorspace_interface.h"
+// #include "colorspace_interface.h"
 
 char animationMan_threadStack[THREAD_STACKSIZE_DEFAULT];
 Animation_s *currentAnimation;
@@ -161,6 +161,7 @@ static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
 		return NULL;
 	}
 	return &animations[idx];
+  // return NULL;
 }
 
 static void AnimationMan_PlayNextAnimation(void)

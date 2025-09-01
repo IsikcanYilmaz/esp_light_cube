@@ -2,30 +2,28 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "animation_manager.h"
+// #include "animation_manager.h"
 #include "clk.h"
 #include "board.h"
-#include "periph_conf.h"
-#include "periph_cpu.h"
+// #include "periph_conf.h"
+// #include "periph_cpu.h"
 #include "timex.h"
 #include "ztimer.h"
-#include "xtimer.h"
 #include "shell.h"
-
+//
 #include "addr_led_driver.h"
 #include "usr_commands.h"
 
-#include "periph/pwm.h"
+// #include "periph/pwm.h"
 
 #include "ws281x.h"
-
+//
 #include "thread.h"
+//
+// #include "dma_rmt_test.h"
+// #include "ble_test.h"
 
-#include "dma_rmt_test.h"
-#include "ble_test.h"
-
-#include "mic.h"
-#include "logger.h"
+// #include "logger.h"
 
 // CCNL
 // #include "msg.h"
@@ -34,10 +32,9 @@
 // #include "net/gnrc/pktdump.h"
 
 
-extern char line_buf[SHELL_BUFFER_SIZE];
+// extern char line_buf[SHELL_BUFFER_SIZE];
 
 char blink_threadStack[THREAD_STACKSIZE_DEFAULT];
-char mictest_threadStack[THREAD_STACKSIZE_DEFAULT];
 
 bool on = false;
 
@@ -49,33 +46,17 @@ void *blink_threadHandler(void *arg)
 	while (1) {
 		if (on)
 		{
-			LED0_ON;
+			// LED0_ON;
 		}
 		else
 		{
-			LED0_OFF;
+			// LED0_OFF;
 		}
 		on = !on;
 		ztimer_sleep(ZTIMER_USEC, 1 * US_PER_SEC);
 	}
 }
 
-void *mictest_threadHandler(void *arg)
-{
-	(void) arg;
-	Mic_Init();
-	static uint32_t sampleRate = 44000; // Hz
-	static uint32_t period = US_PER_SEC/44000;
-
-	while(true)
-	{
-		uint32_t t0 = ztimer_now(ZTIMER_USEC);
-		Mic_Test();
-		uint32_t t1 = ztimer_now(ZTIMER_USEC);
-		// logprint("%d latency\n", t1-t0);
-		ztimer_sleep(ZTIMER_MSEC, 200);
-	}
-}
 
 int main(void)
 {
@@ -98,16 +79,6 @@ int main(void)
 		NULL,
 		"blink_thread"
 	);
-
-	// kernel_pid_t mictest_threadId = thread_create(
-	// 	mictest_threadStack,
-	// 	sizeof(mictest_threadStack),
-	// 	THREAD_PRIORITY_MAIN - 1,
-	// 	THREAD_CREATE_STACKTEST,
-	// 	mictest_threadHandler,
-	// 	NULL,
-	// 	"mictest_thread"
-	// );
 
 	// Ble_Init();
 

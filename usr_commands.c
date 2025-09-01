@@ -4,7 +4,7 @@
 #include "animation_manager.h"
 #include "addr_led_driver.h"
 
-#include "ble_test.h"
+// #include "ble_test.h"
 
 char line_buf[SHELL_BUFFER_SIZE];
 
@@ -26,7 +26,7 @@ static const shell_command_t commands[] = {
 	{ "test", "test", test_command },
 	{ "anim", "Animation man commands", AnimationMan_TakeUsrCommand},
 	{ "aled", "Aled driver commands", AddrLedDriver_TakeUsrCommand},
-	{ "ble", "Bluetooth / Nimble commands", Ble_TakeUsrCommand},
+	// { "ble", "Bluetooth / Nimble commands", Ble_TakeUsrCommand},
 	{ NULL, NULL, NULL }
 };
 

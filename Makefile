@@ -2,10 +2,10 @@
 APPLICATION = light_cube 
 
 # If no BOARD is found in the environment, use this default:
-BOARD ?= seeedstudio-esp32s3
+BOARD ?= esp32s3-seeedstudio
 
 # This has to be the absolute path to the RIOT base directory:
-RIOTBASE ?= $(CURDIR)/../RIOT/
+RIOTBASE ?= $(CURDIR)/../CCNL_RIOT/
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the

@@ -5,7 +5,7 @@
 #define BAD_ARG() {printf("Bad arg!\n"); UserCommand_PrintCommand(argc, argv);}
 
 void UserCommand_Init(void);
-Position_e UserCommand_PositionStringToVal(char *str);
+// Position_e UserCommand_PositionStringToVal(char *str);
 void UserCommand_CoordStringToVal(char *xy, uint8_t *x, uint8_t y);
 void UserCommand_RgbStringToVal(char *rgb, uint8_t *r, uint8_t *g, uint8_t *b);
 // void UserCommand_ThreadHandler(void *args);
