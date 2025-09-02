@@ -5,7 +5,7 @@ APPLICATION = light_cube
 BOARD ?= esp32s3-seeedstudio
 
 # This has to be the absolute path to the RIOT base directory:
-RIOTBASE ?= $(CURDIR)/../CCNL_RIOT/
+RIOTBASE ?= $(CURDIR)/../LATEST_RIOT/
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
@@ -13,28 +13,34 @@ RIOTBASE ?= $(CURDIR)/../CCNL_RIOT/
 DEVELHELP ?= 1
 
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
+QUIET ?= 0
 
 # Use a peripheral timer for the delay, if available
 FEATURES_OPTIONAL += periph_timer
 
 # Modules
 USEMODULE += stdio_usb_serial_jtag
-USEMODULE += ws281x_esp32
+USEMODULE += ws281x
 # USEMODULE += ws281x_esp32_non_blocking_rmt
-USEMODULE += xtimer
+# USEMODULE += xtimer
+USEMODULE += ztimer
+USEMODULE += ztimer_msec
 USEMODULE += shell
 # USEMODULE += esp_wifi
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
+# Wifi
+# FEATURES_REQUIRED += esp_wifi
+
 # Bluetooth
-USEPKG += nimble
-USEMODULE += nimble_scanner
-USEMODULE += nimble_scanlist
+FEATURES_REQUIRED += esp_ble
+# USEPKG += nimble
+# USEMODULE += nimble_scanner
+# USEMODULE += nimble_scanlist
 
 # Mic
-USEMODULE += periph_adc
+# USEMODULE += periph_adc
 
 # gnrc_networking
 # USEMODULE += netdev_default
@@ -100,9 +106,17 @@ CFLAGS += -I$(INC_DIR)
 CFLAGS += -g -O0
 CFLAGS_OPT = -Os # -O0
 
-# ESP32_SDK_LOCATION = $(RIOTBASE)/build/pkg/esp32_sdk/
-# SRC += $(ESP32_SDK_LOCATION)/components/driver/gdma.c \
-#     $(ESP32_SDK_LOCATION)/components/hal/gdma_hal.c \
-#     $(ESP32_SDK_LOCATION)/components/soc/esp32s3/gdma_periph.c 
+ifneq (, $(PIN))
+  CFLAGS += '-DWS281X_PARAM_PIN=$(PIN)'
+endif
+ifneq (, $(N))
+  CFLAGS += '-DWS281X_PARAM_NUMOF=$(N)'
+endif
+ifneq (, $(TIMER))
+  CFLAGS += '-DWS281X_TIMER_DEV=TIMER_DEV($(TIMER))' '-DWS281X_TIMER_MAX_VALUE=TIMER_$(TIMER)_MAX_VALUE'
+endif
+ifneq (, $(FREQ))
+  CFLAGS += '-DWS281X_TIMER_FREQ=$(FREQ)'
+endif
 
 include $(RIOTBASE)/Makefile.include
