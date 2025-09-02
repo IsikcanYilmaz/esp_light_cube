@@ -50,7 +50,7 @@ void Color_PrintColor(Color_t c)
 	logprint("r:%d g:%d b:%d | h:%f s:%f v:%f\n", c.red, c.green, c.blue, c.hue, c.saturation, c.value);
 }
 
-Color_t Color_GenerateRandomColor(llH, ulH, llS, ulS, llV, ulV)
+Color_t Color_GenerateRandomColor(double llH, double ulH, double llS, double ulS, double llV, double ulV)
 {
 	double h = fmod(rand(), (ulH - llH + 1)) + llH;
 	double s = (double) llS + fmod((rand() % 1000) / 100, (ulS - llS + 0.01));

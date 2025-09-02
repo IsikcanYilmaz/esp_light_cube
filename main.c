@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-// #include "animation_manager.h"
+#include "animation_manager.h"
 #include "clk.h"
 #include "board.h"
 // #include "periph_conf.h"
@@ -23,7 +23,7 @@
 // #include "dma_rmt_test.h"
 // #include "ble_test.h"
 
-// #include "logger.h"
+#include "logger.h"
 
 // CCNL
 // #include "msg.h"

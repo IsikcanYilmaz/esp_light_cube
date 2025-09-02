@@ -209,7 +209,7 @@ void AnimationScroller_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationScroller_UsrInput(int argc, char **argv)
+uint8_t AnimationScroller_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	logprint("Scroller received usr input:");
@@ -218,7 +218,7 @@ void AnimationScroller_UsrInput(int argc, char **argv)
 		logprint(" %s", argv[i]);
 	}
 	logprint("\n");
-	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+	return AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 }
 
 void AnimationScroller_ReceiveSignal(AnimationSignal_e s)
@@ -242,6 +242,7 @@ void AnimationScroller_ReceiveSignal(AnimationSignal_e s)
 		}
 	}
 }
+
 
 AnimationState_e AnimationScroller_GetState(void)
 {

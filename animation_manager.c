@@ -199,7 +199,7 @@ static uint32_t AnimationMan_GetFps(void)
 	return framePerSecond;
 }
 
-void AnimationMan_ThreadHandler(void *arg)
+void *AnimationMan_ThreadHandler(void *arg)
 {
 	(void) arg;
 	thread_t *thisThread = thread_get_active();
@@ -364,7 +364,7 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 }
 
 // This function doesnt take the entire command line, it takes a line starting with getval or setval
-void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv)
+uint8_t AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	if (strcmp(argv[0], "setval") == 0)
@@ -389,7 +389,7 @@ void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **
 				if (valIdx >= l->len)
 				{
 					logprint("%s bad val idx %d!\n", __FUNCTION__, valIdx);
-					return;
+					return 1;
 				}
 				logprint("%d ", valIdx);
 				EditableValue_PrintValue(&(l->values[valIdx]));
@@ -405,4 +405,5 @@ void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **
 			}
 		}
 	}
+  return 0;
 }

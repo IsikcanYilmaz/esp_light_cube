@@ -165,7 +165,7 @@ void AnimationSnakes_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationSnakes_UsrInput(int argc, char **argv)
+uint8_t AnimationSnakes_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	logprint("Snakes received usr input: \n");
@@ -175,6 +175,7 @@ void AnimationSnakes_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
 }
 
 void AnimationSnakes_ReceiveSignal(AnimationSignal_e s)

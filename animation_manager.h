@@ -60,7 +60,7 @@ typedef struct Animation_s_
 	void (*stop)(void);
 	void (*update)(void);
 	void (*buttonInput)(Button_e b, ButtonGesture_e g);
-	void (*usrInput)(int argc, char **argv);
+	uint8_t (*usrInput)(int argc, char **argv);
 	void (*signal)(AnimationSignal_e s);
 	AnimationState_e (*getState)(void);
 } Animation_s;
@@ -70,7 +70,6 @@ void AnimationMan_StartPollTimer(void);
 void AnimationMan_StopPollTimer(void);
 void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately);
 int AnimationMan_TakeUsrCommand(int argc, char **argv);
-void AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv);
-
-void AnimationMan_ThreadHandler(void *arg);
+uint8_t AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv);
+void *AnimationMan_ThreadHandler(void *arg);
 #endif

@@ -286,7 +286,7 @@ void AnimationSparkles_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationSparkles_UsrInput(int argc, char **argv)
+uint8_t AnimationSparkles_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	logprint("Sparkles received usr input:");
@@ -296,6 +296,7 @@ void AnimationSparkles_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
 }
 
 void AnimationSparkles_ReceiveSignal(AnimationSignal_e s)

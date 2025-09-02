@@ -108,7 +108,7 @@ void AnimationToplines_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationToplines_UsrInput(int argc, char **argv)
+uint8_t AnimationToplines_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	logprint("Toplines received usr input: \n");
@@ -118,6 +118,7 @@ void AnimationToplines_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
 }
 
 void AnimationToplines_ReceiveSignal(AnimationSignal_e s)

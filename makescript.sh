@@ -3,9 +3,9 @@
 FLASH=""
 TERM=""
 PORT="/dev/tty.usbmodem111301"
-RIOTBASE="$HOME/KODMOD/CCNL_RIOT/"
-# BOARD="esp32s3-pros3" #"esp32s3-seeedstudio"
-BOARD="esp32s3-seeedstudio"
+RIOTBASE="$HOME/KODMOD/LATEST_RIOT/"
+BOARD="esp32s3-pros3" #"esp32s3-seeedstudio"
+# BOARD="esp32s3-seeedstudio"
 if [ $(which compiledb) ]; then
   COMPILEDB="compiledb"
 else

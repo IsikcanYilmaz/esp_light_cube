@@ -321,7 +321,7 @@ void AnimationLines_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationLines_UsrInput(int argc, char **argv)
+uint8_t AnimationLines_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	logprint("Lines received usr input:");
@@ -331,6 +331,7 @@ void AnimationLines_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
 }
 
 void AnimationLines_ReceiveSignal(AnimationSignal_e s)

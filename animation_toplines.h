@@ -7,6 +7,6 @@ void AnimationToplines_Start(void);
 void AnimationToplines_Stop(void);
 void AnimationToplines_Update(void);
 void AnimationToplines_ButtonInput(Button_e b, ButtonGesture_e g);
-void AnimationToplines_UsrInput(int argc, char **argv);
+uint8_t AnimationToplines_UsrInput(int argc, char **argv);
 void AnimationToplines_ReceiveSignal(AnimationSignal_e s);
 AnimationState_e AnimationToplines_GetState(void);

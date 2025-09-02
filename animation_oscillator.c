@@ -153,7 +153,7 @@ void AnimationOscillator_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationOscillator_UsrInput(int argc, char **argv)
+uint8_t AnimationOscillator_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
 	printf("Oscillator received usr input: \n");
@@ -163,6 +163,7 @@ void AnimationOscillator_UsrInput(int argc, char **argv)
 	}
 	printf("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
 }
 
 void AnimationOscillator_ReceiveSignal(AnimationSignal_e s)

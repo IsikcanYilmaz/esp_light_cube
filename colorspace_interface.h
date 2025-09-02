@@ -17,4 +17,4 @@ typedef struct Color_t_
 Color_t Color_CreateFromRgb(uint8_t r, uint8_t g, uint8_t b);
 Color_t Color_CreateFromHsv(double h, double s, double v);
 void Color_PrintColor(Color_t c);
-Color_t Color_GenerateRandomColor(llH, ulH, llS, ulS, llV, ulV);
+Color_t Color_GenerateRandomColor(double llH, double ulH, double llS, double ulS, double llV, double ulV);

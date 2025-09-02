@@ -30,6 +30,6 @@ void AnimationSparkles_Stop(void);
 void AnimationSparkles_Update(void);
 void AnimationSparkles_Draw(void);
 void AnimationSparkles_ButtonInput(Button_e b, ButtonGesture_e g);
-void AnimationSparkles_UsrInput(int argc, char **argv);
+uint8_t AnimationSparkles_UsrInput(int argc, char **argv);
 void AnimationSparkles_ReceiveSignal(AnimationSignal_e s);
 AnimationState_e AnimationSparkles_GetState(void);

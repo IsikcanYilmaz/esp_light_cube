@@ -13,6 +13,6 @@ void AnimationGameOfLife_Start(void);
 void AnimationGameOfLife_Stop(void);
 void AnimationGameOfLife_Update(void);
 void AnimationGameOfLife_ButtonInput(Button_e b, ButtonGesture_e g);
-void AnimationGameOfLife_UsrInput(int argc, char **argv);
+uint8_t AnimationGameOfLife_UsrInput(int argc, char **argv);
 void AnimationGameOfLife_ReceiveSignal(AnimationSignal_e s);
 AnimationState_e AnimationGameOfLife_GetState(void);

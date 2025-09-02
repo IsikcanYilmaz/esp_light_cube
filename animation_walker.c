@@ -374,7 +374,7 @@ void AnimationWalker_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationWalker_UsrInput(int argc, char **argv)
+uint8_t AnimationWalker_UsrInput(int argc, char **argv)
 {
 	// ASSERT_ARGS(1);
 	// logprint("Walker received usr input: \n");
@@ -392,7 +392,7 @@ void AnimationWalker_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-
+  return 0;
 }
 
 void AnimationWalker_ReceiveSignal(AnimationSignal_e s)

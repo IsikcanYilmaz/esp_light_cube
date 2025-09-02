@@ -93,16 +93,8 @@ void AnimationCanvas_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationCanvas_UsrInput(int argc, char **argv)
+uint8_t AnimationCanvas_UsrInput(int argc, char **argv)
 {
-	// ASSERT_ARGS(1);
-	// logprint("Canvas received usr input: \n");
-	// for (int i = 0; i < argc; i++)
-	// {
-	// 	logprint(" %s", argv[i]);
-	// }
-	// logprint("\n");
-	// AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 	ASSERT_ARGS(1);
 	logprint("Canvas received usr input: \n");
 	for (int i = 0; i < argc; i++)
@@ -111,7 +103,7 @@ void AnimationCanvas_UsrInput(int argc, char **argv)
 	}
 	logprint("\n");
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-
+  return 0;
 }
 
 void AnimationCanvas_ReceiveSignal(AnimationSignal_e s)

@@ -1,6 +1,6 @@
 #include "usr_commands.h"
 #include "thread.h"
-
+#include "logger.h"
 #include "animation_manager.h"
 #include "addr_led_driver.h"
 
@@ -34,7 +34,7 @@ static const shell_command_t commands[] = {
 void UserCommand_Init(void)
 {
 	memset(&line_buf, 0x0, SHELL_BUFFER_SIZE);
-	shell_run(commands, &line_buf, SHELL_BUFFER_SIZE);
+	shell_run(commands, (char *) &line_buf, SHELL_BUFFER_SIZE);
 }
 
 Position_e UserCommand_PositionStringToVal(char *str)

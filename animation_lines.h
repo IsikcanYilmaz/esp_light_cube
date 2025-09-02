@@ -29,6 +29,6 @@ void AnimationLines_Stop(void);
 void AnimationLines_Update(void);
 void AnimationLines_Draw(void);
 void AnimationLines_ButtonInput(Button_e b, ButtonGesture_e g);
-void AnimationLines_UsrInput(int argc, char **argv);
 void AnimationLines_ReceiveSignal(AnimationSignal_e s);
+uint8_t AnimationLines_UsrInput(int argc, char **argv);
 AnimationState_e AnimationLines_GetState(void);

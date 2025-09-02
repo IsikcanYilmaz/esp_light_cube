@@ -88,7 +88,7 @@ typedef struct {
 
 // Below type denotes a single pixel (1 LED)
 // Some fields may be redundant
-typedef struct {
+typedef struct Pixel_t {
   uint8_t green;
   uint8_t red;
   uint8_t blue;

@@ -25,7 +25,7 @@ static uint16_t randomInputChancePercent = 21;
 // Internal
 static GoLCellStatus_e cellStatusCurrent[NUM_LEDS];
 static GoLCellStatus_e cellStatusNext[NUM_LEDS];
-static GoLCellStatus_e *currentFramePointer = &cellStatusCurrent;
+static GoLCellStatus_e *currentFramePointer = &cellStatusCurrent[0];
 static uint16_t cellChangesThisTurn = 0;
 static uint16_t skipFrameCounter = 0;
 
@@ -60,15 +60,6 @@ static void FadeOffAction(void)
 		state = ANIMATION_STATE_STOPPED;
 		logprint("Fade off done state %d\n", state);
 	}
-}
-
-static void getCellStatusByIdx(uint16_t idx)
-{
-	if (idx >= NUM_LEDS)
-	{
-		logprint("%s bad idx %d\n", __FUNCTION__, idx);
-	}
-	return cellStatusCurrent[idx];
 }
 
 static void setCellByIdx(uint16_t idx, GoLCellStatus_e status)
@@ -250,16 +241,8 @@ void AnimationGameOfLife_ButtonInput(Button_e b, ButtonGesture_e g)
 {
 }
 
-void AnimationGameOfLife_UsrInput(int argc, char **argv)
+uint8_t AnimationGameOfLife_UsrInput(int argc, char **argv)
 {
-	// ASSERT_ARGS(1);
-	// logprint("GameOfLife received usr input: \n");
-	// for (int i = 0; i < argc; i++)
-	// {
-	// 	logprint(" %s", argv[i]);
-	// }
-	// logprint("\n");
-	// AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
 	ASSERT_ARGS(1);
 	logprint("GameOfLife received usr input: \n");
 	for (int i = 0; i < argc; i++)
@@ -278,7 +261,7 @@ void AnimationGameOfLife_UsrInput(int argc, char **argv)
 		logprint("Setting %s %d %d alive\n", AddrLedDriver_GetPositionString(pos), x, y);
 		setCellByCoordinate(pos, x, y, ALIVE);
 		// printCurrentFrame();
-		return;
+		return 0;
 	}
 
 	if (strcmp(argv[0], "print") == 0)
@@ -286,11 +269,11 @@ void AnimationGameOfLife_UsrInput(int argc, char **argv)
 		// anim print	
 		ASSERT_ARGS(1);
 		printCurrentFrame();
-		return;
+		return 0;
 	}
 
 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-
+  return 0;
 }
 
 void AnimationGameOfLife_ReceiveSignal(AnimationSignal_e s)
