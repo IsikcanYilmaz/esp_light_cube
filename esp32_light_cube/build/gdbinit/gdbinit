@@ -1,0 +1,2 @@
+source /Users/jon/KODMOD/esp32_light_cube/build/gdbinit/symbols
+source /Users/jon/KODMOD/esp32_light_cube/build/gdbinit/connect
