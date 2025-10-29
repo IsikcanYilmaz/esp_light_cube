@@ -1,6 +1,7 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 idf_component_register(SRCS 
-														"main.c" 
+														"main.c"
+                            "usr_commands.c"
 														"led_strip_encoder.c"
 														"addr_led_driver.c"
                             "animation_manager.c"

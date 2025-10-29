@@ -4,8 +4,7 @@
 #include "animation_manager.h"
 #include "editable_value.h"
 #include "visual_util.h"
-// #include "usr_commands.h"
-#include "logger.h"
+#include "usr_commands.h"
 #include "esp_log.h"
 #include <stdio.h>
 
@@ -32,7 +31,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		logprint("Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d\n", state);
 	}
 }
 
@@ -96,18 +95,18 @@ void AnimationCanvas_Update(void)
 // {
 // }
 
-// uint8_t AnimationCanvas_UsrInput(int argc, char **argv)
-// {
-// 	ASSERT_ARGS(1);
-// 	logprint("Canvas received usr input: \n");
-// 	for (int i = 0; i < argc; i++)
-// 	{
-// 		logprint(" %s", argv[i]);
-// 	}
-// 	logprint("\n");
-// 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-//   return 0;
-// }
+uint8_t AnimationCanvas_UsrInput(int argc, char **argv)
+{
+	ASSERT_ARGS(1);
+	ESP_LOGI(TAG, "Canvas received usr input: \n");
+	for (int i = 0; i < argc; i++)
+	{
+		printf(" %s", argv[i]);
+	}
+	printf("\n");
+	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
+}
 
 void AnimationCanvas_ReceiveSignal(AnimationSignal_e s)
 {

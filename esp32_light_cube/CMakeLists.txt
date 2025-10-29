@@ -2,6 +2,8 @@
 # in this exact order for cmake to work correctly
 cmake_minimum_required(VERSION 3.16)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_compile_definitions(LIGHT_CUBE_ESP_IDF)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)

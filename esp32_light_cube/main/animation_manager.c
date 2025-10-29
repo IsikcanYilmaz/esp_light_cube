@@ -1,39 +1,18 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
+#include "usr_commands.h"
 #include "animation_manager.h"
-// #include "animation_scroller.h"
-// #include "animation_oscillator.h"
 #include "animation_canvas.h"
-// #include "animation_lines.h"
-// #include "animation_snakes.h"
-// #include "animation_sparkles.h"
-// #include "animation_game_of_life.h"
 #include "animation_walker.h"
 #include "addr_led_driver.h"
 #include "editable_value.h"
 #include "logger.h"
-#include <string.h>
-// #include "usr_commands.h"
-
-// #include "clk.h"
-// #include "board.h"
-// #include "periph_conf.h"
-// #include "periph_cpu.h"
-// #include "timex.h"
-// #include "ztimer.h"
-// #include "xtimer.h"
-// #include "periph/pwm.h"
-// #include "ws281x.h"
-// #include "thread.h"
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/projdefs.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-
-
-// #include "colorspace_interface.h"
 
 #define ANIMATION_MAN_TASK_STACK_SIZE 4096
 TaskHandle_t animationManagerTaskHandle = NULL;
@@ -98,7 +77,7 @@ Animation_s animations[ANIMATION_MAX] = {
 		.stop = AnimationCanvas_Stop,
 		.update = AnimationCanvas_Update,
 		//.buttonInput = AnimationCanvas_ButtonInput,
-		// .usrInput = AnimationCanvas_UsrInput,
+		.usrInput = AnimationCanvas_UsrInput,
 		.signal = AnimationCanvas_ReceiveSignal,
 		.getState = AnimationCanvas_GetState
 	},
@@ -158,7 +137,7 @@ Animation_s animations[ANIMATION_MAX] = {
 		.stop = AnimationWalker_Stop,
 		.update = AnimationWalker_Update,
 		//.buttonInput = AnimationWalker_ButtonInput,
-		// .usrInput = AnimationWalker_UsrInput,
+		.usrInput = AnimationWalker_UsrInput,
 		.signal = AnimationWalker_ReceiveSignal,
 		.getState = AnimationWalker_GetState
 	},
@@ -289,7 +268,7 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 {
 	if (anim >= ANIMATION_MAX)
 	{
-		logprint("Bad anim idx %d to %s\n", anim, __FUNCTION__);
+		ESP_LOGE(TAG, "Bad anim idx %d to %s\n", anim, __FUNCTION__);
 		return;
 	}
 
@@ -317,50 +296,52 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 		animationManState = ANIMATION_MAN_STATE_SWITCHING;
 	}
 
-	logprint("%s Setting animation to %s. %s\n", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
+	ESP_LOGI(TAG, "%s Setting animation to %s. %s\n", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
 }
 
 int AnimationMan_TakeUsrCommand(int argc, char **argv)
 {
-	// if (argc < 3) {
-	// 	logprint("usage: %s <id> <on|off|toggle>\n", argv[0]);
-	// 	return -1;
-	// }
+	if (argc < 3) 
+  {
+		ESP_LOGE(TAG, "usage: anim <id> <on|off|toggle>");
+		return 0;
+	}
 
-	// if (!animationManInitialized)
-	// {
-	// 	return 1;
-	// }
-	// ASSERT_ARGS(2);
-	// if (strcmp(argv[1], "set") == 0)
-	// {
-	// 	ASSERT_ARGS(3);
-	// 	for (int i = 0; i < ANIMATION_MAX; i++)
-	// 	{
-	// 		if (strcmp(argv[2], animations[i].name) == 0)
-	// 		{
-	// 			AnimationMan_SetAnimation(i, false);
-	// 			return 0;
-	// 		}
-	// 	}
-	// }
-	// else if (strcmp(argv[1], "conf") == 0)
-	// {
-	// 	AnimationMan_GenericGetSetValPath(&editableValueList, argc-2, &argv[2]);
-	// }
-	// else if (strcmp(argv[1], "next") == 0)
-	// {
-	// 	AnimationMan_PlayNextAnimation();
-	// }
-	// else if (strcmp(argv[1], "auto") == 0)
-	// {
-	// 	autoSwitchEnabled = !autoSwitchEnabled;
-	// 	logprint("Auto switch toggled to %d\n", autoSwitchEnabled);
-	// }
-	// else
-	// {
-	// 	currentAnimation->usrInput(argc-1, &argv[1]);
-	// }
+	if (!animationManInitialized)
+	{
+		return 1;
+	}
+	ASSERT_ARGS(2);
+	if (strcmp(argv[1], "set") == 0)
+	{
+		ASSERT_ARGS(3);
+		for (int i = 0; i < ANIMATION_MAX; i++)
+		{
+			if (strcmp(argv[2], animations[i].name) == 0)
+			{
+				AnimationMan_SetAnimation(i, false);
+				return 0;
+			}
+		}
+    ESP_LOGE(TAG, "%s animation not found!", argv[2]);
+	}
+	else if (strcmp(argv[1], "conf") == 0)
+	{
+		AnimationMan_GenericGetSetValPath(&editableValueList, argc-2, &argv[2]);
+	}
+	else if (strcmp(argv[1], "next") == 0)
+	{
+		AnimationMan_PlayNextAnimation();
+	}
+	else if (strcmp(argv[1], "auto") == 0)
+	{
+		autoSwitchEnabled = !autoSwitchEnabled;
+		ESP_LOGI(TAG, "Auto switch toggled to %d\n", autoSwitchEnabled);
+	}
+	else
+	{
+		currentAnimation->usrInput(argc-1, &argv[1]);
+	}
 	return 0;
 }
 

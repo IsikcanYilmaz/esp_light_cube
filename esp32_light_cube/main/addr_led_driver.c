@@ -2,9 +2,8 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <string.h>
-#include <string.h>
 #include "addr_led_driver.h"
-#include "logger.h"
+#include "usr_commands.h"
 
 // RIOT OS
 #if defined(LIGHT_CUBE_RIOT) ///////////////////////////////////////////////////////
@@ -271,7 +270,7 @@ static Position_e CharToPosEnum(char c)
       pos = TOP;
       break;
     default:
-      logprint("BAD SIDE DESCRIPTOR! %c\n", c);
+      ESP_LOGE(TAG, "BAD SIDE DESCRIPTOR! %c\n", c);
   }
   return pos;
 }
@@ -669,7 +668,7 @@ void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
   // ESP_LOGI(TAG, "%s %d %d %d : r%d g%d b%d", __FUNCTION__, p->pos, p->x, p->y, r, g, b);
   if (p == NULL)
   {
-    logprint("%s received null pixel_t pointer!\n", __FUNCTION__);
+    ESP_LOGE(TAG, "%s received null pixel_t pointer!\n", __FUNCTION__);
     return;
   }
   p->red = r;
@@ -688,7 +687,7 @@ void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint
   // sanity checks
   if (pos >= NUM_SIDES || x >= NUM_LEDS_PER_PANEL_SIDE || y >= NUM_LEDS_PER_PANEL_SIDE)
   {
-    logprint("Incorrect args to SetPixelRgb %d %d %d\n", pos, x, y);
+    ESP_LOGE(TAG, "Incorrect args to SetPixelRgb %d %d %d\n", pos, x, y);
     return;  // TODO have an error type
   }
   AddrLedPanel_t *panel = AddrLedDriver_GetPanelByLocation(pos);
@@ -709,7 +708,7 @@ Pixel_t* AddrLedDriver_GetPixelByIdx(uint16_t idx) // a bit strip/situaiton depe
 {
   if (idx >= NUM_LEDS)
   {
-    logprint("%s bad pixel idx %d\n", idx);
+    ESP_LOGE(TAG, "%s bad pixel idx %d\n", idx);
     return NULL;
   }
   return &ledStrip0Pixels[idx];
@@ -842,7 +841,7 @@ Position_e AddrLedDriver_GetOppositePanel(Position_e pos)
       oppositePos = TOP; // TODO? Should this return, like, BOTTOM or something? whjich i dont have rn? 
       break;
     default:
-      logprint("Bad pos to %s\n", __FUNCTION__);
+      ESP_LOGE(TAG, "Bad pos to %s\n", __FUNCTION__);
       break;
   }
   return oppositePos;
@@ -852,7 +851,7 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)
 {
   if (pos >= NUM_SIDES)
   {
-    logprint("Bad pos %d for %s\n", pos, __FUNCTION__);
+    ESP_LOGE(TAG, "Bad pos %d for %s\n", pos, __FUNCTION__);
     return NULL;
   }
   return &ledPanels[pos];
@@ -860,16 +859,16 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)
 
 void AddrLedDriver_PrintPixel(Pixel_t *p)
 {
-  logprint("Pixel panel:%s x:%d y:%d\n neighbors: \n", AddrLedDriver_GetPositionString(p->pos), p->x, p->y);
+  ESP_LOGI(TAG, "Pixel panel:%s x:%d y:%d\n neighbors: \n", AddrLedDriver_GetPositionString(p->pos), p->x, p->y);
   for (uint8_t dir = 0; dir < NUM_DIRECTIONS; dir++)
   {
     Pixel_t *n = (Pixel_t *) p->neighborPixels[dir];
     if (n == NULL)
     {
-      logprint("%s \n", AddrLedDriver_GetDirectionString(dir));
+      ESP_LOGI(TAG, "%s \n", AddrLedDriver_GetDirectionString(dir));
       continue;
     }
-    logprint("%s -> %s x:%d y:%d\n", AddrLedDriver_GetDirectionString(dir), AddrLedDriver_GetPositionString(n->pos), n->x, n->y);
+    ESP_LOGI(TAG, "%s -> %s x:%d y:%d\n", AddrLedDriver_GetDirectionString(dir), AddrLedDriver_GetPositionString(n->pos), n->x, n->y);
   }
 }
 
@@ -882,7 +881,7 @@ char * AddrLedDriver_GetPositionString(Position_e pos)
 {
   if (pos >= NUM_SIDES)
   {
-    logprint("Bad pos %d to %s\n", pos, __FUNCTION__);
+    ESP_LOGE(TAG, "Bad pos %d to %s\n", pos, __FUNCTION__);
     return NULL;
   }
   return positionStrings[pos];
@@ -892,7 +891,7 @@ char * AddrLedDriver_GetDirectionString(Direction_e dir)
 {
   if (dir >= NUM_DIRECTIONS)
   {
-    logprint("Bad dir %d to %s\n", dir, __FUNCTION__);
+    ESP_LOGE(TAG, "Bad dir %d to %s\n", dir, __FUNCTION__);
   }
   return directionStrings[dir];
 }
@@ -902,14 +901,13 @@ AddrLedStrip_t* AddrLedDriver_GetStrip(void)
   return &ledStrip0;
 }
 
-#if 0
 int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
 {
-  // if (!addrLedDriverInitialized)
-  // {
-  // 	return 1;
-  // }
-  // ASSERT_ARGS(2);
+  if (!addrLedDriverInitialized)
+  {
+  	return 1;
+  }
+  ASSERT_ARGS(2);
   // if (strcmp(argv[1], "clear") == 0)
   // {
   // 	AddrLedDriver_Clear();
@@ -1048,9 +1046,8 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 	uint8_t y = atoi(argv[4]);
   // 	AddrLedDriver_PrintPixel(AddrLedDriver_GetPixelInPanel(pos, x, y));
   // }
-  // return 0;
+  return 0;
 }
-#endif
 
 bool AddrLedDriver_IsInitialized(void)
 {

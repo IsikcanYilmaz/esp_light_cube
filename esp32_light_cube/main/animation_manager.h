@@ -60,7 +60,7 @@ typedef struct Animation_s_
 	void (*stop)(void);
 	void (*update)(void);
 	// void (*buttonInput)(Button_e b, ButtonGesture_e g);
-	// uint8_t (*usrInput)(int argc, char **argv);
+	uint8_t (*usrInput)(int argc, char **argv);
 	void (*signal)(AnimationSignal_e s);
 	AnimationState_e (*getState)(void);
 } Animation_s;

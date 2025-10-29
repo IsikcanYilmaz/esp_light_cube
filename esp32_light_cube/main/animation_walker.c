@@ -6,9 +6,10 @@
 #include "editable_value.h"
 #include "visual_util.h"
 #include "colorspace_interface.h"
-// #include "usr_commands.h"
-#include "logger.h"
+#include "usr_commands.h"
+// #include "logger.h"
 // #include "ztimer.h"
+#include "esp_log.h"
 #include "esp_timer.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,6 +19,8 @@
 #define WALKER_MAX_LENGTH 1 // TODO Implement long walkers? if you want?
 #define DEFAULT_NUM_WALKERS 2
 #define MAX_WALKERS 10
+
+static const char* TAG = "ANIM_WALKER";
 
 typedef struct Walker_s
 {
@@ -206,9 +209,9 @@ static void walkerMoveRandomly(Walker_t *w)
 
 	if (nextPix == NULL)
 	{
-		logprint("NULL PIXEL IN %s\n", __FUNCTION__);
-		logprint("randomDirection %d\n", randomDirection);
-		logprint("numPossibleDirections %d\n", numPossibleDirections);
+		ESP_LOGE(TAG, "NULL PIXEL IN %s\n", __FUNCTION__);
+		ESP_LOGE(TAG, "randomDirection %d\n", randomDirection);
+		ESP_LOGE(TAG, "numPossibleDirections %d\n", numPossibleDirections);
 		return;
 	}
 	w->prevPix = w->pix[0];
@@ -222,7 +225,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		logprint("Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d\n", state);
 	}
 }
 
@@ -375,26 +378,18 @@ void AnimationWalker_Update(void)
 // {
 // }
 
-// uint8_t AnimationWalker_UsrInput(int argc, char **argv)
-// {
-// 	// ASSERT_ARGS(1);
-// 	// logprint("Walker received usr input: \n");
-// 	// for (int i = 0; i < argc; i++)
-// 	// {
-// 	// 	logprint(" %s", argv[i]);
-// 	// }
-// 	// logprint("\n");
-// 	// AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-// 	ASSERT_ARGS(1);
-// 	logprint("Walker received usr input: \n");
-// 	for (int i = 0; i < argc; i++)
-// 	{
-// 		logprint(" %s", argv[i]);
-// 	}
-// 	logprint("\n");
-// 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-//   return 0;
-// }
+uint8_t AnimationWalker_UsrInput(int argc, char **argv)
+{
+	ASSERT_ARGS(1);
+	ESP_LOGI(TAG, "Walker received usr input: \n");
+	for (int i = 0; i < argc; i++)
+	{
+		printf(" %s", argv[i]);
+	}
+	printf("\n");
+	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
+}
 
 void AnimationWalker_ReceiveSignal(AnimationSignal_e s)
 {
