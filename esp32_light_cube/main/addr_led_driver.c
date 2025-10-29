@@ -668,7 +668,7 @@ void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
   // ESP_LOGI(TAG, "%s %d %d %d : r%d g%d b%d", __FUNCTION__, p->pos, p->x, p->y, r, g, b);
   if (p == NULL)
   {
-    ESP_LOGE(TAG, "%s received null pixel_t pointer!\n", __FUNCTION__);
+    ESP_LOGE(TAG, "%s received null pixel_t pointer!", __FUNCTION__);
     return;
   }
   p->red = r;
@@ -687,7 +687,7 @@ void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint
   // sanity checks
   if (pos >= NUM_SIDES || x >= NUM_LEDS_PER_PANEL_SIDE || y >= NUM_LEDS_PER_PANEL_SIDE)
   {
-    ESP_LOGE(TAG, "Incorrect args to SetPixelRgb %d %d %d\n", pos, x, y);
+    ESP_LOGE(TAG, "Incorrect args to SetPixelRgb %d %d %d", pos, x, y);
     return;  // TODO have an error type
   }
   AddrLedPanel_t *panel = AddrLedDriver_GetPanelByLocation(pos);
@@ -697,7 +697,6 @@ void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint
 
 void AddrLedDriver_Clear(void)
 {
-  ESP_LOGI(TAG, "%s:d", __FUNCTION__, __LINE__);
   for (int i = 0; i < NUM_LEDS; i++)
   {
     AddrLedDriver_SetPixelRgb(&ledStrip0.pixels[i], 0, 0, 0);
@@ -708,7 +707,7 @@ Pixel_t* AddrLedDriver_GetPixelByIdx(uint16_t idx) // a bit strip/situaiton depe
 {
   if (idx >= NUM_LEDS)
   {
-    ESP_LOGE(TAG, "%s bad pixel idx %d\n", idx);
+    ESP_LOGE(TAG, "%s bad pixel idx %d", idx);
     return NULL;
   }
   return &ledStrip0Pixels[idx];
@@ -841,7 +840,7 @@ Position_e AddrLedDriver_GetOppositePanel(Position_e pos)
       oppositePos = TOP; // TODO? Should this return, like, BOTTOM or something? whjich i dont have rn? 
       break;
     default:
-      ESP_LOGE(TAG, "Bad pos to %s\n", __FUNCTION__);
+      ESP_LOGE(TAG, "Bad pos to %s", __FUNCTION__);
       break;
   }
   return oppositePos;
@@ -851,7 +850,7 @@ AddrLedPanel_t* AddrLedDriver_GetPanelByLocation(Position_e pos)
 {
   if (pos >= NUM_SIDES)
   {
-    ESP_LOGE(TAG, "Bad pos %d for %s\n", pos, __FUNCTION__);
+    ESP_LOGE(TAG, "Bad pos %d for %s", pos, __FUNCTION__);
     return NULL;
   }
   return &ledPanels[pos];
@@ -925,7 +924,7 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 		uint8_t r = atoi(argv[6]);
   // 		uint8_t g = atoi(argv[7]);
   // 		uint8_t b = atoi(argv[8]);
-  // 		logprint("Setting pixel %s relative to %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), AddrLedDriver_GetPositionString(relPos),x, y, r, g, b);
+  // 		logprint("Setting pixel %s relative to %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), AddrLedDriver_GetPositionString(relPos),x, y, r, g, b);
   // 		Pixel_t *relPixel = AddrLedDriver_GetPixelInPanelRelative(pos, relPos, x, y);
   // 		AddrLedDriver_SetPixelRgb(relPixel, r, g, b);
   // 	}
@@ -957,7 +956,7 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 	}
   // 	else
   // 	{
-  // 		logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+  // 		logprint("BAD SIDE DESCRIPTOR! %s", argv[0]);
   // 		return 1;
   // 	}
   // 	uint8_t x = atoi(argv[3]);
@@ -965,7 +964,7 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 	uint8_t r = atoi(argv[5]);
   // 	uint8_t g = atoi(argv[6]);
   // 	uint8_t b = atoi(argv[7]);
-  // 	// logprint("Setting pixel %s %d %d to %d %d %d\n", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
+  // 	// logprint("Setting pixel %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
   // 	AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
   // }
   // else if (strcmp(argv[1], "nei") == 0)
@@ -995,7 +994,7 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 	}
   // 	else
   // 	{
-  // 		logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+  // 		logprint("BAD SIDE DESCRIPTOR! %s", argv[0]);
   // 		return 1;
   // 	}
   // 	uint8_t x = atoi(argv[3]);

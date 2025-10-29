@@ -1,42 +1,44 @@
 #include "editable_value.h"
-#include "logger.h"
+#include "esp_log.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+static const char* TAG = "EDIVAL";
+
 void EditableValue_PrintValue(EditableValue_t *editable)
 {
-	logprint("Editable val: %s type: %d ", editable->name, editable->type);
+	printf("Editable val: %s type: %d ", editable->name, editable->type);
 	switch(editable->type)
 	{
 		case UINT8_T:
 		{
-			logprint("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->u8, editable->ll.u8, editable->ul.u8);
+			printf("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->u8, editable->ll.u8, editable->ul.u8);
 			break;
 		}
 		case UINT16_T:
 		{
-			logprint("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->u16,  editable->ll.u16, editable->ul.u16);
+			printf("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->u16,  editable->ll.u16, editable->ul.u16);
 			break;
 		}
 		case UINT32_T:
 		{
-			logprint("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->u32, editable->ll.u32, editable->ul.u32);
+			printf("val: %d lowerLimit: %d upperLimit: %d\n", (int) editable->valPtr->u32, (int) editable->ll.u32, (int) editable->ul.u32);
 			break;
 		}
 		case DOUBLE:
 		{
-			logprint("val: %f lowerLimit: %f upperLimit: %f\n", editable->valPtr->d, editable->ll.d, editable->ul.d);
+			printf("val: %f lowerLimit: %f upperLimit: %f\n", editable->valPtr->d, editable->ll.d, editable->ul.d);
 			break;
 		}
 		case FLOAT:
 		{
-			logprint("val: %f lowerLimit: %f upperLimit: %f\n", editable->valPtr->f, editable->ll.f, editable->ul.f);
+			printf("val: %f lowerLimit: %f upperLimit: %f\n", editable->valPtr->f, editable->ll.f, editable->ul.f);
 			break;
 		}
 		case BOOLEAN:
 		{
-			logprint("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->b, editable->ll.b, editable->ul.b);
+			printf("val: %d lowerLimit: %d upperLimit: %d\n", editable->valPtr->b, editable->ll.b, editable->ul.b);
 			break;
 		}
 		default:
@@ -57,18 +59,17 @@ void EditableValue_PrintValue(EditableValue_t *editable)
 
 void EditableValue_PrintList(EditableValueList_t *list)
 {
-	logprint("Editable list name: %s len: %d\n", list->name, list->len);
-	for (int i = 0; i < list->len; i++)
+	ESP_LOGI(TAG, "Editable list name: %s len: %d\n", list->name, list->len);
+	for(int i = 0; i < list->len; i++)
 	{
 		EditableValue_t *v = &(list->values[i]);
-		logprint("%d ", i);
+		printf("%d ", i);
 		EditableValue_PrintValue(v);
 	}
 }
 
 bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *value)
 {
-	// logprint("%s\n", __FUNCTION__);
 	TYPE t = editable->type;
 	bool ret = true;
 	switch(t)
@@ -77,7 +78,7 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 		{
 			if (value->u8 < editable->ll.u8 || value->u8 > editable->ul.u8)
 			{
-				logprint("Val %d not in range! %d %d\n", value->u8, editable->ll.u8, editable->ul.u8);
+				ESP_LOGE(TAG, "Val %d not in range! %d %d\n", value->u8, editable->ll.u8, editable->ul.u8);
 				ret = false;
 				break;
 			}
@@ -88,7 +89,7 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 		{
 			if (value->u16 < editable->ll.u16 || value->u16 > editable->ul.u16)
 			{
-				logprint("Val %d not in range! %d %d\n", value->u16, editable->ll.u16, editable->ul.u16);
+				ESP_LOGE(TAG, "Val %d not in range! %d %d\n", value->u16, editable->ll.u16, editable->ul.u16);
 				ret = false;
 				break;
 			}
@@ -99,7 +100,7 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 		{
 			if (value->u32 < editable->ll.u32 || value->u32 > editable->ul.u32)
 			{
-				logprint("Val %d not in range! %d %d\n", value->u32, editable->ll.u32, editable->ul.u32);
+				ESP_LOGE(TAG, "Val %d not in range! %d %d\n", value->u32, editable->ll.u32, editable->ul.u32);
 				ret = false;
 				break;
 			}
@@ -110,7 +111,7 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 		{
 			if (value->d < editable->ll.d || value->d > editable->ul.d)
 			{
-				logprint("Val %f not in range! %f %f\n",value->d , editable->ll.u32, editable->ul.u32);
+				ESP_LOGE(TAG, "Val %f not in range! %f %f\n",value->d , editable->ll.u32, editable->ul.u32);
 				ret = false;
 				break;
 			}
@@ -121,7 +122,7 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 		{
 			if (value->f < editable->ll.f || value->f > editable->ul.f)
 			{
-				logprint("Val %d not in range! %d %d\n", value->f, editable->ll.f, editable->ul.f);
+				ESP_LOGE(TAG, "Val %d not in range! %d %d\n", value->f, editable->ll.f, editable->ul.f);
 				ret = false;
 				break;
 			}
@@ -138,13 +139,11 @@ bool EditableValue_SetValue(EditableValue_t *editable, union EightByteData_u *va
 			return false;
 		}
 	}
-	// logprint("%s DONE\n", __FUNCTION__);
 	return ret;
 }
 
 bool EditableValue_SetValueFromString(EditableValue_t *editable, char *valStr)
 {
-	// logprint("%s\n", __FUNCTION__);
 	union EightByteData_u tmpVal;
 	switch(editable->type)
 	{
@@ -196,7 +195,6 @@ bool EditableValue_SetValueFromString(EditableValue_t *editable, char *valStr)
 			return false;
 		}
 	}
-	// logprint("%s DONE\n", __FUNCTION__);
 }
 
 EditableValue_t* EditableValue_FindValueFromString(EditableValueList_t *l, char *name)
@@ -205,7 +203,6 @@ EditableValue_t* EditableValue_FindValueFromString(EditableValueList_t *l, char 
 	bool found = false;
 	for (uint16_t i = 0; i < l->len; i++)
 	{
-		// logprint("Looking for %s.. %s\n", name, l->values[i].name);
 		if (strcmp(l->values[i].name, name) == 0)
 		{
 			editable = &(l->values[i]);
@@ -215,7 +212,7 @@ EditableValue_t* EditableValue_FindValueFromString(EditableValueList_t *l, char 
 	}
 	if (!found)
 	{
-		logprint("%s not found in value list!\n", name);
+		ESP_LOGE(TAG, "%s not found in value list!\n", name);
 	}
 	return editable;
 }
@@ -229,7 +226,7 @@ uint16_t EditableValue_GetValueIdxFromString(EditableValueList_t *l, char *name)
 			return i;
 		}
 	}
-	logprint("%s not found in value list!\n", name);
+	ESP_LOGE(TAG, "%s not found in value list!\n", name);
 	return EDITABLE_VALUE_BAD_IDX;
 }
 
@@ -239,7 +236,6 @@ bool EditableValue_FindAndSetValueFromString(EditableValueList_t *l, char *name,
 	bool found = false;
 	for (uint16_t i = 0; i < l->len; i++)
 	{
-		// logprint("Looking for %s.. %s\n", name, l->values[i].name);
 		if (strcmp(l->values[i].name, name) == 0)
 		{
 			editable = &(l->values[i]);
@@ -249,7 +245,7 @@ bool EditableValue_FindAndSetValueFromString(EditableValueList_t *l, char *name,
 	}
 	if (!found)
 	{
-		logprint("%s not found in value list!\n", name);
+		ESP_LOGE(TAG, "%s not found in value list!\n", name);
 		return found;
 	}
 

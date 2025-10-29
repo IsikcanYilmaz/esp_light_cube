@@ -11,10 +11,14 @@
 // #include "xtimer.h"
 #include "colorspace_interface.h"
 #include "addr_led_driver.h"
-#include "logger.h"
+#include "esp_log.h"
+#include "esp_timer.h"
+// #include "logger.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
+
+static const char* TAG = "ANIM_SNAKE";
 
 static Color_t currColor[16];
 static float freq = 0.5;
@@ -42,7 +46,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		logprint("Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d\n", state);
 	}
 }
 
@@ -50,6 +54,8 @@ static void RunningAction(void)
 {
 	static uint8_t yvals[16];
 	static uint8_t xOffset;
+	float now = (float) esp_timer_get_time() / 1000000.0;
+	now = fmodf(now, 100.0);
 
 	xOffset = 2 + 2 * CtrlSig_Sin(1, 0);
 
@@ -87,16 +93,16 @@ static void RunningAction(void)
 		else if (size == 2)
 		{
 			AddrLedDriver_SetPixelRgb(targetPixel, c->red, c->green, c->blue);
-			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[UP], c->red, c->green, c->blue);
-			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[UP_RIGHT], c->red, c->green, c->blue);
-			AddrLedDriver_SetPixelRgb(targetPixel->neighborPixels[RIGHT], c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb((Pixel_t *) targetPixel->neighborPixels[UP], c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb((Pixel_t *) targetPixel->neighborPixels[UP_RIGHT], c->red, c->green, c->blue);
+			AddrLedDriver_SetPixelRgb((Pixel_t *) targetPixel->neighborPixels[RIGHT], c->red, c->green, c->blue);
 		}
 		else if (size == 3)
 		{
 			AddrLedDriver_SetPixelRgb(targetPixel, c->red, c->green, c->blue);
 			for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
 			{
-				Pixel_t *p = targetPixel->neighborPixels[i];
+				Pixel_t *p = (Pixel_t *) targetPixel->neighborPixels[i];
 				if (p)
 				{
 					AddrLedDriver_SetPixelRgb(p, c->red, c->green, c->blue);
@@ -163,18 +169,18 @@ void AnimationSnakes_Update(void)
 // {
 // }
 
-// uint8_t AnimationSnakes_UsrInput(int argc, char **argv)
-// {
-// 	ASSERT_ARGS(1);
-// 	logprint("Snakes received usr input: \n");
-// 	for (int i = 0; i < argc; i++)
-// 	{
-// 		logprint(" %s", argv[i]);
-// 	}
-// 	logprint("\n");
-// 	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
-//   return 0;
-// }
+uint8_t AnimationSnakes_UsrInput(int argc, char **argv)
+{
+	ASSERT_ARGS(1);
+	ESP_LOGI(TAG, "Snakes received usr input: \n");
+	for (int i = 0; i < argc; i++)
+	{
+		printf(" %s", argv[i]);
+	}
+	printf("\n");
+	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  return 0;
+}
 
 void AnimationSnakes_ReceiveSignal(AnimationSignal_e s)
 {

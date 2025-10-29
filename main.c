@@ -21,7 +21,7 @@
 #include "thread.h"
 //
 // #include "dma_rmt_test.h"
-// #include "ble_test.h"
+#include "ble_test.h"
 
 #include "logger.h"
 
@@ -80,7 +80,10 @@ int main(void)
 		"blink_thread"
 	);
 
-	// Ble_Init();
+#ifdef BLE_ENABLED
+  #warning "BLE ENABLED"
+  // Ble_Init(); 
+#endif
 
 	UserCommand_Init(); // inf loop
 

@@ -34,8 +34,15 @@ USEMODULE += ps
 # FEATURES_REQUIRED += esp_wifi
 
 # Bluetooth
-FEATURES_REQUIRED += esp_ble
+# BLE_ENABLED = 1
 # USEPKG += nimble
+# USEMODULE += nimble_svc_gap
+# USEMODULE += nimble_svc_gatt
+# # Use automated advertising
+# USEMODULE += nimble_autoadv
+# CFLAGS += -DCONFIG_NIMBLE_AUTOADV_DEVICE_NAME='"NimBLE GATT Example"'
+# CFLAGS += -DCONFIG_NIMBLE_AUTOADV_START_MANUALLY=1
+# CFLAGS += "-DBLE_ENABLED"
 # USEMODULE += nimble_scanner
 # USEMODULE += nimble_scanlist
 

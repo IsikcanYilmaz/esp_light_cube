@@ -6,6 +6,12 @@
 #include "animation_manager.h"
 #include "animation_canvas.h"
 #include "animation_walker.h"
+#include "animation_scroller.h"
+#include "animation_sparkles.h"
+#include "animation_lines.h"
+#include "animation_oscillator.h"
+#include "animation_snakes.h"
+#include "animation_game_of_life.h"
 #include "addr_led_driver.h"
 #include "editable_value.h"
 #include "logger.h"
@@ -13,6 +19,7 @@
 #include "freertos/projdefs.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 
 #define ANIMATION_MAN_TASK_STACK_SIZE 4096
 TaskHandle_t animationManagerTaskHandle = NULL;
@@ -45,30 +52,30 @@ static EditableValue_t editableValues[] =
 static EditableValueList_t editableValueList = {.name = "animationmanager", .values = &editableValues[0], .len=sizeof(editableValues)/sizeof(EditableValue_t)};
 
 Animation_s animations[ANIMATION_MAX] = {
-	// [ANIMATION_SCROLLER] = {
-	// 	.name = "scroller",
-	// 	.init = AnimationScroller_Init,
-	// 	.deinit = AnimationScroller_Deinit,
-	// 	.start = AnimationScroller_Start,
-	// 	.stop = AnimationScroller_Stop,
-	// 	.update = AnimationScroller_Update,
-	// 	//.buttonInput = AnimationScroller_ButtonInput,
-	// 	.usrInput = AnimationScroller_UsrInput,
-	// 	.signal = AnimationScroller_ReceiveSignal,
-	// 	.getState = AnimationScroller_GetState
-	// },
-	// [ANIMATION_SPARKLES] = {
-	// 	.name = "sparkles",
-	// 	.init = AnimationSparkles_Init,
-	// 	.deinit = AnimationSparkles_Deinit,
-	// 	.start = AnimationSparkles_Start,
-	// 	.stop = AnimationSparkles_Stop,
-	// 	.update = AnimationSparkles_Update,
-	// 	//.buttonInput = AnimationSparkles_ButtonInput,
-	// 	.usrInput = AnimationSparkles_UsrInput,
-	// 	.signal = AnimationSparkles_ReceiveSignal,
-	// 	.getState = AnimationSparkles_GetState
-	// },
+	[ANIMATION_SCROLLER] = {
+		.name = "scroller",
+		.init = AnimationScroller_Init,
+		.deinit = AnimationScroller_Deinit,
+		.start = AnimationScroller_Start,
+		.stop = AnimationScroller_Stop,
+		.update = AnimationScroller_Update,
+		//.buttonInput = AnimationScroller_ButtonInput,
+		.usrInput = AnimationScroller_UsrInput,
+		.signal = AnimationScroller_ReceiveSignal,
+		.getState = AnimationScroller_GetState
+	},
+	[ANIMATION_SPARKLES] = {
+		.name = "sparkles",
+		.init = AnimationSparkles_Init,
+		.deinit = AnimationSparkles_Deinit,
+		.start = AnimationSparkles_Start,
+		.stop = AnimationSparkles_Stop,
+		.update = AnimationSparkles_Update,
+		//.buttonInput = AnimationSparkles_ButtonInput,
+		.usrInput = AnimationSparkles_UsrInput,
+		.signal = AnimationSparkles_ReceiveSignal,
+		.getState = AnimationSparkles_GetState
+	},
 	[ANIMATION_CANVAS] = {
 		.name = "canvas",
 		.init = AnimationCanvas_Init,
@@ -81,54 +88,54 @@ Animation_s animations[ANIMATION_MAX] = {
 		.signal = AnimationCanvas_ReceiveSignal,
 		.getState = AnimationCanvas_GetState
 	},
-	// [ANIMATION_LINES] = {
-	// 	.name = "lines",
-	// 	.init = AnimationLines_Init,
-	// 	.deinit = AnimationLines_Deinit,
-	// 	.start = AnimationLines_Start,
-	// 	.stop = AnimationLines_Stop,
-	// 	.update = AnimationLines_Update,
-	// 	//.buttonInput = AnimationLines_ButtonInput,
-	// 	.usrInput = AnimationLines_UsrInput,
-	// 	.signal = AnimationLines_ReceiveSignal,
-	// 	.getState = AnimationLines_GetState
-	// },
-	// [ANIMATION_OSCILLATOR] = {
-	// 	.name = "oscillator",
-	// 	.init = AnimationOscillator_Init,
-	// 	.deinit = AnimationOscillator_Deinit,
-	// 	.start = AnimationOscillator_Start,
-	// 	.stop = AnimationOscillator_Stop,
-	// 	.update = AnimationOscillator_Update,
-	// 	//.buttonInput = AnimationOscillator_ButtonInput,
-	// 	.usrInput = AnimationOscillator_UsrInput,
-	// 	.signal = AnimationOscillator_ReceiveSignal,
-	// 	.getState = AnimationOscillator_GetState
-	// },
-	// [ANIMATION_SNAKES] = {
-	// 	.name = "snakes",
-	// 	.init = AnimationSnakes_Init,
-	// 	.deinit = AnimationSnakes_Deinit,
-	// 	.start = AnimationSnakes_Start,
-	// 	.stop = AnimationSnakes_Stop,
-	// 	.update = AnimationSnakes_Update,
-	// 	//.buttonInput = AnimationSnakes_ButtonInput,
-	// 	.usrInput = AnimationSnakes_UsrInput,
-	// 	.signal = AnimationSnakes_ReceiveSignal,
-	// 	.getState = AnimationSnakes_GetState
-	// },
-	// [ANIMATION_GAME_OF_LIFE] = {
-	// 	.name = "gameoflife",
-	// 	.init = AnimationGameOfLife_Init,
-	// 	.deinit = AnimationGameOfLife_Deinit,
-	// 	.start = AnimationGameOfLife_Start,
-	// 	.stop = AnimationGameOfLife_Stop,
-	// 	.update = AnimationGameOfLife_Update,
-	// 	//.buttonInput = AnimationGameOfLife_ButtonInput,
-	// 	.usrInput = AnimationGameOfLife_UsrInput,
-	// 	.signal = AnimationGameOfLife_ReceiveSignal,
-	// 	.getState = AnimationGameOfLife_GetState
-	// },
+	[ANIMATION_LINES] = {
+		.name = "lines",
+		.init = AnimationLines_Init,
+		.deinit = AnimationLines_Deinit,
+		.start = AnimationLines_Start,
+		.stop = AnimationLines_Stop,
+		.update = AnimationLines_Update,
+		//.buttonInput = AnimationLines_ButtonInput,
+		.usrInput = AnimationLines_UsrInput,
+		.signal = AnimationLines_ReceiveSignal,
+		.getState = AnimationLines_GetState
+	},
+	[ANIMATION_OSCILLATOR] = {
+		.name = "oscillator",
+		.init = AnimationOscillator_Init,
+		.deinit = AnimationOscillator_Deinit,
+		.start = AnimationOscillator_Start,
+		.stop = AnimationOscillator_Stop,
+		.update = AnimationOscillator_Update,
+		//.buttonInput = AnimationOscillator_ButtonInput,
+		.usrInput = AnimationOscillator_UsrInput,
+		.signal = AnimationOscillator_ReceiveSignal,
+		.getState = AnimationOscillator_GetState
+	},
+	[ANIMATION_SNAKES] = {
+		.name = "snakes",
+		.init = AnimationSnakes_Init,
+		.deinit = AnimationSnakes_Deinit,
+		.start = AnimationSnakes_Start,
+		.stop = AnimationSnakes_Stop,
+		.update = AnimationSnakes_Update,
+		//.buttonInput = AnimationSnakes_ButtonInput,
+		.usrInput = AnimationSnakes_UsrInput,
+		.signal = AnimationSnakes_ReceiveSignal,
+		.getState = AnimationSnakes_GetState
+	},
+	[ANIMATION_GAME_OF_LIFE] = {
+		.name = "gameoflife",
+		.init = AnimationGameOfLife_Init,
+		.deinit = AnimationGameOfLife_Deinit,
+		.start = AnimationGameOfLife_Start,
+		.stop = AnimationGameOfLife_Stop,
+		.update = AnimationGameOfLife_Update,
+		//.buttonInput = AnimationGameOfLife_ButtonInput,
+		.usrInput = AnimationGameOfLife_UsrInput,
+		.signal = AnimationGameOfLife_ReceiveSignal,
+		.getState = AnimationGameOfLife_GetState
+	},
 	[ANIMATION_WALKER] = {
 		.name = "walker",
 		.init = AnimationWalker_Init,
@@ -147,7 +154,7 @@ static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
 {
 	if (idx >= ANIMATION_MAX)
 	{
-		logprint("Bad anim idx %d at %s\n", idx, __FUNCTION__);
+		ESP_LOGE(TAG, "Bad anim idx %d at %s", idx, __FUNCTION__);
 		return NULL;
 	}
 	return &animations[idx];
@@ -167,12 +174,12 @@ static void AnimationMan_HandleAutoSwitch(void)
 	}
 	else if (currentAnimationIdx != ANIMATION_CANVAS)
 	{
-		// uint32_t now = ztimer_now(ZTIMER_USEC)/1000;
-		// if (ztimer_now(ZTIMER_USEC)/1000 - autoSwitchTimestampMs > autoSwitchMs) // Time to switch animations
+		uint32_t now = esp_timer_get_time()/1000;
+		if (now - autoSwitchTimestampMs > autoSwitchMs) // Time to switch animations
 		{
-			// logprint("Auto anim switch at %d. %d %d\n", now, autoSwitchTimestampMs, autoSwitchMs);
+			ESP_LOGI(TAG, "Auto anim switch at %d. %d %d", now, autoSwitchTimestampMs, autoSwitchMs);
 			AnimationMan_PlayNextAnimation();
-			// autoSwitchTimestampMs = now;
+			autoSwitchTimestampMs = now;
 		}
 	}
 }
@@ -181,7 +188,7 @@ static void AnimationMan_SetFps(uint32_t fps)
 {
 	framePerSecond = fps;
 	// framePeriodUs = US_PER_SEC/fps;
-	// logprint("New fps %d, period %d\n", fps, framePeriodUs);
+	// logprint("New fps %d, period %d", fps, framePeriodUs);
 }
 
 static uint32_t AnimationMan_GetFps(void)
@@ -204,7 +211,6 @@ void AnimationMan_TaskHandler(void *arg)
 		AnimationMan_HandleAutoSwitch();
 
 		// Main animation switch/case
-		// uint32_t t0 = ztimer_now(ZTIMER_USEC);
 		switch(animationManState)
 		{
 			case ANIMATION_MAN_STATE_RUNNING:
@@ -220,7 +226,7 @@ void AnimationMan_TaskHandler(void *arg)
 				{
 					if (currentAnimation->getState() == ANIMATION_STATE_STOPPED)
 					{
-						logprint("Animation faded off. Starting next animation\n");
+						ESP_LOGI(TAG, "Animation faded off. Starting next animation");
 						AnimationMan_SetAnimation(targetAnimationIdx, true);
 					}
 					else
@@ -235,13 +241,13 @@ void AnimationMan_TaskHandler(void *arg)
         }
 			default:
 				{
-					logprint("%s state invalid or not implemented yet %d\n", __FUNCTION__, animationManState);
+					ESP_LOGE(TAG, "%s state invalid or not implemented yet %d", __FUNCTION__, animationManState);
 					animationManState = ANIMATION_MAN_STATE_RUNNING; // TODO placeholder. eventually implement the stopped state. will need for temperature or deep sleep reasons? 
 					break;
         }
 		}
 
-    vTaskDelay(pdMS_TO_TICKS(5));
+    vTaskDelay(pdMS_TO_TICKS(1));
 	}
 }
 
@@ -249,7 +255,7 @@ bool AnimationMan_Init(void)
 {
 	if (!AddrLedDriver_IsInitialized())
 	{
-		ESP_LOGE(TAG, "%s addr led driver not initialized!\n", __FUNCTION__);
+		ESP_LOGE(TAG, "%s addr led driver not initialized!", __FUNCTION__);
 		return false;
 	}
 
@@ -268,7 +274,7 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 {
 	if (anim >= ANIMATION_MAX)
 	{
-		ESP_LOGE(TAG, "Bad anim idx %d to %s\n", anim, __FUNCTION__);
+		ESP_LOGE(TAG, "Bad anim idx %d to %s", anim, __FUNCTION__);
 		return;
 	}
 
@@ -280,7 +286,7 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 		// Special case; if CANVAS was just on, wait full wait time to do a auto switch once we get out of it
 		if (currentAnimationIdx == ANIMATION_CANVAS && autoSwitchEnabled)
 		{
-			// autoSwitchTimestampMs = ztimer_now(ZTIMER_MSEC);
+      autoSwitchTimestampMs = esp_timer_get_time() / 1000;
 		}
 
 		currentAnimation->deinit();
@@ -296,21 +302,17 @@ void AnimationMan_SetAnimation(AnimationIdx_e anim, bool immediately)
 		animationManState = ANIMATION_MAN_STATE_SWITCHING;
 	}
 
-	ESP_LOGI(TAG, "%s Setting animation to %s. %s\n", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
+	ESP_LOGI(TAG, "%s Setting animation to %s. %s", __FUNCTION__, animations[anim].name, immediately ? "Immediately" : "Signal sent");
 }
 
 int AnimationMan_TakeUsrCommand(int argc, char **argv)
 {
-	if (argc < 3) 
+	if (argc < 2) 
   {
-		ESP_LOGE(TAG, "usage: anim <id> <on|off|toggle>");
+		ESP_LOGE(TAG, "usage: anim [set|conf|next|auto]\nOR\nanim <editable value> # to change the config of the currently playing animation");
 		return 0;
 	}
 
-	if (!animationManInitialized)
-	{
-		return 1;
-	}
 	ASSERT_ARGS(2);
 	if (strcmp(argv[1], "set") == 0)
 	{
@@ -336,7 +338,7 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 	else if (strcmp(argv[1], "auto") == 0)
 	{
 		autoSwitchEnabled = !autoSwitchEnabled;
-		ESP_LOGI(TAG, "Auto switch toggled to %d\n", autoSwitchEnabled);
+		ESP_LOGI(TAG, "Auto switch toggled to %d", autoSwitchEnabled);
 	}
 	else
 	{
@@ -348,44 +350,44 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 // This function doesnt take the entire command line, it takes a line starting with getval or setval
 uint8_t AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char **argv)
 {
-	// ASSERT_ARGS(1);
-	// if (strcmp(argv[0], "setval") == 0)
-	// {
-	// 	ASSERT_ARGS(3);
-	// 	bool ret = EditableValue_FindAndSetValueFromString(l, argv[1], argv[2]);
-	// 	logprint("%s set to %s %s\n", argv[1], argv[2], (ret) ? "SUCCESS" : "FAIL");
-	// }
-	// else if (strcmp(argv[0], "getval") == 0)
-	// {
-	// 	// ASSERT_ARGS(1);
-	// 	if (argc == 1)
-	// 	{
-	// 		EditableValue_PrintList(l);
-	// 	}
-	// 	else if (argc == 2)
-	// 	{
-	// 		bool isNumber = (argv[1][0] >= '0' && argv[1][0] <= '9');
-	// 		if (isNumber)
-	// 		{
-	// 			uint16_t valIdx = atoi(argv[1]);
-	// 			if (valIdx >= l->len)
-	// 			{
-	// 				logprint("%s bad val idx %d!\n", __FUNCTION__, valIdx);
-	// 				return 1;
-	// 			}
-	// 			logprint("%d ", valIdx);
-	// 			EditableValue_PrintValue(&(l->values[valIdx]));
-	// 		}
-	// 		else
-	// 		{
-	// 			EditableValue_t *ev = EditableValue_FindValueFromString(l, argv[1]);
-	// 			if (ev)
-	// 			{
-	// 				logprint("%d ", EditableValue_GetValueIdxFromString(l, argv[1]));
-	// 				EditableValue_PrintValue(ev);
-	// 			}
-	// 		}
-	// 	}
-	// }
+	ASSERT_ARGS(1);
+	if (strcmp(argv[0], "setval") == 0)
+	{
+		ASSERT_ARGS(3);
+		bool ret = EditableValue_FindAndSetValueFromString(l, argv[1], argv[2]);
+		ESP_LOGI(TAG, "%s set to %s %s", argv[1], argv[2], (ret) ? "SUCCESS" : "FAIL");
+	}
+	else if (strcmp(argv[0], "getval") == 0)
+	{
+		// ASSERT_ARGS(1);
+		if (argc == 1)
+		{
+			EditableValue_PrintList(l);
+		}
+		else if (argc == 2)
+		{
+			bool isNumber = (argv[1][0] >= '0' && argv[1][0] <= '9');
+			if (isNumber)
+			{
+				uint16_t valIdx = atoi(argv[1]);
+				if (valIdx >= l->len)
+				{
+					ESP_LOGE(TAG, "%s bad val idx %d!", __FUNCTION__, valIdx);
+					return 1;
+				}
+				ESP_LOGI(TAG, "%d ", valIdx);
+				EditableValue_PrintValue(&(l->values[valIdx]));
+			}
+			else
+			{
+				EditableValue_t *ev = EditableValue_FindValueFromString(l, argv[1]);
+				if (ev)
+				{
+					ESP_LOGI(TAG, "%d ", EditableValue_GetValueIdxFromString(l, argv[1]));
+					EditableValue_PrintValue(ev);
+				}
+			}
+		}
+	}
   return 0;
 }
