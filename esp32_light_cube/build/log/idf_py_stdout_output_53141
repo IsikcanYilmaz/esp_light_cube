@@ -1,0 +1,215 @@
+Command: /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem11301 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/jon/KODMOD/esp32_light_cube/build/light_cube.elf /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.elf -m '/Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/jon/KODMOD/esp-idf/tools/idf.py'
+ (238) spi_flash: Detected siESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40048836
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Oct 28 2025 21:55:43[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (27) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0bed0h ( 48848) map[0m
+[0;32mI (95) esp_image: segment 1: paddr=0001bef8 vaddr=3fc93e00 size=02dech ( 11756) load[0m
+[0;32mI (98) esp_image: segment 2: paddr=0001ecec vaddr=40374000 size=0132ch (  4908) load[0m
+[0;32mI (102) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ccfch (118012) map[0m
+[0;32mI (129) esp_image: segment 4: paddr=0003cd24 vaddr=4037532c size=0e9d4h ( 59860) load[0m
+[0;32mI (143) esp_image: segment 5: paddr=0004b700 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (149) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (150) boot: Disabling RNG early entropy source...[0m
+[0;32mI (160) cpu_start: Multicore app[0m
+[0;32mI (169) cpu_start: Pro cpu start user code[0m
+[0;32mI (170) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (170) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     light_cube[0m
+[0;32mI (174) app_init: App version:      1[0m
+[0;32mI (177) app_init: Compile time:     Oct 28 2025 21:55:35[0m
+[0;32mI (182) app_init: ELF file SHA256:  1309e165f...[0m
+[0;32mI (187) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (190) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (194) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (198) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (202) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (208) heap_init: At 3FC98460 len 000512B0 (324 KiB): RAM[0m
+[0;32mI (213) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (224) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (230) spi_flash: detected chip: gd[0m
+[0;32mI (232) spi_flash: flash io: dio[0m
+[0;33mW (235) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (248) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (254) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (261) main_task: Started on CPU0[0m
+[0;32mI (271) main_task: Calling app_main()[0m
+[0;32mI (271) addr_led_driver: Create RMT TX channel[0m
+[0;32mI (271) addr_led_driver: Install led strip encoder[0m
+[0;32mI (271) addr_led_driver: Enable RMT TX channel[0m
+[0;32mI (281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (1281) MAIN: BUMP[0m
+[0;32mI (1291) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (2281) MAIN: BUMP[0m
+[0;32mI (2301) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (3281) MAIN: BUMP[0m
+[0;32mI (3311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (4281) MAIN: BUMP[0m
+[0;32mI (4321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (5281) MAIN: BUMP[0m
+[0;32mI (5331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (6281) MAIN: BUMP[0m
+[0;32mI (6341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (7281) MAIN: BUMP[0m
+[0;32mI (7351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (8281) MAIN: BUMP[0m
+[0;32mI (8361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (9281) MAIN: BUMP[0m
+[0;32mI (9371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (10281) MAIN: BUMP[0m
+[0;32mI (10381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (11281) MAIN: BUMP[0m
+[0;32mI (11391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (12281) MAIN: BUMP[0m
+[0;32mI (12401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (13281) MAIN: BUMP[0m
+[0;32mI (13411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (14281) MAIN: BUMP[0m
+[0;32mI (14421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (15281) MAIN: BUMP[0m
+[0;32mI (15431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (16281) MAIN: BUMP[0m
+[0;32mI (16441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (17281) MAIN: BUMP[0m
+[0;32mI (17451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (18281) MAIN: BUMP[0m
+[0;32mI (18461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (19281) MAIN: BUMP[0m
+[0;32mI (19471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (20281) MAIN: BUMP[0m
+[0;32mI (20481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (21281) MAIN: BUMP[0m
+[0;32mI (21491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (22281) MAIN: BUMP[0m
+[0;32mI (22501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (23281) MAIN: BUMP[0m
+[0;32mI (23511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (24281) MAIN: BUMP[0m
+[0;32mI (24521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (25281) MAIN: BUMP[0m
+[0;32mI (25531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (26281) MAIN: BUMP[0m
+[0;32mI (26541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (27281) MAIN: BUMP[0m
+[0;32mI (27551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (28281) MAIN: BUMP[0m
+[0;32mI (28561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (29281) MAIN: BUMP[0m
+[0;32mI (29571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (30281) MAIN: BUMP[0m
+[0;32mI (30581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (31281) MAIN: BUMP[0m
+[0;32mI (31591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (32281) MAIN: BUMP[0m
+[0;32mI (32601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (33281) MAIN: BUMP[0m
+[0;32mI (33611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (34281) MAIN: BUMP[0m
+[0;32mI (34621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (35281) MAIN: BUMP[0m
+[0;32mI (35631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (36281) MAIN: BUMP[0m
+[0;32mI (36641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (37281) MAIN: BUMP[0m
+[0;32mI (37651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (38281) MAIN: BUMP[0m
+[0;32mI (38661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (39281) MAIN: BUMP[0m
+[0;32mI (39671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (40281) MAIN: BUMP[0m
+[0;32mI (40681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (41281) MAIN: BUMP[0m
+[0;32mI (41691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (42281) MAIN: BUMP[0m
+[0;32mI (42701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (43281) MAIN: BUMP[0m
+[0;32mI (43711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (44281) MAIN: BUMP[0m
+[0;32mI (44721) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (45281) MAIN: BUMP[0m
+[0;32mI (45731) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (46281) MAIN: BUMP[0m
+[0;32mI (46741) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (47281) MAIN: BUMP[0m
+[0;32mI (47751) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (48281) MAIN: BUMP[0m
+[0;32mI (48761) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (49281) MAIN: BUMP[0m
+[0;32mI (49771) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (50281) MAIN: BUMP[0m
+[0;32mI (50781) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (51281) MAIN: BUMP[0m
+[0;32mI (51791) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (52281) MAIN: BUMP[0m
+[0;32mI (52801) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (53281) MAIN: BUMP[0m
+[0;32mI (53811) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (54281) MAIN: BUMP[0m
+[0;32mI (54821) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (55281) MAIN: BUMP[0m
+[0;32mI (55831) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (56281) MAIN: BUMP[0m
+[0;32mI (56841) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (57281) MAIN: BUMP[0m
+[0;32mI (57851) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (58281) MAIN: BUMP[0m
+[0;32mI (58861) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (59281) MAIN: BUMP[0m
+[0;32mI (59871) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (60281) MAIN: BUMP[0m
+[0;32mI (60881) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (61281) MAIN: BUMP[0m
+[0;32mI (61891) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (62281) MAIN: BUMP[0m
+[0;32mI (62901) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (63281) MAIN: BUMP[0m
+[0;32mI (63911) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (64281) MAIN: BUMP[0m
+[0;32mI (64921) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (65281) MAIN: BUMP[0m
+[0;32mI (65931) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (66281) MAIN: BUMP[0m
+[0;32mI (66941) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (67281) MAIN: BUMP[0m
+[0;32mI (67951) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (68281) MAIN: BUMP[0m
+[0;32mI (68961) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (69281) MAIN: BUMP[0m
+[0;32mI (69971) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (70281) MAIN: BUMP[0m
+[0;32mI (70981) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (71281) MAIN: BUMP[0m
+[0;32mI (71991) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (72281) MAIN: BUMP[0m
+[0;32mI (73001) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (73281) MAIN: BUMP[0m
+[0;32mI (74011) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (74281) MAIN: BUMP[0m
+[0;32mI (75021) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (75281) MAIN: BUMP[0m
+[0;32mI (76031) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (76281) MAIN: BUMP[0m
+[0;32mI (77041) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (77281) MAIN: BUMP[0m

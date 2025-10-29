@@ -1,0 +1,99 @@
+Command: ninja flash
+[1/10] Performing build step for 'bootloader'
+[1/1] cd /Users/jon/KODMOD/esp32_light_cube/build/bootloader/esp-idf/esptool_py && /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[2/10] No install step for 'bootloader'
+[3/10] Completed 'bootloader'
+[4/10] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/addr_led_driver.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c: In function 'HardwareInit':
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:359:12: warning: unused variable 'start_rgb' [-Wunused-variable]
+  359 |   uint16_t start_rgb = 0;
+      |            ^~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:358:12: warning: unused variable 'hue' [-Wunused-variable]
+  358 |   uint16_t hue = 0;
+      |            ^~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:357:12: warning: unused variable 'blue' [-Wunused-variable]
+  357 |   uint32_t blue = 0;
+      |            ^~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:356:12: warning: unused variable 'green' [-Wunused-variable]
+  356 |   uint32_t green = 0;
+      |            ^~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:355:12: warning: unused variable 'red' [-Wunused-variable]
+  355 |   uint32_t red = 0;
+      |            ^~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c: In function 'AddrLedDriver_Init':
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:464:20: warning: unused variable 'panelToTheLeft' [-Wunused-variable]
+  464 |         Position_e panelToTheLeft = (pos + 1) % TOP;
+      |                    ^~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:463:20: warning: unused variable 'panelToTheRight' [-Wunused-variable]
+  463 |         Position_e panelToTheRight = (pos + 1) % TOP;
+      |                    ^~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c: In function 'AddrLedDriver_SetPixelRgbInPanel':
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:694:19: warning: unused variable 'panel' [-Wunused-variable]
+  694 |   AddrLedPanel_t *panel = AddrLedDriver_GetPanelByLocation(pos);
+      |                   ^~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c: In function 'AddrLedDriver_GetPixelInPanel':
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:720:19: warning: unused variable 'strip' [-Wunused-variable]
+  720 |   AddrLedStrip_t *strip = panel->strip;
+      |                   ^~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c: At top level:
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:281:13: warning: 'led_strip_hsv2rgb' defined but not used [-Wunused-function]
+  281 | static void led_strip_hsv2rgb(uint32_t h, uint32_t s, uint32_t v, uint32_t *r, uint32_t *g, uint32_t *b)
+      |             ^~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/addr_led_driver.c:253:19: warning: 'CharToPosEnum' defined but not used [-Wunused-function]
+  253 | static Position_e CharToPosEnum(char c)
+      |                   ^~~~~~~~~~~~~
+[5/10] Linking C static library esp-idf/main/libmain.a
+[6/10] Generating esp-idf/esp_system/ld/sections.ld
+[7/10] Linking CXX executable light_cube.elf
+[8/10] Generating binary image from built executable
+esptool.py v4.10.dev2
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated /Users/jon/KODMOD/esp32_light_cube/build/light_cube.bin
+[9/10] cd /Users/jon/KODMOD/esp32_light_cube/build/esp-idf/esptool_py && /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/jon/KODMOD/esp32_light_cube/build/partition_table/partition-table.bin /Users/jon/KODMOD/esp32_light_cube/build/light_cube.bin
+light_cube.bin binary size 0x3bec0 bytes. Smallest app partition is 0x100000 bytes. 0xc4140 bytes (77%) free.
+[9/10] cd /Users/jon/KODMOD/esp-idf/components/esptool_py && /opt/homebrew/bin/cmake -D IDF_PATH=/Users/jon/KODMOD/esp-idf -D "SERIAL_TOOL=/Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python;;/Users/jon/KODMOD/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32s3" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/Users/jon/KODMOD/esp32_light_cube/build -P /Users/jon/KODMOD/esp-idf/components/esptool_py/run_serial_tool.cmake
+esptool.py --chip esp32s3 -p /dev/cu.usbmodem11301 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB 0x0 bootloader/bootloader.bin 0x10000 light_cube.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.10.dev2
+Serial port /dev/cu.usbmodem11301
+Connecting...
+Chip is ESP32-S3 (QFN56) (revision v0.2)
+Features: WiFi, BLE, Embedded PSRAM 8MB (AP_3v3)
+Crystal is 40MHz
+USB mode: USB-Serial/JTAG
+MAC: 74:4d:bd:81:58:60
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00000000 to 0x00005fff...
+Flash will be erased from 0x00010000 to 0x0004bfff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+SHA digest in image updated
+Compressed 21056 bytes to 13390...
+Writing at 0x00000000... (100 %)
+Wrote 21056 bytes (13390 compressed) at 0x00000000 in 0.3 seconds (effective 491.1 kbit/s)...
+Hash of data verified.
+Compressed 245440 bytes to 131395...
+Writing at 0x00010000... (11 %)
+Writing at 0x0001bd9b... (22 %)
+Writing at 0x00023dc2... (33 %)
+Writing at 0x0002a6d1... (44 %)
+Writing at 0x000308c2... (55 %)
+Writing at 0x00038fc4... (66 %)
+Writing at 0x0003ef13... (77 %)
+Writing at 0x0004510b... (88 %)
+Writing at 0x0004bd08... (100 %)
+Wrote 245440 bytes (131395 compressed) at 0x00010000 in 1.9 seconds (effective 1013.5 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 103...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.0 seconds (effective 566.6 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

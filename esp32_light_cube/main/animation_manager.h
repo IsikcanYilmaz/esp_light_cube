@@ -4,7 +4,7 @@
 // #include "button.h"
 #include "editable_value.h"
 
-#define ANIMATION_DEFAULT (ANIMATION_CANVAS)
+#define ANIMATION_DEFAULT (ANIMATION_WALKER)
 #define ANIMATION_MANAGER_DEFAULT_FPS (60)
 
 typedef enum AnimationIdx_e_
@@ -15,7 +15,7 @@ typedef enum AnimationIdx_e_
 	// ANIMATION_OSCILLATOR,
 	// ANIMATION_SNAKES,
 	// ANIMATION_GAME_OF_LIFE,
-	// ANIMATION_WALKER,
+	ANIMATION_WALKER,
 	ANIMATION_CANVAS,
 	ANIMATION_MAX
 } AnimationIdx_e;

@@ -6,7 +6,10 @@
 #include "visual_util.h"
 // #include "usr_commands.h"
 #include "logger.h"
+#include "esp_log.h"
 #include <stdio.h>
+
+static const char *TAG = "ANIM_CANVAS";
 
 static uint8_t testval1 = 50;
 static uint8_t testval2 = 20;

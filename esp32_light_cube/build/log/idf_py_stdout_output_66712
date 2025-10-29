@@ -1,0 +1,196 @@
+Command: /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem11301 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/jon/KODMOD/esp32_light_cube/build/light_cube.elf /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.elf -m '/Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/jon/KODMOD/esp-idf/tools/idf.py'
+[0;32mI (251) sleep_gpio: Configure to ESP-ROM:esp32s3-20210327[0m
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4004883b
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Oct 28 2025 21:55:43[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (27) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0c1e8h ( 49640) map[0m
+[0;32mI (95) esp_image: segment 1: paddr=0001c210 vaddr=3fc93e00 size=02e1ch ( 11804) load[0m
+[0;32mI (98) esp_image: segment 2: paddr=0001f034 vaddr=40374000 size=00fe4h (  4068) load[0m
+[0;32mI (102) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1d508h (120072) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003d530 vaddr=40374fe4 size=0ed1ch ( 60700) load[0m
+[0;32mI (143) esp_image: segment 5: paddr=0004c254 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (150) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (150) boot: Disabling RNG early entropy source...[0m
+[0;32mI (161) cpu_start: Multicore app[0m
+[0;32mI (170) cpu_start: Pro cpu start user code[0m
+[0;32mI (170) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (170) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     light_cube[0m
+[0;32mI (174) app_init: App version:      1[0m
+[0;32mI (178) app_init: Compile time:     Oct 28 2025 21:55:35[0m
+[0;32mI (183) app_init: ELF file SHA256:  caa25ce79...[0m
+[0;32mI (187) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (191) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (195) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (199) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (203) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (209) heap_init: At 3FC986E8 len 00051028 (324 KiB): RAM[0m
+[0;32mI (214) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (224) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (231) spi_flash: detected chip: gd[0m
+[0;32mI (233) spi_flash: flash io: dio[0m
+[0;33mW (236) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (248) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (254) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (261) main_task: Started on CPU0[0m
+[0;32mI (271) main_task: Calling app_main()[0m
+[0;32mI (271) AddrLedDriver: Create RMT TX channel[0m
+[0;32mI (271) AddrLedDriver: Install led strip encoder[0m
+[0;32mI (271) AddrLedDriver: Enable RMT TX channel[0m
+[0;32mI (1281) MAIN: BUMP[0m
+[0;32mI (2281) MAIN: BUMP[0m
+[0;32mI (3281) MAIN: BUMP[0m
+[0;32mI (4281) MAIN: BUMP[0m
+[0;32mI (5281) MAIN: BUMP[0m
+[0;32mI (6281) MAIN: BUMP[0m
+[0;32mI (7281) MAIN: BUMP[0m
+[0;32mI (8281) MAIN: BUMP[0m
+[0;32mI (9281) MAIN: BUMP[0m
+[0;32mI (10281) MAIN: BUMP[0m
+[0;32mI (11281) MAIN: BUMP[0m
+[0;32mI (12281) MAIN: BUMP[0m
+[0;32mI (13281) MAIN: BUMP[0m
+[0;32mI (14281) MAIN: BUMP[0m
+[0;32mI (15281) MAIN: BUMP[0m
+[0;32mI (16281) MAIN: BUMP[0m
+[0;32mI (17281) MAIN: BUMP[0m
+[0;32mI (18281) MAIN: BUMP[0m
+[0;32mI (19281) MAIN: BUMP[0m
+[0;32mI (20281) MAIN: BUMP[0m
+[0;32mI (21281) MAIN: BUMP[0m
+[0;32mI (22281) MAIN: BUMP[0m
+[0;32mI (23281) MAIN: BUMP[0m
+[0;32mI (24281) MAIN: BUMP[0m
+[0;32mI (25281) MAIN: BUMP[0m
+[0;32mI (26281) MAIN: BUMP[0m
+[0;32mI (27281) MAIN: BUMP[0m
+[0;32mI (28281) MAIN: BUMP[0m
+[0;32mI (29281) MAIN: BUMP[0m
+[0;32mI (30281) MAIN: BUMP[0m
+[0;32mI (31281) MAIN: BUMP[0m
+[0;32mI (32281) MAIN: BUMP[0m
+[0;32mI (33281) MAIN: BUMP[0m
+[0;32mI (34281) MAIN: BUMP[0m
+[0;32mI (35281) MAIN: BUMP[0m
+[0;32mI (36281) MAIN: BUMP[0m
+[0;32mI (37281) MAIN: BUMP[0m
+[0;32mI (38281) MAIN: BUMP[0m
+[0;32mI (39281) MAIN: BUMP[0m
+[0;32mI (40281) MAIN: BUMP[0m
+[0;32mI (41281) MAIN: BUMP[0m
+[0;32mI (42281) MAIN: BUMP[0m
+[0;32mI (43281) MAIN: BUMP[0m
+[0;32mI (44281) MAIN: BUMP[0m
+[0;32mI (45281) MAIN: BUMP[0m
+[0;32mI (46281) MAIN: BUMP[0m
+[0;32mI (47281) MAIN: BUMP[0m
+[0;32mI (48281) MAIN: BUMP[0m
+[0;32mI (49281) MAIN: BUMP[0m
+[0;32mI (50281) MAIN: BUMP[0m
+[0;32mI (51281) MAIN: BUMP[0m
+[0;32mI (52281) MAIN: BUMP[0m
+[0;32mI (53281) MAIN: BUMP[0m
+[0;32mI (54281) MAIN: BUMP[0m
+[0;32mI (55281) MAIN: BUMP[0m
+[0;32mI (56281) MAIN: BUMP[0m
+[0;32mI (57281) MAIN: BUMP[0m
+[0;32mI (58281) MAIN: BUMP[0m
+[0;32mI (59281) MAIN: BUMP[0m
+[0;32mI (60281) MAIN: BUMP[0m
+[0;32mI (61281) MAIN: BUMP[0m
+[0;32mI (62281) MAIN: BUMP[0m
+[0;32mI (63281) MAIN: BUMP[0m
+[0;32mI (64281) MAIN: BUMP[0m
+[0;32mI (65281) MAIN: BUMP[0m
+[0;32mI (66281) MAIN: BUMP[0m
+[0;32mI (67281) MAIN: BUMP[0m
+[0;32mI (68281) MAIN: BUMP[0m
+[0;32mI (69281) MAIN: BUMP[0m
+[0;32mI (70281) MAIN: BUMP[0m
+[0;32mI (71281) MAIN: BUMP[0m
+[0;32mI (72281) MAIN: BUMP[0m
+[0;32mI (73281) MAIN: BUMP[0m
+[0;32mI (74281) MAIN: BUMP[0m
+[0;32mI (75281) MAIN: BUMP[0m
+[0;32mI (76281) MAIN: BUMP[0m
+[0;32mI (77281) MAIN: BUMP[0m
+[0;32mI (78281) MAIN: BUMP[0m
+[0;32mI (79281) MAIN: BUMP[0m
+[0;32mI (80281) MAIN: BUMP[0m
+[0;32mI (81281) MAIN: BUMP[0m
+[0;32mI (82281) MAIN: BUMP[0m
+[0;32mI (83281) MAIN: BUMP[0m
+[0;32mI (84281) MAIN: BUMP[0m
+[0;32mI (85281) MAIN: BUMP[0m
+[0;32mI (86281) MAIN: BUMP[0m
+[0;32mI (87281) MAIN: BUMP[0m
+[0;32mI (88281) MAIN: BUMP[0m
+[0;32mI (89281) MAIN: BUMP[0m
+[0;32mI (90281) MAIN: BUMP[0m
+[0;32mI (91281) MAIN: BUMP[0m
+[0;32mI (92281) MAIN: BUMP[0m
+[0;32mI (93281) MAIN: BUMP[0m
+[0;32mI (94281) MAIN: BUMP[0m
+[0;32mI (95281) MAIN: BUMP[0m
+[0;32mI (96281) MAIN: BUMP[0m
+[0;32mI (97281) MAIN: BUMP[0m
+[0;32mI (98281) MAIN: BUMP[0m
+[0;32mI (99281) MAIN: BUMP[0m
+[0;32mI (100281) MAIN: BUMP[0m
+[0;32mI (101281) MAIN: BUMP[0m
+[0;32mI (102281) MAIN: BUMP[0m
+[0;32mI (103281) MAIN: BUMP[0m
+[0;32mI (104281) MAIN: BUMP[0m
+[0;32mI (105281) MAIN: BUMP[0m
+[0;32mI (106281) MAIN: BUMP[0m
+[0;32mI (107281) MAIN: BUMP[0m
+[0;32mI (108281) MAIN: BUMP[0m
+[0;32mI (109281) MAIN: BUMP[0m
+[0;32mI (110281) MAIN: BUMP[0m
+[0;32mI (111281) MAIN: BUMP[0m
+[0;32mI (112281) MAIN: BUMP[0m
+[0;32mI (113281) MAIN: BUMP[0m
+[0;32mI (114281) MAIN: BUMP[0m
+[0;32mI (115281) MAIN: BUMP[0m
+[0;32mI (116281) MAIN: BUMP[0m
+[0;32mI (117281) MAIN: BUMP[0m
+[0;32mI (118281) MAIN: BUMP[0m
+[0;32mI (119281) MAIN: BUMP[0m
+[0;32mI (120281) MAIN: BUMP[0m
+[0;32mI (121281) MAIN: BUMP[0m
+[0;32mI (122281) MAIN: BUMP[0m
+[0;32mI (123281) MAIN: BUMP[0m
+[0;32mI (124281) MAIN: BUMP[0m
+[0;32mI (125281) MAIN: BUMP[0m
+[0;32mI (126281) MAIN: BUMP[0m
+[0;32mI (127281) MAIN: BUMP[0m
+[0;32mI (128281) MAIN: BUMP[0m
+[0;32mI (129281) MAIN: BUMP[0m
+[0;32mI (130281) MAIN: BUMP[0m
+[0;32mI (131281) MAIN: BUMP[0m
+[0;32mI (132281) MAIN: BUMP[0m
+[0;32mI (133281) MAIN: BUMP[0m
+[0;32mI (134281) MAIN: BUMP[0m
+[0;32mI (135281) MAIN: BUMP[0m

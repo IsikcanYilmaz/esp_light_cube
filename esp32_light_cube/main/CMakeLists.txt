@@ -6,6 +6,7 @@ idf_component_register(SRCS
                             "animation_manager.c"
                             "editable_value.c"
                             "animation_canvas.c"
+                            "animation_walker.c"
                             "logger.c"
                             "visual_util.c"
                             "colorspace-conversions.c"

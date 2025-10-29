@@ -27,7 +27,6 @@ ws281x_params_t neopixelParams = {
 #elif defined(LIGHT_CUBE_ESP_IDF) ///////////////////////////////////////////////////////
 #include "driver/rmt_tx.h"
 #include "driver/rmt_encoder.h"
-#include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/projdefs.h"
 #include "freertos/task.h"
@@ -35,7 +34,7 @@ ws281x_params_t neopixelParams = {
 #include "driver/rmt_tx.h"
 #include "esp_check.h"
 
-static const char *TAG = "addr_led_driver";
+static const char *TAG = "AddrLedDriver";
 
 // Yanked out of the ESP IDF ledstrip example. maybe put these in a different file? TODO
 typedef struct {
@@ -376,7 +375,7 @@ static uint8_t HardwareInit(void)
   ESP_ERROR_CHECK(rmt_enable(led_chan));
   // ESP_LOGI(TAG, "Start LED rainbow chase");
   // static uint8_t idx = 0;
-  while(true)
+  while(false)
   {
     // #if 0
     // for (int i = 0; i < 3; i++) {
@@ -656,8 +655,10 @@ void AddrLedDriver_DisplayStrip(void)
 {
   ESP_ERROR_CHECK(rmt_transmit(led_chan, led_encoder, led_strip_pixels, sizeof(led_strip_pixels), &tx_config));
   ESP_ERROR_CHECK(rmt_tx_wait_all_done(led_chan, portMAX_DELAY));
+  pixelChanged = false;
 }
 
+// TODO redundant
 void AddrLedDriver_DisplayCube(void)
 {
   AddrLedDriver_DisplayStrip();
@@ -665,6 +666,7 @@ void AddrLedDriver_DisplayCube(void)
 
 void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
 {
+  // ESP_LOGI(TAG, "%s %d %d %d : r%d g%d b%d", __FUNCTION__, p->pos, p->x, p->y, r, g, b);
   if (p == NULL)
   {
     logprint("%s received null pixel_t pointer!\n", __FUNCTION__);
@@ -696,6 +698,7 @@ void AddrLedDriver_SetPixelRgbInPanel(Position_e pos, uint8_t x, uint8_t y, uint
 
 void AddrLedDriver_Clear(void)
 {
+  ESP_LOGI(TAG, "%s:d", __FUNCTION__, __LINE__);
   for (int i = 0; i < NUM_LEDS; i++)
   {
     AddrLedDriver_SetPixelRgb(&ledStrip0.pixels[i], 0, 0, 0);
@@ -872,7 +875,6 @@ void AddrLedDriver_PrintPixel(Pixel_t *p)
 
 bool AddrLedDriver_ShouldRedraw(void)
 {
-  return true;
   return pixelChanged;
 }
 

@@ -9,7 +9,7 @@
 // #include "animation_snakes.h"
 // #include "animation_sparkles.h"
 // #include "animation_game_of_life.h"
-// #include "animation_walker.h"
+#include "animation_walker.h"
 #include "addr_led_driver.h"
 #include "editable_value.h"
 #include "logger.h"
@@ -34,6 +34,9 @@
 
 
 // #include "colorspace_interface.h"
+
+#define ANIMATION_MAN_TASK_STACK_SIZE 4096
+TaskHandle_t animationManagerTaskHandle = NULL;
 
 // char animationMan_threadStack[THREAD_STACKSIZE_DEFAULT];
 Animation_s *currentAnimation;
@@ -147,18 +150,18 @@ Animation_s animations[ANIMATION_MAX] = {
 	// 	.signal = AnimationGameOfLife_ReceiveSignal,
 	// 	.getState = AnimationGameOfLife_GetState
 	// },
-	// [ANIMATION_WALKER] = {
-	// 	.name = "walker",
-	// 	.init = AnimationWalker_Init,
-	// 	.deinit = AnimationWalker_Deinit,
-	// 	.start = AnimationWalker_Start,
-	// 	.stop = AnimationWalker_Stop,
-	// 	.update = AnimationWalker_Update,
-	// 	//.buttonInput = AnimationWalker_ButtonInput,
-	// 	.usrInput = AnimationWalker_UsrInput,
-	// 	.signal = AnimationWalker_ReceiveSignal,
-	// 	.getState = AnimationWalker_GetState
-	// },
+	[ANIMATION_WALKER] = {
+		.name = "walker",
+		.init = AnimationWalker_Init,
+		.deinit = AnimationWalker_Deinit,
+		.start = AnimationWalker_Start,
+		.stop = AnimationWalker_Stop,
+		.update = AnimationWalker_Update,
+		//.buttonInput = AnimationWalker_ButtonInput,
+		// .usrInput = AnimationWalker_UsrInput,
+		.signal = AnimationWalker_ReceiveSignal,
+		.getState = AnimationWalker_GetState
+	},
 };
 
 static Animation_s * AnimationMan_GetAnimationByIdx(AnimationIdx_e idx)
@@ -210,16 +213,6 @@ static uint32_t AnimationMan_GetFps(void)
 void AnimationMan_TaskHandler(void *arg)
 {
 	(void) arg;
-	// thread_t *thisThread = thread_get_active();
-	// const char *thisThreadName = thread_get_name(thisThread);
-
-  // AnimationMan_Init();
-
-  while (true)
-  {
-    ESP_LOGI(TAG, "test\n");
-    vTaskDelay(pdMS_TO_TICKS(1000));
-  }
   
 	// Main thread for animations. What it should be doing is:
 	// Go through list of interruptions
@@ -243,7 +236,7 @@ void AnimationMan_TaskHandler(void *arg)
 						AddrLedDriver_DisplayCube();
 					}
 					break;
-			}
+        }
 			case ANIMATION_MAN_STATE_SWITCHING:
 				{
 					if (currentAnimation->getState() == ANIMATION_STATE_STOPPED)
@@ -260,19 +253,16 @@ void AnimationMan_TaskHandler(void *arg)
 						}
 					}
 					break;
-			}
+        }
 			default:
 				{
 					logprint("%s state invalid or not implemented yet %d\n", __FUNCTION__, animationManState);
 					animationManState = ANIMATION_MAN_STATE_RUNNING; // TODO placeholder. eventually implement the stopped state. will need for temperature or deep sleep reasons? 
 					break;
-			}
+        }
 		}
-		// uint32_t t1 = ztimer_now(ZTIMER_USEC);
-		// uint32_t processingLatencyUs = (t1-t0);
-		// uint32_t sleepUntilNextFrames = framePeriodUs - processingLatencyUs;
-		// logprint("proclat %d, sleep %d, calcperiod %d, netcalcperiod %d\n", processingLatencyUs, (uint32_t)(0.05 * US_PER_SEC), framePeriodUs, sleepUntilNextFrames);
-		// ztimer_sleep(ZTIMER_USEC, sleepUntilNextFrames);
+
+    vTaskDelay(pdMS_TO_TICKS(5));
 	}
 }
 
@@ -280,13 +270,16 @@ bool AnimationMan_Init(void)
 {
 	if (!AddrLedDriver_IsInitialized())
 	{
-		logprint("%s addr led driver not initialized!\n", __FUNCTION__);
+		ESP_LOGE(TAG, "%s addr led driver not initialized!\n", __FUNCTION__);
 		return false;
 	}
 
 	currentAnimation = AnimationMan_GetAnimationByIdx(ANIMATION_DEFAULT);
 	currentAnimationIdx = ANIMATION_DEFAULT;
 	currentAnimation->init(NULL);
+
+  xTaskCreate(AnimationMan_TaskHandler, "AnimManTask", ANIMATION_MAN_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, &animationManagerTaskHandle);
+  configASSERT(animationManagerTaskHandle);
 
 	animationManInitialized = true;
   return animationManInitialized;

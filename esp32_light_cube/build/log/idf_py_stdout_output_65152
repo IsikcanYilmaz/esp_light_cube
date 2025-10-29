@@ -1,0 +1,82 @@
+Command: ninja all
+[1/13] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/animation_canvas.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c: In function 'AnimationCanvas_Update':
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c:71:31: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   71 |                         state = ANIMATION_STATE_RUNNING; // TODO populate this area
+      |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c:73:17: note: here
+   73 |                 case ANIMATION_STATE_RUNNING:
+      |                 ^~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c: At top level:
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c:24:28: warning: 'editableValuesList' defined but not used [-Wunused-variable]
+   24 | static EditableValueList_t editableValuesList = {.name = "canvas", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
+      |                            ^~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c:15:16: warning: 'testval2' defined but not used [-Wunused-variable]
+   15 | static uint8_t testval2 = 20;
+      |                ^~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_canvas.c:12:20: warning: 'TAG' defined but not used [-Wunused-variable]
+   12 | static const char *TAG = "ANIM_CANVAS";
+      |                    ^~~
+[2/13] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/visual_util.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/visual_util.c: In function 'Visual_ApplyFnToAllPixels':
+/Users/jon/KODMOD/esp32_light_cube/main/visual_util.c:18:42: warning: unused variable 'p' [-Wunused-variable]
+   18 |                                 Pixel_t *p = AddrLedDriver_GetPixelInPanel(pos, col, row);
+      |                                          ^
+[3/13] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/main.c: In function 'app_main':
+/Users/jon/KODMOD/esp32_light_cube/main/main.c:35:11: warning: unused variable 'param' [-Wunused-variable]
+   35 |   uint8_t param = 0x31;
+      |           ^~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/main.c:34:11: warning: unused variable 'stackSize' [-Wunused-variable]
+   34 |   uint8_t stackSize = 200;
+      |           ^~~~~~~~~
+[4/13] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/animation_walker.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c: In function 'AnimationWalker_Update':
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c:349:31: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  349 |                         state = ANIMATION_STATE_RUNNING; // TODO populate this area
+      |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c:351:17: note: here
+  351 |                 case ANIMATION_STATE_RUNNING:
+      |                 ^~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c: At top level:
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c:119:17: warning: 'lastRandomizeTimestampMs' defined but not used [-Wunused-variable]
+  119 | static uint32_t lastRandomizeTimestampMs = 0;
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c:114:28: warning: 'editableValuesList' defined but not used [-Wunused-variable]
+  114 | static EditableValueList_t editableValuesList = {.name = "walker", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
+      |                            ^~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_walker.c:45:15: warning: 'vDiff' defined but not used [-Wunused-variable]
+   45 | static double vDiff = 0.0;
+      |               ^~~~~
+[5/13] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/animation_manager.c.obj
+/Users/jon/KODMOD/esp32_light_cube/main/animation_manager.c:208:17: warning: 'AnimationMan_GetFps' defined but not used [-Wunused-function]
+  208 | static uint32_t AnimationMan_GetFps(void)
+      |                 ^~~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_manager.c:201:13: warning: 'AnimationMan_SetFps' defined but not used [-Wunused-function]
+  201 | static void AnimationMan_SetFps(uint32_t fps)
+      |             ^~~~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_manager.c:66:28: warning: 'editableValueList' defined but not used [-Wunused-variable]
+   66 | static EditableValueList_t editableValueList = {.name = "animationmanager", .values = &editableValues[0], .len=sizeof(editableValues)/sizeof(EditableValue_t)};
+      |                            ^~~~~~~~~~~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_manager.c:59:15: warning: 'fadeOutV' defined but not used [-Wunused-variable]
+   59 | static double fadeOutV = 1.0;
+      |               ^~~~~~~~
+/Users/jon/KODMOD/esp32_light_cube/main/animation_manager.c:51:17: warning: 'autoSwitchTimestampMs' defined but not used [-Wunused-variable]
+   51 | static uint32_t autoSwitchTimestampMs = 0;
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+[6/13] Performing build step for 'bootloader'
+[1/1] cd /Users/jon/KODMOD/esp32_light_cube/build/bootloader/esp-idf/esptool_py && /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[7/13] No install step for 'bootloader'
+[8/13] Completed 'bootloader'
+[9/13] Linking C static library esp-idf/main/libmain.a
+[10/13] Generating esp-idf/esp_system/ld/sections.ld
+[11/13] Linking CXX executable light_cube.elf
+[12/13] Generating binary image from built executable
+esptool.py v4.10.dev2
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated /Users/jon/KODMOD/esp32_light_cube/build/light_cube.bin
+[13/13] cd /Users/jon/KODMOD/esp32_light_cube/build/esp-idf/esptool_py && /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/jon/KODMOD/esp32_light_cube/build/partition_table/partition-table.bin /Users/jon/KODMOD/esp32_light_cube/build/light_cube.bin
+light_cube.bin binary size 0x3c3b0 bytes. Smallest app partition is 0x100000 bytes. 0xc3c50 bytes (76%) free.

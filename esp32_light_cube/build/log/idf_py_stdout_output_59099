@@ -1,0 +1,1397 @@
+Command: /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem11301 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/jon/KODMOD/esp32_light_cube/build/light_cube.elf /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.elf -m '/Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/jon/KODMOD/esp-idf/tools/idf.py'
+ the size in the binary image hESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40048836
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Oct 28 2025 21:55:43[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (27) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0bf20h ( 48928) map[0m
+[0;32mI (95) esp_image: segment 1: paddr=0001bf48 vaddr=3fc93e00 size=02dech ( 11756) load[0m
+[0;32mI (98) esp_image: segment 2: paddr=0001ed3c vaddr=40374000 size=012dch (  4828) load[0m
+[0;32mI (102) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1cd70h (118128) map[0m
+[0;32mI (129) esp_image: segment 4: paddr=0003cd98 vaddr=403752dc size=0ea38h ( 59960) load[0m
+[0;32mI (143) esp_image: segment 5: paddr=0004b7d8 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (149) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (150) boot: Disabling RNG early entropy source...[0m
+[0;32mI (160) cpu_start: Multicore app[0m
+[0;32mI (170) cpu_start: Pro cpu start user code[0m
+[0;32mI (170) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (170) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     light_cube[0m
+[0;32mI (174) app_init: App version:      1[0m
+[0;32mI (177) app_init: Compile time:     Oct 28 2025 21:55:35[0m
+[0;32mI (182) app_init: ELF file SHA256:  cd54a62c0...[0m
+[0;32mI (187) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (190) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (194) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (198) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (202) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (208) heap_init: At 3FC98460 len 000512B0 (324 KiB): RAM[0m
+[0;32mI (214) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (224) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (230) spi_flash: detected chip: gd[0m
+[0;32mI (232) spi_flash: flash io: dio[0m
+[0;33mW (235) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (248) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (254) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (261) main_task: Started on CPU0[0m
+[0;32mI (271) main_task: Calling app_main()[0m
+[0;32mI (271) addr_led_driver: Create RMT TX channel[0m
+[0;32mI (271) addr_led_driver: Install led strip encoder[0m
+[0;32mI (271) addr_led_driver: Enable RMT TX channel[0m
+[0;32mI (281) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (1291) MAIN: BUMP[0m
+[0;32mI (1291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (1311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (2291) MAIN: BUMP[0m
+[0;32mI (2291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (2321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (3291) MAIN: BUMP[0m
+[0;32mI (3291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (3331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (4291) MAIN: BUMP[0m
+[0;32mI (4291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (4341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (5291) MAIN: BUMP[0m
+[0;32mI (5291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (5351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (6291) MAIN: BUMP[0m
+[0;32mI (6291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (6361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (7291) MAIN: BUMP[0m
+[0;32mI (7291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (7371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (8291) MAIN: BUMP[0m
+[0;32mI (8291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (8381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (9291) MAIN: BUMP[0m
+[0;32mI (9291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (9391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (10291) MAIN: BUMP[0m
+[0;32mI (10291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (10401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (11291) MAIN: BUMP[0m
+[0;32mI (11291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (11411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (12291) MAIN: BUMP[0m
+[0;32mI (12291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (12421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (13291) MAIN: BUMP[0m
+[0;32mI (13291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (13431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (14291) MAIN: BUMP[0m
+[0;32mI (14291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (14441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (15291) MAIN: BUMP[0m
+[0;32mI (15291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (15451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (16291) MAIN: BUMP[0m
+[0;32mI (16291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (16461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (17291) MAIN: BUMP[0m
+[0;32mI (17291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (17471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (18291) MAIN: BUMP[0m
+[0;32mI (18291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (18481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (19291) MAIN: BUMP[0m
+[0;32mI (19291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (19491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (20291) MAIN: BUMP[0m
+[0;32mI (20291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (20501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (21291) MAIN: BUMP[0m
+[0;32mI (21291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (21511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (22291) MAIN: BUMP[0m
+[0;32mI (22291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (22521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (23291) MAIN: BUMP[0m
+[0;32mI (23291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (23531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (24291) MAIN: BUMP[0m
+[0;32mI (24291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (24541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (25291) MAIN: BUMP[0m
+[0;32mI (25291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (25551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (26291) MAIN: BUMP[0m
+[0;32mI (26291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (26561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (27291) MAIN: BUMP[0m
+[0;32mI (27291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (27571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (28291) MAIN: BUMP[0m
+[0;32mI (28291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (28581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (29291) MAIN: BUMP[0m
+[0;32mI (29291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (29591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (30291) MAIN: BUMP[0m
+[0;32mI (30291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (30601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (31291) MAIN: BUMP[0m
+[0;32mI (31291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (31611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (32291) MAIN: BUMP[0m
+[0;32mI (32291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (32621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (33291) MAIN: BUMP[0m
+[0;32mI (33291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (33631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (34291) MAIN: BUMP[0m
+[0;32mI (34291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (34641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (35291) MAIN: BUMP[0m
+[0;32mI (35291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (35651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (36291) MAIN: BUMP[0m
+[0;32mI (36291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (36661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (37291) MAIN: BUMP[0m
+[0;32mI (37291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (37671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (38291) MAIN: BUMP[0m
+[0;32mI (38291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (38681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (39291) MAIN: BUMP[0m
+[0;32mI (39291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (39691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (40291) MAIN: BUMP[0m
+[0;32mI (40291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (40701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (41291) MAIN: BUMP[0m
+[0;32mI (41291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (41711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (42291) MAIN: BUMP[0m
+[0;32mI (42291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (42721) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (43291) MAIN: BUMP[0m
+[0;32mI (43291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (43731) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (44291) MAIN: BUMP[0m
+[0;32mI (44291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (44741) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (45291) MAIN: BUMP[0m
+[0;32mI (45291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (45751) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (46291) MAIN: BUMP[0m
+[0;32mI (46291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (46761) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (47291) MAIN: BUMP[0m
+[0;32mI (47291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (47771) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (48291) MAIN: BUMP[0m
+[0;32mI (48291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (48781) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (49291) MAIN: BUMP[0m
+[0;32mI (49291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (49791) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (50291) MAIN: BUMP[0m
+[0;32mI (50291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (50801) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (51291) MAIN: BUMP[0m
+[0;32mI (51291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (51811) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (52291) MAIN: BUMP[0m
+[0;32mI (52291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (52821) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (53291) MAIN: BUMP[0m
+[0;32mI (53291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (53831) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (54291) MAIN: BUMP[0m
+[0;32mI (54291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (54841) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (55291) MAIN: BUMP[0m
+[0;32mI (55291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (55851) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (56291) MAIN: BUMP[0m
+[0;32mI (56291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (56861) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (57291) MAIN: BUMP[0m
+[0;32mI (57291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (57871) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (58291) MAIN: BUMP[0m
+[0;32mI (58291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (58881) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (59291) MAIN: BUMP[0m
+[0;32mI (59291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (59891) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (60291) MAIN: BUMP[0m
+[0;32mI (60291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (60901) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (61291) MAIN: BUMP[0m
+[0;32mI (61291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (61911) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (62291) MAIN: BUMP[0m
+[0;32mI (62291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (62921) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (63291) MAIN: BUMP[0m
+[0;32mI (63291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (63931) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (64291) MAIN: BUMP[0m
+[0;32mI (64291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (64941) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (65291) MAIN: BUMP[0m
+[0;32mI (65291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (65951) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (66291) MAIN: BUMP[0m
+[0;32mI (66291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (66961) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (67291) MAIN: BUMP[0m
+[0;32mI (67291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (67971) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (68291) MAIN: BUMP[0m
+[0;32mI (68291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (68981) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (69291) MAIN: BUMP[0m
+[0;32mI (69291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (69991) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (70291) MAIN: BUMP[0m
+[0;32mI (70291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (71001) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (71291) MAIN: BUMP[0m
+[0;32mI (71291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (72011) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (72291) MAIN: BUMP[0m
+[0;32mI (72291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (73021) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (73291) MAIN: BUMP[0m
+[0;32mI (73291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (74031) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (74291) MAIN: BUMP[0m
+[0;32mI (74291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (75041) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (75291) MAIN: BUMP[0m
+[0;32mI (75291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (76051) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (76291) MAIN: BUMP[0m
+[0;32mI (76291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (77061) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (77291) MAIN: BUMP[0m
+[0;32mI (77291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (78071) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (78291) MAIN: BUMP[0m
+[0;32mI (78291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (79081) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (79291) MAIN: BUMP[0m
+[0;32mI (79291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (80091) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (80291) MAIN: BUMP[0m
+[0;32mI (80291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (81101) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (81291) MAIN: BUMP[0m
+[0;32mI (81291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (82111) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (82291) MAIN: BUMP[0m
+[0;32mI (82291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (83121) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (83291) MAIN: BUMP[0m
+[0;32mI (83291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (84131) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (84291) MAIN: BUMP[0m
+[0;32mI (84291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (85141) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (85291) MAIN: BUMP[0m
+[0;32mI (85291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (86151) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (86291) MAIN: BUMP[0m
+[0;32mI (86291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (87161) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (87291) MAIN: BUMP[0m
+[0;32mI (87291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (88171) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (88291) MAIN: BUMP[0m
+[0;32mI (88291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (89181) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (89291) MAIN: BUMP[0m
+[0;32mI (89291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (90191) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (90291) MAIN: BUMP[0m
+[0;32mI (90291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (91201) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (91291) MAIN: BUMP[0m
+[0;32mI (91291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (92211) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (92291) MAIN: BUMP[0m
+[0;32mI (92291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (93221) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (93291) MAIN: BUMP[0m
+[0;32mI (93291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (94231) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (94291) MAIN: BUMP[0m
+[0;32mI (94291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (95241) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (95291) MAIN: BUMP[0m
+[0;32mI (95291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (96251) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (96291) MAIN: BUMP[0m
+[0;32mI (96291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (97261) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (97291) MAIN: BUMP[0m
+[0;32mI (97291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (98271) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (98291) MAIN: BUMP[0m
+[0;32mI (98291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (99281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (99291) MAIN: BUMP[0m
+[0;32mI (99291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (100291) MAIN: BUMP[0m
+[0;32mI (100291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (100291) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (101291) MAIN: BUMP[0m
+[0;32mI (101291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (101301) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (102291) MAIN: BUMP[0m
+[0;32mI (102291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (102311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (103291) MAIN: BUMP[0m
+[0;32mI (103291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (103321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (104291) MAIN: BUMP[0m
+[0;32mI (104291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (104331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (105291) MAIN: BUMP[0m
+[0;32mI (105291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (105341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (106291) MAIN: BUMP[0m
+[0;32mI (106291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (106351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (107291) MAIN: BUMP[0m
+[0;32mI (107291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (107361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (108291) MAIN: BUMP[0m
+[0;32mI (108291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (108371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (109291) MAIN: BUMP[0m
+[0;32mI (109291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (109381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (110291) MAIN: BUMP[0m
+[0;32mI (110291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (110391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (111291) MAIN: BUMP[0m
+[0;32mI (111291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (111401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (112291) MAIN: BUMP[0m
+[0;32mI (112291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (112411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (113291) MAIN: BUMP[0m
+[0;32mI (113291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (113421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (114291) MAIN: BUMP[0m
+[0;32mI (114291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (114431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (115291) MAIN: BUMP[0m
+[0;32mI (115291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (115441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (116291) MAIN: BUMP[0m
+[0;32mI (116291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (116451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (117291) MAIN: BUMP[0m
+[0;32mI (117291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (117461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (118291) MAIN: BUMP[0m
+[0;32mI (118291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (118471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (119291) MAIN: BUMP[0m
+[0;32mI (119291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (119481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (120291) MAIN: BUMP[0m
+[0;32mI (120291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (120491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (121291) MAIN: BUMP[0m
+[0;32mI (121291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (121501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (122291) MAIN: BUMP[0m
+[0;32mI (122291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (122511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (123291) MAIN: BUMP[0m
+[0;32mI (123291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (123521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (124291) MAIN: BUMP[0m
+[0;32mI (124291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (124531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (125291) MAIN: BUMP[0m
+[0;32mI (125291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (125541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (126291) MAIN: BUMP[0m
+[0;32mI (126291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (126551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (127291) MAIN: BUMP[0m
+[0;32mI (127291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (127561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (128291) MAIN: BUMP[0m
+[0;32mI (128291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (128571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (129291) MAIN: BUMP[0m
+[0;32mI (129291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (129581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (130291) MAIN: BUMP[0m
+[0;32mI (130291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (130591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (131291) MAIN: BUMP[0m
+[0;32mI (131291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (131601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (132291) MAIN: BUMP[0m
+[0;32mI (132291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (132611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (133291) MAIN: BUMP[0m
+[0;32mI (133291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (133621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (134291) MAIN: BUMP[0m
+[0;32mI (134291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (134631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (135291) MAIN: BUMP[0m
+[0;32mI (135291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (135641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (136291) MAIN: BUMP[0m
+[0;32mI (136291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (136651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (137291) MAIN: BUMP[0m
+[0;32mI (137291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (137661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (138291) MAIN: BUMP[0m
+[0;32mI (138291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (138671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (139291) MAIN: BUMP[0m
+[0;32mI (139291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (139681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (140291) MAIN: BUMP[0m
+[0;32mI (140291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (140691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (141291) MAIN: BUMP[0m
+[0;32mI (141291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (141701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (142291) MAIN: BUMP[0m
+[0;32mI (142291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (142711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (143291) MAIN: BUMP[0m
+[0;32mI (143291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (143721) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (144291) MAIN: BUMP[0m
+[0;32mI (144291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (144731) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (145291) MAIN: BUMP[0m
+[0;32mI (145291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (145741) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (146291) MAIN: BUMP[0m
+[0;32mI (146291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (146751) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (147291) MAIN: BUMP[0m
+[0;32mI (147291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (147761) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (148291) MAIN: BUMP[0m
+[0;32mI (148291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (148771) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (149291) MAIN: BUMP[0m
+[0;32mI (149291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (149781) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (150291) MAIN: BUMP[0m
+[0;32mI (150291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (150791) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (151291) MAIN: BUMP[0m
+[0;32mI (151291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (151801) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (152291) MAIN: BUMP[0m
+[0;32mI (152291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (152811) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (153291) MAIN: BUMP[0m
+[0;32mI (153291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (153821) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (154291) MAIN: BUMP[0m
+[0;32mI (154291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (154831) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (155291) MAIN: BUMP[0m
+[0;32mI (155291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (155841) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (156291) MAIN: BUMP[0m
+[0;32mI (156291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (156851) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (157291) MAIN: BUMP[0m
+[0;32mI (157291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (157861) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (158291) MAIN: BUMP[0m
+[0;32mI (158291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (158871) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (159291) MAIN: BUMP[0m
+[0;32mI (159291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (159881) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (160291) MAIN: BUMP[0m
+[0;32mI (160291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (160891) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (161291) MAIN: BUMP[0m
+[0;32mI (161291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (161901) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (162291) MAIN: BUMP[0m
+[0;32mI (162291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (162911) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (163291) MAIN: BUMP[0m
+[0;32mI (163291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (163921) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (164291) MAIN: BUMP[0m
+[0;32mI (164291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (164931) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (165291) MAIN: BUMP[0m
+[0;32mI (165291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (165941) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (166291) MAIN: BUMP[0m
+[0;32mI (166291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (166951) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (167291) MAIN: BUMP[0m
+[0;32mI (167291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (167961) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (168291) MAIN: BUMP[0m
+[0;32mI (168291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (168971) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (169291) MAIN: BUMP[0m
+[0;32mI (169291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (169981) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (170291) MAIN: BUMP[0m
+[0;32mI (170291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (170991) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (171291) MAIN: BUMP[0m
+[0;32mI (171291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (172001) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (172291) MAIN: BUMP[0m
+[0;32mI (172291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (173011) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (173291) MAIN: BUMP[0m
+[0;32mI (173291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (174021) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (174291) MAIN: BUMP[0m
+[0;32mI (174291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (175031) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (175291) MAIN: BUMP[0m
+[0;32mI (175291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (176041) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (176291) MAIN: BUMP[0m
+[0;32mI (176291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (177051) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (177291) MAIN: BUMP[0m
+[0;32mI (177291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (178061) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (178291) MAIN: BUMP[0m
+[0;32mI (178291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (179071) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (179291) MAIN: BUMP[0m
+[0;32mI (179291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (180081) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (180291) MAIN: BUMP[0m
+[0;32mI (180291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (181091) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (181291) MAIN: BUMP[0m
+[0;32mI (181291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (182101) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (182291) MAIN: BUMP[0m
+[0;32mI (182291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (183111) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (183291) MAIN: BUMP[0m
+[0;32mI (183291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (184121) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (184291) MAIN: BUMP[0m
+[0;32mI (184291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (185131) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (185291) MAIN: BUMP[0m
+[0;32mI (185291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (186141) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (186291) MAIN: BUMP[0m
+[0;32mI (186291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (187151) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (187291) MAIN: BUMP[0m
+[0;32mI (187291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (188161) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (188291) MAIN: BUMP[0m
+[0;32mI (188291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (189171) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (189291) MAIN: BUMP[0m
+[0;32mI (189291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (190181) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (190291) MAIN: BUMP[0m
+[0;32mI (190291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (191191) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (191291) MAIN: BUMP[0m
+[0;32mI (191291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (192201) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (192291) MAIN: BUMP[0m
+[0;32mI (192291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (193211) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (193291) MAIN: BUMP[0m
+[0;32mI (193291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (194221) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (194291) MAIN: BUMP[0m
+[0;32mI (194291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (195231) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (195291) MAIN: BUMP[0m
+[0;32mI (195291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (196241) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (196291) MAIN: BUMP[0m
+[0;32mI (196291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (197251) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (197291) MAIN: BUMP[0m
+[0;32mI (197291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (198261) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (198291) MAIN: BUMP[0m
+[0;32mI (198291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (199271) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (199291) MAIN: BUMP[0m
+[0;32mI (199291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (200281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (200291) MAIN: BUMP[0m
+[0;32mI (200291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (201291) MAIN: BUMP[0m
+[0;32mI (201291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (201291) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (202291) MAIN: BUMP[0m
+[0;32mI (202291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (202301) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (203291) MAIN: BUMP[0m
+[0;32mI (203291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (203311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (204291) MAIN: BUMP[0m
+[0;32mI (204291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (204321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (205291) MAIN: BUMP[0m
+[0;32mI (205291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (205331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (206291) MAIN: BUMP[0m
+[0;32mI (206291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (206341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (207291) MAIN: BUMP[0m
+[0;32mI (207291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (207351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (208291) MAIN: BUMP[0m
+[0;32mI (208291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (208361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (209291) MAIN: BUMP[0m
+[0;32mI (209291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (209371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (210291) MAIN: BUMP[0m
+[0;32mI (210291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (210381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (211291) MAIN: BUMP[0m
+[0;32mI (211291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (211391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (212291) MAIN: BUMP[0m
+[0;32mI (212291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (212401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (213291) MAIN: BUMP[0m
+[0;32mI (213291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (213411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (214291) MAIN: BUMP[0m
+[0;32mI (214291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (214421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (215291) MAIN: BUMP[0m
+[0;32mI (215291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (215431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (216291) MAIN: BUMP[0m
+[0;32mI (216291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (216441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (217291) MAIN: BUMP[0m
+[0;32mI (217291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (217451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (218291) MAIN: BUMP[0m
+[0;32mI (218291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (218461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (219291) MAIN: BUMP[0m
+[0;32mI (219291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (219471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (220291) MAIN: BUMP[0m
+[0;32mI (220291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (220481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (221291) MAIN: BUMP[0m
+[0;32mI (221291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (221491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (222291) MAIN: BUMP[0m
+[0;32mI (222291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (222501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (223291) MAIN: BUMP[0m
+[0;32mI (223291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (223511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (224291) MAIN: BUMP[0m
+[0;32mI (224291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (224521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (225291) MAIN: BUMP[0m
+[0;32mI (225291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (225531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (226291) MAIN: BUMP[0m
+[0;32mI (226291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (226541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (227291) MAIN: BUMP[0m
+[0;32mI (227291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (227551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (228291) MAIN: BUMP[0m
+[0;32mI (228291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (228561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (229291) MAIN: BUMP[0m
+[0;32mI (229291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (229571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (230291) MAIN: BUMP[0m
+[0;32mI (230291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (230581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (231291) MAIN: BUMP[0m
+[0;32mI (231291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (231591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (232291) MAIN: BUMP[0m
+[0;32mI (232291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (232601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (233291) MAIN: BUMP[0m
+[0;32mI (233291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (233611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (234291) MAIN: BUMP[0m
+[0;32mI (234291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (234621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (235291) MAIN: BUMP[0m
+[0;32mI (235291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (235631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (236291) MAIN: BUMP[0m
+[0;32mI (236291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (236641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (237291) MAIN: BUMP[0m
+[0;32mI (237291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (237651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (238291) MAIN: BUMP[0m
+[0;32mI (238291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (238661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (239291) MAIN: BUMP[0m
+[0;32mI (239291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (239671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (240291) MAIN: BUMP[0m
+[0;32mI (240291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (240681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (241291) MAIN: BUMP[0m
+[0;32mI (241291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (241691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (242291) MAIN: BUMP[0m
+[0;32mI (242291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (242701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (243291) MAIN: BUMP[0m
+[0;32mI (243291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (243711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (244291) MAIN: BUMP[0m
+[0;32mI (244291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (244721) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (245291) MAIN: BUMP[0m
+[0;32mI (245291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (245731) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (246291) MAIN: BUMP[0m
+[0;32mI (246291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (246741) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (247291) MAIN: BUMP[0m
+[0;32mI (247291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (247751) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (248291) MAIN: BUMP[0m
+[0;32mI (248291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (248761) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (249291) MAIN: BUMP[0m
+[0;32mI (249291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (249771) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (250291) MAIN: BUMP[0m
+[0;32mI (250291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (250781) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (251291) MAIN: BUMP[0m
+[0;32mI (251291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (251791) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (252291) MAIN: BUMP[0m
+[0;32mI (252291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (252801) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (253291) MAIN: BUMP[0m
+[0;32mI (253291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (253811) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (254291) MAIN: BUMP[0m
+[0;32mI (254291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (254821) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (255291) MAIN: BUMP[0m
+[0;32mI (255291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (255831) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (256291) MAIN: BUMP[0m
+[0;32mI (256291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (256841) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (257291) MAIN: BUMP[0m
+[0;32mI (257291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (257851) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (258291) MAIN: BUMP[0m
+[0;32mI (258291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (258861) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (259291) MAIN: BUMP[0m
+[0;32mI (259291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (259871) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (260291) MAIN: BUMP[0m
+[0;32mI (260291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (260881) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (261291) MAIN: BUMP[0m
+[0;32mI (261291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (261891) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (262291) MAIN: BUMP[0m
+[0;32mI (262291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (262901) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (263291) MAIN: BUMP[0m
+[0;32mI (263291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (263911) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (264291) MAIN: BUMP[0m
+[0;32mI (264291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (264921) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (265291) MAIN: BUMP[0m
+[0;32mI (265291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (265931) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (266291) MAIN: BUMP[0m
+[0;32mI (266291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (266941) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (267291) MAIN: BUMP[0m
+[0;32mI (267291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (267951) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (268291) MAIN: BUMP[0m
+[0;32mI (268291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (268961) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (269291) MAIN: BUMP[0m
+[0;32mI (269291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (269971) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (270291) MAIN: BUMP[0m
+[0;32mI (270291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (270981) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (271291) MAIN: BUMP[0m
+[0;32mI (271291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (271991) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (272291) MAIN: BUMP[0m
+[0;32mI (272291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (273001) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (273291) MAIN: BUMP[0m
+[0;32mI (273291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (274011) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (274291) MAIN: BUMP[0m
+[0;32mI (274291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (275021) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (275291) MAIN: BUMP[0m
+[0;32mI (275291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (276031) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (276291) MAIN: BUMP[0m
+[0;32mI (276291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (277041) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (277291) MAIN: BUMP[0m
+[0;32mI (277291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (278051) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (278291) MAIN: BUMP[0m
+[0;32mI (278291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (279061) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (279291) MAIN: BUMP[0m
+[0;32mI (279291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (280071) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (280291) MAIN: BUMP[0m
+[0;32mI (280291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (281081) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (281291) MAIN: BUMP[0m
+[0;32mI (281291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (282091) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (282291) MAIN: BUMP[0m
+[0;32mI (282291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (283101) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (283291) MAIN: BUMP[0m
+[0;32mI (283291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (284111) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (284291) MAIN: BUMP[0m
+[0;32mI (284291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (285121) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (285291) MAIN: BUMP[0m
+[0;32mI (285291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (286131) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (286291) MAIN: BUMP[0m
+[0;32mI (286291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (287141) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (287291) MAIN: BUMP[0m
+[0;32mI (287291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (288151) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (288291) MAIN: BUMP[0m
+[0;32mI (288291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (289161) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (289291) MAIN: BUMP[0m
+[0;32mI (289291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (290171) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (290291) MAIN: BUMP[0m
+[0;32mI (290291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (291181) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (291291) MAIN: BUMP[0m
+[0;32mI (291291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (292191) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (292291) MAIN: BUMP[0m
+[0;32mI (292291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (293201) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (293291) MAIN: BUMP[0m
+[0;32mI (293291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (294211) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (294291) MAIN: BUMP[0m
+[0;32mI (294291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (295221) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (295291) MAIN: BUMP[0m
+[0;32mI (295291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (296231) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (296291) MAIN: BUMP[0m
+[0;32mI (296291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (297241) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (297291) MAIN: BUMP[0m
+[0;32mI (297291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (298251) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (298291) MAIN: BUMP[0m
+[0;32mI (298291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (299261) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (299291) MAIN: BUMP[0m
+[0;32mI (299291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (300271) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (300291) MAIN: BUMP[0m
+[0;32mI (300291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (301281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (301291) MAIN: BUMP[0m
+[0;32mI (301291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (302291) MAIN: BUMP[0m
+[0;32mI (302291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (302291) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (303291) MAIN: BUMP[0m
+[0;32mI (303291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (303301) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (304291) MAIN: BUMP[0m
+[0;32mI (304291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (304311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (305291) MAIN: BUMP[0m
+[0;32mI (305291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (305321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (306291) MAIN: BUMP[0m
+[0;32mI (306291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (306331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (307291) MAIN: BUMP[0m
+[0;32mI (307291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (307341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (308291) MAIN: BUMP[0m
+[0;32mI (308291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (308351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (309291) MAIN: BUMP[0m
+[0;32mI (309291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (309361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (310291) MAIN: BUMP[0m
+[0;32mI (310291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (310371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (311291) MAIN: BUMP[0m
+[0;32mI (311291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (311381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (312291) MAIN: BUMP[0m
+[0;32mI (312291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (312391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (313291) MAIN: BUMP[0m
+[0;32mI (313291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (313401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (314291) MAIN: BUMP[0m
+[0;32mI (314291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (314411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (315291) MAIN: BUMP[0m
+[0;32mI (315291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (315421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (316291) MAIN: BUMP[0m
+[0;32mI (316291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (316431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (317291) MAIN: BUMP[0m
+[0;32mI (317291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (317441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (318291) MAIN: BUMP[0m
+[0;32mI (318291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (318451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (319291) MAIN: BUMP[0m
+[0;32mI (319291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (319461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (320291) MAIN: BUMP[0m
+[0;32mI (320291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (320471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (321291) MAIN: BUMP[0m
+[0;32mI (321291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (321481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (322291) MAIN: BUMP[0m
+[0;32mI (322291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (322491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (323291) MAIN: BUMP[0m
+[0;32mI (323291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (323501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (324291) MAIN: BUMP[0m
+[0;32mI (324291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (324511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (325291) MAIN: BUMP[0m
+[0;32mI (325291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (325521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (326291) MAIN: BUMP[0m
+[0;32mI (326291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (326531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (327291) MAIN: BUMP[0m
+[0;32mI (327291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (327541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (328291) MAIN: BUMP[0m
+[0;32mI (328291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (328551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (329291) MAIN: BUMP[0m
+[0;32mI (329291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (329561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (330291) MAIN: BUMP[0m
+[0;32mI (330291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (330571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (331291) MAIN: BUMP[0m
+[0;32mI (331291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (331581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (332291) MAIN: BUMP[0m
+[0;32mI (332291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (332591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (333291) MAIN: BUMP[0m
+[0;32mI (333291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (333601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (334291) MAIN: BUMP[0m
+[0;32mI (334291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (334611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (335291) MAIN: BUMP[0m
+[0;32mI (335291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (335621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (336291) MAIN: BUMP[0m
+[0;32mI (336291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (336631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (337291) MAIN: BUMP[0m
+[0;32mI (337291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (337641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (338291) MAIN: BUMP[0m
+[0;32mI (338291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (338651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (339291) MAIN: BUMP[0m
+[0;32mI (339291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (339661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (340291) MAIN: BUMP[0m
+[0;32mI (340291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (340671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (341291) MAIN: BUMP[0m
+[0;32mI (341291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (341681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (342291) MAIN: BUMP[0m
+[0;32mI (342291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (342691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (343291) MAIN: BUMP[0m
+[0;32mI (343291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (343701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (344291) MAIN: BUMP[0m
+[0;32mI (344291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (344711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (345291) MAIN: BUMP[0m
+[0;32mI (345291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (345721) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (346291) MAIN: BUMP[0m
+[0;32mI (346291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (346731) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (347291) MAIN: BUMP[0m
+[0;32mI (347291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (347741) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (348291) MAIN: BUMP[0m
+[0;32mI (348291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (348751) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (349291) MAIN: BUMP[0m
+[0;32mI (349291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (349761) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (350291) MAIN: BUMP[0m
+[0;32mI (350291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (350771) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (351291) MAIN: BUMP[0m
+[0;32mI (351291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (351781) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (352291) MAIN: BUMP[0m
+[0;32mI (352291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (352791) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (353291) MAIN: BUMP[0m
+[0;32mI (353291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (353801) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (354291) MAIN: BUMP[0m
+[0;32mI (354291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (354811) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (355291) MAIN: BUMP[0m
+[0;32mI (355291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (355821) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (356291) MAIN: BUMP[0m
+[0;32mI (356291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (356831) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (357291) MAIN: BUMP[0m
+[0;32mI (357291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (357841) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (358291) MAIN: BUMP[0m
+[0;32mI (358291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (358851) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (359291) MAIN: BUMP[0m
+[0;32mI (359291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (359861) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (360291) MAIN: BUMP[0m
+[0;32mI (360291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (360871) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (361291) MAIN: BUMP[0m
+[0;32mI (361291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (361881) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (362291) MAIN: BUMP[0m
+[0;32mI (362291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (362891) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (363291) MAIN: BUMP[0m
+[0;32mI (363291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (363901) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (364291) MAIN: BUMP[0m
+[0;32mI (364291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (364911) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (365291) MAIN: BUMP[0m
+[0;32mI (365291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (365921) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (366291) MAIN: BUMP[0m
+[0;32mI (366291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (366931) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (367291) MAIN: BUMP[0m
+[0;32mI (367291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (367941) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (368291) MAIN: BUMP[0m
+[0;32mI (368291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (368951) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (369291) MAIN: BUMP[0m
+[0;32mI (369291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (369961) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (370291) MAIN: BUMP[0m
+[0;32mI (370291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (370971) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (371291) MAIN: BUMP[0m
+[0;32mI (371291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (371981) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (372291) MAIN: BUMP[0m
+[0;32mI (372291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (372991) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (373291) MAIN: BUMP[0m
+[0;32mI (373291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (374001) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (374291) MAIN: BUMP[0m
+[0;32mI (374291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (375011) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (375291) MAIN: BUMP[0m
+[0;32mI (375291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (376021) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (376291) MAIN: BUMP[0m
+[0;32mI (376291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (377031) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (377291) MAIN: BUMP[0m
+[0;32mI (377291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (378041) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (378291) MAIN: BUMP[0m
+[0;32mI (378291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (379051) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (379291) MAIN: BUMP[0m
+[0;32mI (379291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (380061) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (380291) MAIN: BUMP[0m
+[0;32mI (380291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (381071) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (381291) MAIN: BUMP[0m
+[0;32mI (381291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (382081) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (382291) MAIN: BUMP[0m
+[0;32mI (382291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (383091) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (383291) MAIN: BUMP[0m
+[0;32mI (383291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (384101) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (384291) MAIN: BUMP[0m
+[0;32mI (384291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (385111) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (385291) MAIN: BUMP[0m
+[0;32mI (385291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (386121) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (386291) MAIN: BUMP[0m
+[0;32mI (386291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (387131) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (387291) MAIN: BUMP[0m
+[0;32mI (387291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (388141) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (388291) MAIN: BUMP[0m
+[0;32mI (388291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (389151) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (389291) MAIN: BUMP[0m
+[0;32mI (389291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (390161) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (390291) MAIN: BUMP[0m
+[0;32mI (390291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (391171) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (391291) MAIN: BUMP[0m
+[0;32mI (391291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (392181) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (392291) MAIN: BUMP[0m
+[0;32mI (392291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (393191) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (393291) MAIN: BUMP[0m
+[0;32mI (393291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (394201) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (394291) MAIN: BUMP[0m
+[0;32mI (394291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (395211) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (395291) MAIN: BUMP[0m
+[0;32mI (395291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (396221) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (396291) MAIN: BUMP[0m
+[0;32mI (396291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (397231) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (397291) MAIN: BUMP[0m
+[0;32mI (397291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (398241) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (398291) MAIN: BUMP[0m
+[0;32mI (398291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (399251) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (399291) MAIN: BUMP[0m
+[0;32mI (399291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (400261) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (400291) MAIN: BUMP[0m
+[0;32mI (400291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (401271) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (401291) MAIN: BUMP[0m
+[0;32mI (401291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (402281) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (402291) MAIN: BUMP[0m
+[0;32mI (402291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (403291) MAIN: BUMP[0m
+[0;32mI (403291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (403291) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (404291) MAIN: BUMP[0m
+[0;32mI (404291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (404301) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (405291) MAIN: BUMP[0m
+[0;32mI (405291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (405311) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (406291) MAIN: BUMP[0m
+[0;32mI (406291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (406321) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (407291) MAIN: BUMP[0m
+[0;32mI (407291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (407331) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (408291) MAIN: BUMP[0m
+[0;32mI (408291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (408341) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (409291) MAIN: BUMP[0m
+[0;32mI (409291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (409351) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (410291) MAIN: BUMP[0m
+[0;32mI (410291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (410361) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (411291) MAIN: BUMP[0m
+[0;32mI (411291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (411371) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (412291) MAIN: BUMP[0m
+[0;32mI (412291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (412381) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (413291) MAIN: BUMP[0m
+[0;32mI (413291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (413391) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (414291) MAIN: BUMP[0m
+[0;32mI (414291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (414401) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (415291) MAIN: BUMP[0m
+[0;32mI (415291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (415411) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (416291) MAIN: BUMP[0m
+[0;32mI (416291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (416421) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (417291) MAIN: BUMP[0m
+[0;32mI (417291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (417431) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (418291) MAIN: BUMP[0m
+[0;32mI (418291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (418441) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (419291) MAIN: BUMP[0m
+[0;32mI (419291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (419451) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (420291) MAIN: BUMP[0m
+[0;32mI (420291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (420461) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (421291) MAIN: BUMP[0m
+[0;32mI (421291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (421471) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (422291) MAIN: BUMP[0m
+[0;32mI (422291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (422481) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (423291) MAIN: BUMP[0m
+[0;32mI (423291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (423491) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (424291) MAIN: BUMP[0m
+[0;32mI (424291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (424501) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (425291) MAIN: BUMP[0m
+[0;32mI (425291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (425511) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (426291) MAIN: BUMP[0m
+[0;32mI (426291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (426521) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (427291) MAIN: BUMP[0m
+[0;32mI (427291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (427531) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (428291) MAIN: BUMP[0m
+[0;32mI (428291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (428541) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (429291) MAIN: BUMP[0m
+[0;32mI (429291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (429551) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (430291) MAIN: BUMP[0m
+[0;32mI (430291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (430561) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (431291) MAIN: BUMP[0m
+[0;32mI (431291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (431571) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (432291) MAIN: BUMP[0m
+[0;32mI (432291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (432581) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (433291) MAIN: BUMP[0m
+[0;32mI (433291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (433591) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (434291) MAIN: BUMP[0m
+[0;32mI (434291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (434601) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (435291) MAIN: BUMP[0m
+[0;32mI (435291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (435611) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (436291) MAIN: BUMP[0m
+[0;32mI (436291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (436621) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (437291) MAIN: BUMP[0m
+[0;32mI (437291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (437631) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (438291) MAIN: BUMP[0m
+[0;32mI (438291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (438641) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (439291) MAIN: BUMP[0m
+[0;32mI (439291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (439651) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (440291) MAIN: BUMP[0m
+[0;32mI (440291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (440661) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (441291) MAIN: BUMP[0m
+[0;32mI (441291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (441671) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (442291) MAIN: BUMP[0m
+[0;32mI (442291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (442681) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (443291) MAIN: BUMP[0m
+[0;32mI (443291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (443691) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (444291) MAIN: BUMP[0m
+[0;32mI (444291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (444701) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (445291) MAIN: BUMP[0m
+[0;32mI (445291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (445711) ANIM_MAN: ANIMATION MAN[0m
+[0;32mI (446291) MAIN: BUMP[0m
+[0;32mI (446291) MAIN: xxPortGetFreeHeapSize 369036 , heap_caps_get_free_size 369036[0m
+[0;32mI (446721) ANIM_MAN: ANIMATION MAN[0m

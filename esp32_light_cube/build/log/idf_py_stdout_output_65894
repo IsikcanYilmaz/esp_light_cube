@@ -1,0 +1,181 @@
+Command: /Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/jon/KODMOD/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem11301 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/jon/KODMOD/esp32_light_cube/build/light_cube.elf /Users/jon/KODMOD/esp32_light_cube/build/bootloader/bootloader.elf -m '/Users/jon/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/jon/KODMOD/esp-idf/tools/idf.py'
+[0;32mI (258) sleep_gESP-ROM:esp32s3-20210327[0m
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40048839
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Oct 28 2025 21:55:43[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (27) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0c228h ( 49704) map[0m
+[0;32mI (95) esp_image: segment 1: paddr=0001c250 vaddr=3fc93e00 size=02e1ch ( 11804) load[0m
+[0;32mI (98) esp_image: segment 2: paddr=0001f074 vaddr=40374000 size=00fa4h (  4004) load[0m
+[0;32mI (102) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1d570h (120176) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003d598 vaddr=40374fa4 size=0ed5ch ( 60764) load[0m
+[0;32mI (143) esp_image: segment 5: paddr=0004c2fc vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (150) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (150) boot: Disabling RNG early entropy source...[0m
+[0;32mI (161) cpu_start: Multicore app[0m
+[0;32mI (170) cpu_start: Pro cpu start user code[0m
+[0;32mI (170) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (170) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     light_cube[0m
+[0;32mI (174) app_init: App version:      1[0m
+[0;32mI (178) app_init: Compile time:     Oct 28 2025 21:55:35[0m
+[0;32mI (183) app_init: ELF file SHA256:  8116d443a...[0m
+[0;32mI (187) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (191) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (195) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (199) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (203) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (209) heap_init: At 3FC986E8 len 00051028 (324 KiB): RAM[0m
+[0;32mI (214) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (224) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (231) spi_flash: detected chip: gd[0m
+[0;32mI (233) spi_flash: flash io: dio[0m
+[0;33mW (236) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (248) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (255) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (261) main_task: Started on CPU0[0m
+[0;32mI (271) main_task: Calling app_main()[0m
+[0;32mI (271) AddrLedDriver: Create RMT TX channel[0m
+[0;32mI (271) AddrLedDriver: Install led strip encoder[0m
+[0;32mI (271) AddrLedDriver: Enable RMT TX channel[0m
+[0;32mI (281) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (1021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (1221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (1281) MAIN: BUMP[0m
+[0;32mI (1421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (1621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (1821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (2021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (2221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (2281) MAIN: BUMP[0m
+[0;32mI (2421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (2621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (2821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (3021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (3221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (3281) MAIN: BUMP[0m
+[0;32mI (3421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (3621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (3821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (4021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (4221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (4281) MAIN: BUMP[0m
+[0;32mI (4421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (4621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (4821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (5021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (5221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (5281) MAIN: BUMP[0m
+[0;32mI (5421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (5621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (5821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (6021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (6221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (6281) MAIN: BUMP[0m
+[0;32mI (6421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (6621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (6821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (7021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (7221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (7281) MAIN: BUMP[0m
+[0;32mI (7421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (7621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (7821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (8021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (8221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (8281) MAIN: BUMP[0m
+[0;32mI (8421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (8621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (8821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (9021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (9221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (9281) MAIN: BUMP[0m
+[0;32mI (9421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (9621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (9821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (10021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (10221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (10281) MAIN: BUMP[0m
+[0;32mI (10421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (10621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (10821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (11021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (11221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (11281) MAIN: BUMP[0m
+[0;32mI (11421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (11621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (11821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (12021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (12221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (12281) MAIN: BUMP[0m
+[0;32mI (12421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (12621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (12821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (13021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (13221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (13281) MAIN: BUMP[0m
+[0;32mI (13421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (13621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (13821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (14021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (14221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (14281) MAIN: BUMP[0m
+[0;32mI (14421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (14621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (14821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (15021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (15221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (15281) MAIN: BUMP[0m
+[0;32mI (15421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (15621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (15821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (16021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (16221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (16281) MAIN: BUMP[0m
+[0;32mI (16421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (16621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (16821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (17021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (17221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (17281) MAIN: BUMP[0m
+[0;32mI (17421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (17621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (17821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (18021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (18221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (18281) MAIN: BUMP[0m
+[0;32mI (18421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (18621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (18821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (19021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (19221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (19281) MAIN: BUMP[0m
+[0;32mI (19421) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (19621) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (19821) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (20021) ANIM_MAN: AnimationMan_TaskHandler:236[0m
+[0;32mI (20221) ANIM_MAN: AnimationMan_TaskHandler:236[0m
