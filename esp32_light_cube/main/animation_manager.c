@@ -251,6 +251,9 @@ void AnimationMan_TaskHandler(void *arg)
 	}
 }
 
+/*
+ * This will init the datastructures and start the anim man thread
+ */
 bool AnimationMan_Init(void)
 {
 	if (!AddrLedDriver_IsInitialized())
