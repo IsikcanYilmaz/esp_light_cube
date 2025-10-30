@@ -242,7 +242,7 @@ void AnimationGameOfLife_Update(void)
 uint8_t AnimationGameOfLife_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	ESP_LOGI(TAG, "GameOfLife received usr input: \");
+	ESP_LOGI(TAG, "GameOfLife received usr input: ");
 	for (int i = 0; i < argc; i++)
 	{
 		printf(" %s", argv[i]);

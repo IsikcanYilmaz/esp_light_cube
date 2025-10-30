@@ -5,25 +5,7 @@
 #include "addr_led_driver.h"
 #include "usr_commands.h"
 
-// RIOT OS
-#if defined(LIGHT_CUBE_RIOT) ///////////////////////////////////////////////////////
-#include "button.h"
-#include "usr_commands.h"
-#include "ztimer.h"
-#include "xtimer.h"
-#include "thread.h"
-
-/*WS2812B Related */
-ws281x_t neopixelHandle;
-uint8_t pixelBuffer[NEOPIXEL_SIGNAL_BUFFER_LEN];
-ws281x_params_t neopixelParams = {
-  .buf = pixelBuffer,
-  .numof = NUM_LEDS,
-  .pin = NEOPIXEL_SIGNAL_GPIO_PIN
-};
-
 // ESP IDF
-#elif defined(LIGHT_CUBE_ESP_IDF) ///////////////////////////////////////////////////////
 #include "driver/rmt_tx.h"
 #include "driver/rmt_encoder.h"
 #include "freertos/FreeRTOS.h"
@@ -155,10 +137,6 @@ err:
   return ret;
 }
 
-#else
-#error "Need to define either LIGHT_CUBE_RIOT or LIGHT_CUBE_ESP_IDF!"
-#endif
-
 // Cube related
 Pixel_t ledStrip0Pixels[NUM_LEDS];
 AddrLedStrip_t ledStrip0;
@@ -200,54 +178,6 @@ static void InitPanel(AddrLedPanel_t *p)
 
   // Set global coordinates of this panel
 }
-
-#if defined(LIGHT_CUBE_RIOT)
-static void teststrips(ws281x_t *strip)
-{
-  // Color_t testHsv = Color_CreateFromHsv(50, 0.5, 0.5);
-  color_rgb_t color2 = {10, 0, 0};
-  color_rgb_t color1 = {10, 0, 10};
-  static bool onColor1 = true;
-  for(int i = 0; i < strip->params.numof; i++)
-  {
-    if (i % 2 == 0)
-    {
-      onColor1 ? ws281x_set(strip, i, color1) : ws281x_set(strip, i, color2);
-    }
-    else
-  {
-      onColor1 ? ws281x_set(strip, i, color2) : ws281x_set(strip, i, color1);
-    }
-  }
-  // ws281x_set(strip, 0, color1);
-  onColor1 = !onColor1;
-}
-
-static void testfirstled(ws281x_t *strip)
-{
-  color_rgb_t color2 = {10, 0, 0};
-  color_rgb_t color1 = {10, 0, 10};
-  color_rgb_t colorBlank = {0,0,0};
-  color_rgb_t colorBasic = {1,0,0};
-  static bool onColor1 = true;
-  // ws281x_set(strip, 0, (onColor1) ? color1 : color2);
-  ws281x_set(strip, 0, colorBlank);
-  ws281x_set(strip, 1, colorBasic);
-  ws281x_set(strip, 2, colorBlank);
-  ws281x_set(strip, 3, colorBasic);
-  onColor1 = !onColor1;
-}
-
-static void testsetpixel(ws281x_t *strip)
-{
-  Pixel_t *northTop = AddrLedDriver_GetPixelInPanel(SOUTH, 1, 1);
-  AddrLedDriver_SetPixelRgbInPanel(NORTH, 0, 0, 20, 0, 0);
-  AddrLedDriver_SetPixelRgbInPanel(SOUTH, 0, 0, 20, 0, 0);
-  AddrLedDriver_SetPixelRgbInPanel(WEST, 0, 0, 20, 0, 0);
-  AddrLedDriver_SetPixelRgbInPanel(EAST, 0, 0, 20, 0, 0);
-  AddrLedDriver_SetPixelRgbInPanel(TOP, 0, 0, 20, 0, 0);
-}
-#endif
 
 static Position_e CharToPosEnum(char c)
 {
@@ -337,19 +267,6 @@ static rmt_transmit_config_t tx_config = {
 
 static uint8_t HardwareInit(void)
 {
-#if defined(LIGHT_CUBE_RIOT)
-  //Init the ws281x module 
-  if(ws281x_init(&neopixelHandle, &neopixelParams) != 0) 
-  {
-    logprint("Failed to initialize ws281\n");
-    return;
-  }
-  else 
-{
-    logprint("Initialized ws281x. Data length %d one length %d zero length %d\n", WS281X_T_DATA_NS, WS281X_T_DATA_ONE_NS, WS281X_T_DATA_ZERO_NS);
-  }
-
-#elif defined(LIGHT_CUBE_ESP_IDF)
   // Yanked out of the ESP IDF led strip example
   uint32_t red = 0;
   uint32_t green = 0;
@@ -372,47 +289,6 @@ static uint8_t HardwareInit(void)
   ESP_ERROR_CHECK(rmt_new_led_strip_encoder(&encoder_config, &led_encoder));
   ESP_LOGI(TAG, "Enable RMT TX channel");
   ESP_ERROR_CHECK(rmt_enable(led_chan));
-  // ESP_LOGI(TAG, "Start LED rainbow chase");
-  // static uint8_t idx = 0;
-  while(false)
-  {
-    // #if 0
-    // for (int i = 0; i < 3; i++) {
-    //   for (int j = i; j < EXAMPLE_LED_NUMBERS; j += 3) {
-    //     // Build RGB pixels
-    //     hue = j * 360 / EXAMPLE_LED_NUMBERS + start_rgb;
-    //     led_strip_hsv2rgb(hue, 100, 20, &red, &green, &blue);
-    //     led_strip_pixels[j * 3 + 0] = green;
-    //     led_strip_pixels[j * 3 + 1] = blue;
-    //     led_strip_pixels[j * 3 + 2] = red;
-    //   }
-    //   // Flush RGB values to LEDs
-    //   ESP_ERROR_CHECK(rmt_transmit(led_chan, led_encoder, led_strip_pixels, sizeof(led_strip_pixels), &tx_config));
-    //   ESP_ERROR_CHECK(rmt_tx_wait_all_done(led_chan, portMAX_DELAY));
-    //   vTaskDelay(pdMS_TO_TICKS(EXAMPLE_CHASE_SPEED_MS));
-    // }
-    // start_rgb += 1;
-  // #endif
-  //   hue = idx * 360 / EXAMPLE_LED_NUMBERS;
-  //   led_strip_hsv2rgb(hue, 100, 20, &red, &green, &blue);
-  //   led_strip_pixels[idx * 3 + 0] = green;
-  //   led_strip_pixels[idx * 3 + 1] = blue;
-  //   led_strip_pixels[idx * 3 + 2] = red;
-  //   idx = (idx + 1) % EXAMPLE_LED_NUMBERS;
-  //   ESP_ERROR_CHECK(rmt_transmit(led_chan, led_encoder, led_strip_pixels, sizeof(led_strip_pixels), &tx_config));
-  //   ESP_ERROR_CHECK(rmt_tx_wait_all_done(led_chan, portMAX_DELAY));
-  //   vTaskDelay(pdMS_TO_TICKS(EXAMPLE_CHASE_SPEED_MS));
-  //   memset(led_strip_pixels, 0x00, sizeof(led_strip_pixels));
-    //
-    // led_strip_pixels[0] = 10;
-    // led_strip_pixels[1] = 10;
-    // led_strip_pixels[2] = 0;
-    // Pixel_t *first = AddrLedDriver_GetPixelInPanel(TOP, 0, 0);
-    AddrLedDriver_SetPixelRgbInPanel(SOUTH,1, 2, 10, 10, 0);
-    AddrLedDriver_DisplayStrip();
-    vTaskDelay(pdMS_TO_TICKS(EXAMPLE_CHASE_SPEED_MS));
-  }
-#endif
   return 0;
 }
 
@@ -638,16 +514,6 @@ bool AddrLedDriver_Init(void)
 
 void AddrLedDriver_Test(void)
 {
-  // teststrips(&neopixelHandle);
-  // ws281x_write(&neopixelHandle);
-
-  // testsetpixel(&neopixelHandle);
-  // while(true)
-  // {
-  // testfirstled(&neopixelHandle);
-  // AddrLedDriver_DisplayStrip(&ledStrip0);
-  // ztimer_sleep(ZTIMER_USEC, 1 * US_PER_SEC);
-  // }
 }
 
 void AddrLedDriver_DisplayStrip(void)
@@ -907,110 +773,110 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   	return 1;
   }
   ASSERT_ARGS(2);
-  // if (strcmp(argv[1], "clear") == 0)
-  // {
-  // 	AddrLedDriver_Clear();
-  // }
-  // else if (strcmp(argv[1], "relset") == 0)
-  // {
-  // 	// aled relset <pos> <relpos> <x> <y> <r> <g> <b>
-  // 	ASSERT_ARGS(9);
-  // 	Position_e pos = CharToPosEnum(argv[2][0]);
-  // 	Position_e relPos = CharToPosEnum(argv[3][0]);
-  // 	if (pos < NUM_SIDES && relPos < NUM_SIDES)
-  // 	{
-  // 		uint8_t x = atoi(argv[4]);
-  // 		uint8_t y = atoi(argv[5]);
-  // 		uint8_t r = atoi(argv[6]);
-  // 		uint8_t g = atoi(argv[7]);
-  // 		uint8_t b = atoi(argv[8]);
-  // 		logprint("Setting pixel %s relative to %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), AddrLedDriver_GetPositionString(relPos),x, y, r, g, b);
-  // 		Pixel_t *relPixel = AddrLedDriver_GetPixelInPanelRelative(pos, relPos, x, y);
-  // 		AddrLedDriver_SetPixelRgb(relPixel, r, g, b);
-  // 	}
-  // }
-  // else if (strcmp(argv[1], "set") == 0)
-  // {
-  // 	// aled set <pos> <x> <y> <r> <g> <b>
-  // 	ASSERT_ARGS(8);
-  // 	Position_e pos = NUM_SIDES;
-  // 	if (strcmp(argv[2], "n") == 0)
-  // 	{
-  // 		pos = NORTH;
-  // 	}
-  // 	else if (strcmp(argv[2], "e") == 0)
-  // 	{
-  // 		pos = EAST;
-  // 	}
-  // 	else if (strcmp(argv[2], "s") == 0)
-  // 	{
-  // 		pos = SOUTH;
-  // 	}
-  // 	else if (strcmp(argv[2], "w") == 0)
-  // 	{
-  // 		pos = WEST;
-  // 	}
-  // 	else if (strcmp(argv[2], "t") == 0)
-  // 	{
-  // 		pos = TOP;
-  // 	}
-  // 	else
-  // 	{
-  // 		logprint("BAD SIDE DESCRIPTOR! %s", argv[0]);
-  // 		return 1;
-  // 	}
-  // 	uint8_t x = atoi(argv[3]);
-  // 	uint8_t y = atoi(argv[4]);
-  // 	uint8_t r = atoi(argv[5]);
-  // 	uint8_t g = atoi(argv[6]);
-  // 	uint8_t b = atoi(argv[7]);
-  // 	// logprint("Setting pixel %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
-  // 	AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
-  // }
-  // else if (strcmp(argv[1], "nei") == 0)
-  // {
-  // 	// aled print <pos> <x> <y>
-  // 	ASSERT_ARGS(5);
-  // 	Position_e pos = NUM_SIDES;
-  // 	if (strcmp(argv[2], "n") == 0)
-  // 	{
-  // 		pos = NORTH;
-  // 	}
-  // 	else if (strcmp(argv[2], "e") == 0)
-  // 	{
-  // 		pos = EAST;
-  // 	}
-  // 	else if (strcmp(argv[2], "s") == 0)
-  // 	{
-  // 		pos = SOUTH;
-  // 	}
-  // 	else if (strcmp(argv[2], "w") == 0)
-  // 	{
-  // 		pos = WEST;
-  // 	}
-  // 	else if (strcmp(argv[2], "t") == 0)
-  // 	{
-  // 		pos = TOP;
-  // 	}
-  // 	else
-  // 	{
-  // 		logprint("BAD SIDE DESCRIPTOR! %s", argv[0]);
-  // 		return 1;
-  // 	}
-  // 	uint8_t x = atoi(argv[3]);
-  // 	uint8_t y = atoi(argv[4]);
-  // 	AddrLedDriver_Clear();
-  // 	Pixel_t *p = AddrLedDriver_GetPixelInPanel(pos, x, y);
-  // 	AddrLedDriver_SetPixelRgb(p, 10, 0, 0);
-  // 	for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
-  // 	{
-  // 		if (p->neighborPixels[i] == NULL)
-  // 		{
-  // 			continue;
-  // 		}
-  // 		AddrLedDriver_SetPixelRgb(p->neighborPixels[i], 10, 0, 10);
-  // 	}
-  // }
+  if (strcmp(argv[1], "clear") == 0)
+  {
+  	AddrLedDriver_Clear();
+  }
+  else if (strcmp(argv[1], "relset") == 0)
+  {
+  	// aled relset <pos> <relpos> <x> <y> <r> <g> <b>
+  	ASSERT_ARGS(9);
+  	Position_e pos = CharToPosEnum(argv[2][0]);
+  	Position_e relPos = CharToPosEnum(argv[3][0]);
+  	if (pos < NUM_SIDES && relPos < NUM_SIDES)
+  	{
+  		uint8_t x = atoi(argv[4]);
+  		uint8_t y = atoi(argv[5]);
+  		uint8_t r = atoi(argv[6]);
+  		uint8_t g = atoi(argv[7]);
+  		uint8_t b = atoi(argv[8]);
+  		ESP_LOGI(TAG, "Setting pixel %s relative to %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), AddrLedDriver_GetPositionString(relPos),x, y, r, g, b);
+  		Pixel_t *relPixel = AddrLedDriver_GetPixelInPanelRelative(pos, relPos, x, y);
+  		AddrLedDriver_SetPixelRgb(relPixel, r, g, b);
+  	}
+  }
+  else if (strcmp(argv[1], "set") == 0)
+  {
+  	// aled set <pos> <x> <y> <r> <g> <b>
+  	ASSERT_ARGS(8);
+  	Position_e pos = NUM_SIDES;
+  	if (strcmp(argv[2], "n") == 0)
+  	{
+  		pos = NORTH;
+  	}
+  	else if (strcmp(argv[2], "e") == 0)
+  	{
+  		pos = EAST;
+  	}
+  	else if (strcmp(argv[2], "s") == 0)
+  	{
+  		pos = SOUTH;
+  	}
+  	else if (strcmp(argv[2], "w") == 0)
+  	{
+  		pos = WEST;
+  	}
+  	else if (strcmp(argv[2], "t") == 0)
+  	{
+  		pos = TOP;
+  	}
+  	else
+  	{
+  		ESP_LOGE(TAG, "BAD SIDE DESCRIPTOR! %s", argv[0]);
+  		return 1;
+  	}
+  	uint8_t x = atoi(argv[3]);
+  	uint8_t y = atoi(argv[4]);
+  	uint8_t r = atoi(argv[5]);
+  	uint8_t g = atoi(argv[6]);
+  	uint8_t b = atoi(argv[7]);
+  	// ESP_LOGI(TAG, "Setting pixel %s %d %d to %d %d %d", AddrLedDriver_GetPositionString(pos), x, y, r, g, b);
+  	AddrLedDriver_SetPixelRgbInPanel(pos, x, y, r, g, b);
+  }
+  else if (strcmp(argv[1], "nei") == 0)
+  {
+  	// aled print <pos> <x> <y>
+  	ASSERT_ARGS(5);
+  	Position_e pos = NUM_SIDES;
+  	if (strcmp(argv[2], "n") == 0)
+  	{
+  		pos = NORTH;
+  	}
+  	else if (strcmp(argv[2], "e") == 0)
+  	{
+  		pos = EAST;
+  	}
+  	else if (strcmp(argv[2], "s") == 0)
+  	{
+  		pos = SOUTH;
+  	}
+  	else if (strcmp(argv[2], "w") == 0)
+  	{
+  		pos = WEST;
+  	}
+  	else if (strcmp(argv[2], "t") == 0)
+  	{
+  		pos = TOP;
+  	}
+  	else
+  	{
+  		ESP_LOGE(TAG, "BAD SIDE DESCRIPTOR! %s", argv[0]);
+  		return 1;
+  	}
+  	uint8_t x = atoi(argv[3]);
+  	uint8_t y = atoi(argv[4]);
+  	AddrLedDriver_Clear();
+  	Pixel_t *p = AddrLedDriver_GetPixelInPanel(pos, x, y);
+  	AddrLedDriver_SetPixelRgb(p, 10, 0, 0);
+  	for (uint8_t i = 0; i < NUM_DIRECTIONS; i++)
+  	{
+  		if (p->neighborPixels[i] == NULL)
+  		{
+  			continue;
+  		}
+  		AddrLedDriver_SetPixelRgb((Pixel_t *) p->neighborPixels[i], 10, 0, 10);
+  	}
+  }
   // else if (strcmp(argv[1], "print") == 0)
   // {
   // 	// aled print <pos> <x> <y>
@@ -1038,7 +904,7 @@ int AddrLedDriver_TakeUsrCommand(int argc, char **argv)
   // 	}
   // 	else
   // 	{
-  // 		logprint("BAD SIDE DESCRIPTOR! %s\n", argv[0]);
+  // 		ESP_LOGE(TAG, "BAD SIDE DESCRIPTOR! %s\n", argv[0]);
   // 		return 1;
   // 	}
   // 	uint8_t x = atoi(argv[3]);
