@@ -162,7 +162,7 @@ static void RunningActionWithTop(void)
 		lineY = 1;
 		rowGoingUp = false;
 	}
-	ESP_LOGI(TAG, "%d %d %d\n", row, lineX, lineY);
+	ESP_LOGI(TAG, "%d %d %d", row, lineX, lineY);
 }
 
 static void RunningAction(void)
@@ -261,7 +261,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGI(TAG, "Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -270,7 +270,7 @@ bool AnimationLines_Init(void *arg)
 	InitColors();
 	AddrLedDriver_Clear();
 	state = ANIMATION_STATE_RUNNING;
-	ESP_LOGI(TAG, "%s\n", __FUNCTION__);
+	ESP_LOGI(TAG, "%s", __FUNCTION__);
 	return true;
 }
 
@@ -338,7 +338,7 @@ uint8_t AnimationLines_UsrInput(int argc, char **argv)
 
 void AnimationLines_ReceiveSignal(AnimationSignal_e s)
 {
-	ESP_LOGI(TAG, "%s signal received %d\n", __FUNCTION__, s);
+	ESP_LOGI(TAG, "%s signal received %d", __FUNCTION__, s);
 	switch(s)
 	{
 		case ANIMATION_SIGNAL_START:
@@ -353,7 +353,7 @@ void AnimationLines_ReceiveSignal(AnimationSignal_e s)
 		}
 		default:
 		{
-			ESP_LOGE(TAG, "%s bad signal %d\n", __FUNCTION__, s);
+			ESP_LOGE(TAG, "%s bad signal %d", __FUNCTION__, s);
 			break;
 		}
 	}

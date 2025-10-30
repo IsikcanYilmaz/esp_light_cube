@@ -109,7 +109,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGV(TAG, "Fade off done state %d\n", state);
+		ESP_LOGV(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -123,7 +123,7 @@ static void FadeUpAction(void)
 	if (currV >= ulV)
 	{
 		state = ANIMATION_STATE_RUNNING;
-		ESP_LOGV(TAG, "Fade up done state %d\n", state);
+		ESP_LOGV(TAG, "Fade up done state %d", state);
 	}
 }
 

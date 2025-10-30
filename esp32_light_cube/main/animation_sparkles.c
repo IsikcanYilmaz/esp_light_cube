@@ -155,12 +155,12 @@ static bool CheckShouldBurst(void)
 		{
       uint32_t nowMs = esp_timer_get_time()/1000;
 			return (burstPeriod < nowMs - lastBurstTimestampMs);
-			ESP_LOGE(TAG, "SPARKLES_BURST_TIMED not yet implemented\n");
+			ESP_LOGE(TAG, "SPARKLES_BURST_TIMED not yet implemented");
 			break;
 		}
 		default:
 		{
-		  ESP_LOGE(TAG, "Bad burst mode!\n");
+		  ESP_LOGE(TAG, "Bad burst mode!");
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGI(TAG, "Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -239,7 +239,7 @@ bool AnimationSparkles_Init(void *arg)
 	InitColors();
 	AddrLedDriver_Clear();
 	state = ANIMATION_STATE_RUNNING;
-	ESP_LOGI(TAG, "%s\n", __FUNCTION__);
+	ESP_LOGI(TAG, "%s", __FUNCTION__);
 	return true;
 }
 
@@ -306,7 +306,7 @@ uint8_t AnimationSparkles_UsrInput(int argc, char **argv)
 
 void AnimationSparkles_ReceiveSignal(AnimationSignal_e s)
 {
-	ESP_LOGI(TAG, "%s signal received %d\n", __FUNCTION__, s);
+	ESP_LOGI(TAG, "%s signal received %d", __FUNCTION__, s);
 	switch(s)
 	{
 		case ANIMATION_SIGNAL_START:
@@ -321,7 +321,7 @@ void AnimationSparkles_ReceiveSignal(AnimationSignal_e s)
 		}
 		default:
 		{
-			ESP_LOGE(TAG, "%s bad signal %d\n", __FUNCTION__, s);
+			ESP_LOGE(TAG, "%s bad signal %d", __FUNCTION__, s);
 			break;
 		}
 	}

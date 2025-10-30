@@ -209,9 +209,9 @@ static void walkerMoveRandomly(Walker_t *w)
 
 	if (nextPix == NULL)
 	{
-		ESP_LOGE(TAG, "NULL PIXEL IN %s\n", __FUNCTION__);
-		ESP_LOGE(TAG, "randomDirection %d\n", randomDirection);
-		ESP_LOGE(TAG, "numPossibleDirections %d\n", numPossibleDirections);
+		ESP_LOGE(TAG, "NULL PIXEL IN %s", __FUNCTION__);
+		ESP_LOGE(TAG, "randomDirection %d", randomDirection);
+		ESP_LOGE(TAG, "numPossibleDirections %d", numPossibleDirections);
 		return;
 	}
 	w->prevPix = w->pix[0];
@@ -225,7 +225,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGI(TAG, "Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -381,7 +381,7 @@ void AnimationWalker_Update(void)
 uint8_t AnimationWalker_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	ESP_LOGI(TAG, "Walker received usr input: \n");
+	ESP_LOGI(TAG, "Walker received usr input: ");
 	for (int i = 0; i < argc; i++)
 	{
 		printf(" %s", argv[i]);

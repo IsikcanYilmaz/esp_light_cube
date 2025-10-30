@@ -58,7 +58,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGI(TAG, "Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -66,7 +66,7 @@ static void setCellByIdx(uint16_t idx, GoLCellStatus_e status)
 {
 	if (idx >= NUM_LEDS)
 	{
-		ESP_LOGE(TAG, "%s bad idx %d\n", __FUNCTION__, idx);
+		ESP_LOGE(TAG, "%s bad idx %d", __FUNCTION__, idx);
 	}
 	cellStatusCurrent[idx] = status;
 }
@@ -76,7 +76,7 @@ static void setCellByCoordinate(Direction_e pos, uint8_t x, uint8_t y, GoLCellSt
 	Pixel_t *p = AddrLedDriver_GetPixelInPanel(pos, x, y);
 	if (p == NULL)
 	{
-		ESP_LOGE(TAG, "%s bad pixel! p%d x%d y%d\n", __FUNCTION__, pos, x, y);
+		ESP_LOGE(TAG, "%s bad pixel! p%d x%d y%d", __FUNCTION__, pos, x, y);
 		return;
 	}
 	setCellByIdx(p->stripIdx, status);
@@ -242,7 +242,7 @@ void AnimationGameOfLife_Update(void)
 uint8_t AnimationGameOfLife_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	ESP_LOGI(TAG, "GameOfLife received usr input: \n");
+	ESP_LOGI(TAG, "GameOfLife received usr input: \");
 	for (int i = 0; i < argc; i++)
 	{
 		printf(" %s", argv[i]);
@@ -256,7 +256,7 @@ uint8_t AnimationGameOfLife_UsrInput(int argc, char **argv)
 		Position_e pos = UserCommand_PositionStringToVal(argv[1]);
 		uint8_t x = atoi(argv[2]);
 		uint8_t y = atoi(argv[3]);
-		ESP_LOGI(TAG, "Setting %s %d %d alive\n", AddrLedDriver_GetPositionString(pos), x, y);
+		ESP_LOGI(TAG, "Setting %s %d %d alive", AddrLedDriver_GetPositionString(pos), x, y);
 		setCellByCoordinate(pos, x, y, ALIVE);
 		// printCurrentFrame();
 		return 0;

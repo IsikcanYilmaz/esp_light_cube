@@ -46,7 +46,7 @@ static void FadeOffAction(void)
 	if (Visual_IsAllDark())
 	{
 		state = ANIMATION_STATE_STOPPED;
-		ESP_LOGI(TAG, "Fade off done state %d\n", state);
+		ESP_LOGI(TAG, "Fade off done state %d", state);
 	}
 }
 
@@ -172,7 +172,7 @@ void AnimationSnakes_Update(void)
 uint8_t AnimationSnakes_UsrInput(int argc, char **argv)
 {
 	ASSERT_ARGS(1);
-	ESP_LOGI(TAG, "Snakes received usr input: \n");
+	ESP_LOGI(TAG, "Snakes received usr input: ");
 	for (int i = 0; i < argc; i++)
 	{
 		printf(" %s", argv[i]);
