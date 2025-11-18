@@ -5,6 +5,7 @@
 #include "visual_util.h"
 #include "usr_commands.h"
 #include "esp_log.h"
+#include "colorspace_interface.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -13,7 +14,11 @@
 static const char* TAG = "ANIM_GOL";
 
 // Configs
-static double hIncrement = -12.556; //-2;
+static double currH = 0.0;
+static double currS = 0.7;
+static double currV = 0.8;
+
+static double hIncrement = -0.556; //-2;
 static double sIncrement = -0.02; //-0;
 static double vIncrement = -0.011; //-0.01;
 
@@ -34,6 +39,9 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -20.00, .ul.d = 20.00},
 	(EditableValue_t) {.name = "sIncrement", .valPtr = (union EightByteData_u *) &sIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 0.10},
+	(EditableValue_t) {.name = "currH", .valPtr = (union EightByteData_u *) &currH, .type = DOUBLE, .ll.d = 0.00, .ul.d = 360.00},
+	(EditableValue_t) {.name = "currS", .valPtr = (union EightByteData_u *) &currS, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "currV", .valPtr = (union EightByteData_u *) &currV, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "skipFrames", .valPtr = (union EightByteData_u *) &skipFrames, .type = UINT16_T, .ll.u16 = 0, .ul.u16 = 100},
 	(EditableValue_t) {.name = "randomInput", .valPtr = (union EightByteData_u *) &randomInput, .type = BOOLEAN, .ll.b = false, .ul.b = true},
 	(EditableValue_t) {.name = "randomInputChancePercent", .valPtr = (union EightByteData_u *) &randomInputChancePercent, .type = UINT16_T, .ll.u16 = 0, .ul.u16 = 100},
@@ -110,13 +118,14 @@ static uint16_t getNumAliveCells(void)
 static void drawFrame(void)
 {
 	// Can draw now
+  Color_t c = Color_CreateFromHsv(currH, currS, currV);
 	for (uint16_t pIdx = 0; pIdx < NUM_LEDS; pIdx++)
 	{
 		Pixel_t *p = AddrLedDriver_GetPixelByIdx(pIdx);	
 		GoLCellStatus_e status = cellStatusCurrent[pIdx];
 		if (status == ALIVE)
 		{
-			AddrLedDriver_SetPixelRgb(p, 100, 0, 0);
+			AddrLedDriver_SetPixelRgb(p, c.red, c.green, c.blue);
 		}
 	}
 	Visual_IncrementAllByHSV(hIncrement, sIncrement ,vIncrement);

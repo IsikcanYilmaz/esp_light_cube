@@ -58,15 +58,15 @@ bool UserCommand_Init(void)
   repl_config.max_cmdline_length = MAX_CMD_LINE_LENGTH;
 
   esp_err_t err;
-  #if defined(CONFIG_ESP_CONSOLE_USB_CDC)
+  // #if defined(CONFIG_ESP_CONSOLE_USB_CDC)
   err = esp_console_register_help_command();
   ESP_ERROR_CHECK(err);
   esp_console_dev_usb_cdc_config_t hw_config = ESP_CONSOLE_DEV_CDC_CONFIG_DEFAULT();
   err |= esp_console_new_repl_usb_cdc(&hw_config, &repl_config, &repl);
   ESP_ERROR_CHECK(err);
-  #else
-  #error "CDC NEEDS TO BE TURNED ON"
-  #endif
+  // #else
+  // #error "CDC NEEDS TO BE TURNED ON"
+  // #endif
 
   // register_test();
   UserCommand_RegisterCommands();

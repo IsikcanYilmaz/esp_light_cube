@@ -20,8 +20,11 @@
 static const char* TAG = "ANIM_OSCILLATOR";
 
 static Color_t currColor;
-static float freq = 0.25;
-static double hIncrement = -2;
+static double freq = 0.13;
+static double currH = 255.0;
+static double currS = 1.0;
+static double currV = 0.15;
+static double hIncrement = -0;
 static double sIncrement = -0;
 static double vIncrement = -0.06;
 
@@ -30,6 +33,10 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "hIncrement", .valPtr = (union EightByteData_u *) &hIncrement, .type = DOUBLE, .ll.d = -360.00, .ul.d = 360.00},
 	(EditableValue_t) {.name = "sIncrement", .valPtr = (union EightByteData_u *) &sIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "vIncrement", .valPtr = (union EightByteData_u *) &vIncrement, .type = DOUBLE, .ll.d = -1.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "currH", .valPtr = (union EightByteData_u *) &currH, .type = DOUBLE, .ll.d = 0.00, .ul.d = 360.00},
+	(EditableValue_t) {.name = "currS", .valPtr = (union EightByteData_u *) &currS, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "currV", .valPtr = (union EightByteData_u *) &currV, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
+	(EditableValue_t) {.name = "freq", .valPtr = (union EightByteData_u *) &freq, .type = DOUBLE, .ll.d = 0.00, .ul.d = 2.00},
 };
 static EditableValueList_t editableValuesList = {.name = "oscillator", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -51,10 +58,10 @@ static void RunningAction(void)
 	static uint8_t yvals[16];
 	float now = (float) esp_timer_get_time() / 1000000.0;
 	now = fmodf(now, 100.0);
-	freq = 1;
+	// freq = 1;
 
 	Visual_IncrementAllByHSV(hIncrement, sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
-
+  Color_t c = Color_CreateFromHsv(currH, currS, currV);
 	for (uint8_t i = 0; i < 16; i++)
 	{
 		// Red
@@ -63,7 +70,7 @@ static void RunningAction(void)
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
 		yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
-		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, currColor.red, currColor.green, currColor.blue);
+		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, c.red, c.green, c.blue);
 	}
 }
 
@@ -86,27 +93,28 @@ static void newRunningAction(void)
 		float sinout = 6 + 6 * CtrlSig_Sin(freq, phaseDiffRadian);
 		yvals[i] = (int)sinout;
 		Position_e pos = i/4;
+    Color_t c = Color_CreateFromHsv(currH, currS, currH);
 		if (yvals[i] < 4)
 		{
-			AddrLedDriver_SetPixelRgbInPanel(pos, (xOffset+i)%4, yvals[i], currColor.red, currColor.green, currColor.blue);
+			AddrLedDriver_SetPixelRgbInPanel(pos, (xOffset+i)%4, yvals[i], c.red, c.green, c.blue);
 		}
 		else if (yvals[i] < 8) // TOP PANEL
 		{
 			Pixel_t *topPix = AddrLedDriver_GetPixelInPanelRelative(TOP, pos, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(topPix, currColor.red, currColor.green, currColor.blue);
+			AddrLedDriver_SetPixelRgb(topPix, c.red, c.green, c.blue);
 		}
 		else // OPPOSITE PANEL
 		{
 			Position_e oppositePos = AddrLedDriver_GetOppositePanel(pos);
 			Pixel_t *oppositePix = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(oppositePix, currColor.red, currColor.green, currColor.blue);
+			AddrLedDriver_SetPixelRgb(oppositePix, c.red, c.green, c.blue);
 		}
 	}
 }
 
 bool AnimationOscillator_Init(void *arg)
 {
-	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8);
+	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8); // TODO depricated
 	state = ANIMATION_STATE_RUNNING;
 	return true;
 }
