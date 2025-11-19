@@ -15,11 +15,11 @@ static const char* TAG = "ANIM_GOL";
 
 // Configs
 static double currH = 0.0;
-static double currS = 0.7;
-static double currV = 0.8;
+static double currS = 0.8;
+static double currV = 0.345;
 
 static double hIncrement = -0.556; //-2;
-static double sIncrement = -0.02; //-0;
+static double sIncrement = 0.093; //-0;
 static double vIncrement = -0.011; //-0.01;
 
 static uint16_t skipFrames = 5; //TODO maybe find a better solution for this?

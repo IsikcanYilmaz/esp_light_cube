@@ -541,8 +541,8 @@ void AddrLedDriver_SetPixelRgb(Pixel_t *p, uint8_t r, uint8_t g, uint8_t b)
   p->green = g;
   p->blue = b;
   led_strip_pixels[p->stripIdx * 3 + 0] = g;
-  led_strip_pixels[p->stripIdx * 3 + 1] = b;
-  led_strip_pixels[p->stripIdx * 3 + 2] = r;
+  led_strip_pixels[p->stripIdx * 3 + 1] = r;
+  led_strip_pixels[p->stripIdx * 3 + 2] = b;
   pixelChanged = true;
 }
 
