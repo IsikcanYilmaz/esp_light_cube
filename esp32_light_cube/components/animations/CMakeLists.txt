@@ -8,5 +8,6 @@ idf_component_register(SRCS
                             "animation_oscillator.c"
                             "animation_snakes.c"
                             "animation_game_of_life.c"
+                            "animation_squares.c"
                        INCLUDE_DIRS "."
                        REQUIRES "main")

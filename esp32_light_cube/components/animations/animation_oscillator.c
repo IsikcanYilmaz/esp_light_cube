@@ -20,7 +20,7 @@
 static const char* TAG = "ANIM_OSCILLATOR";
 
 static Color_t currColor;
-static double freq = 0.13;
+static double freq = 1.3;
 static double currH = 255.0;
 static double currS = 1.0;
 static double currV = 0.15;

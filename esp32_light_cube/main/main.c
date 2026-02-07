@@ -44,6 +44,8 @@ void app_main(void)
 {
   bool ret = true;
 
+  vTaskDelay(pdMS_TO_TICKS(5000));
+
   ret = nvsInit();
   ret &= AddrLedDriver_Init();
   ret &= AnimationMan_Init();

@@ -12,6 +12,7 @@
 #define NUM_PANELS (5)
 #define NUM_LEDS (NUM_LEDS_PER_PANEL * NUM_PANELS)
 #define NEOPIXEL_SIGNAL_BUFFER_LEN (sizeof(PixelPacket_t) * NUM_LEDS + 1)
+#define NUM_NEIGHBORS (8)
 
 #define ADDR_LED_UPDATE_PERIOD_MS 100
 
@@ -96,7 +97,7 @@ typedef struct {
   uint8_t x; // X, Y of the pixel IN it's panel // todo think about moving these to manager
   uint8_t y;
 	uint16_t stripIdx; // Index of the pixel in the strip // Addition for RIOT ws281x module
-	struct Pixel_t *neighborPixels[8]; // TODO pick one convention and go with it
+	struct Pixel_t *neighborPixels[NUM_NEIGHBORS]; // TODO pick one convention and go with it
 } Pixel_t;
 
 // Below structure denotes the encapsulation of one continuous LED strip (can be in any form. location of pixels handled by upper layer)

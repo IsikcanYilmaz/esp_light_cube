@@ -22,7 +22,7 @@ static double hIncrement = -0.556; //-2;
 static double sIncrement = 0.093; //-0;
 static double vIncrement = -0.011; //-0.01;
 
-static uint16_t skipFrames = 5; //TODO maybe find a better solution for this?
+static uint16_t skipFrames = 10; //TODO maybe find a better solution for this?
 
 static bool randomInput = true;
 static uint16_t randomInputChancePercent = 21;

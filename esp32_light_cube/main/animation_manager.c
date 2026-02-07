@@ -8,6 +8,7 @@
 #include "animation_walker.h"
 #include "animation_scroller.h"
 #include "animation_sparkles.h"
+#include "animation_squares.h"
 #include "animation_lines.h"
 #include "animation_oscillator.h"
 #include "animation_snakes.h"
@@ -39,7 +40,7 @@ static uint32_t autoSwitchTimestampMs = 0;
 static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
 // static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
 
-static uint32_t autoSwitchMs = 1*60*1000;
+static uint32_t autoSwitchMs = 2*60*1000;
 static bool autoSwitchEnabled = true;
 
 static double fadeOutV = 1.0;
@@ -136,6 +137,18 @@ Animation_s animations[ANIMATION_MAX] = {
 		.signal = AnimationGameOfLife_ReceiveSignal,
 		.getState = AnimationGameOfLife_GetState
 	},
+	//  [ANIMATION_SQUARES] = {
+	// 	.name = "squares",
+	// 	.init = AnimationSquares_Init,
+	// 	.deinit = AnimationSquares_Deinit,
+	// 	.start = AnimationSquares_Start,
+	// 	.stop = AnimationSquares_Stop,
+	// 	.update = AnimationSquares_Update,
+	// 	//.buttonInput = AnimationSquares_ButtonInput,
+	// 	.usrInput = AnimationSquares_UsrInput,
+	// 	.signal = AnimationSquares_ReceiveSignal,
+	// 	.getState = AnimationSquares_GetState
+	// },
 	[ANIMATION_WALKER] = {
 		.name = "walker",
 		.init = AnimationWalker_Init,
