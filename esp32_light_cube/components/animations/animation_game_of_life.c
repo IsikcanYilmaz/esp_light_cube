@@ -16,13 +16,13 @@ static const char* TAG = "ANIM_GOL";
 // Configs
 static double currH = 0.0;
 static double currS = 0.8;
-static double currV = 0.345;
+static double currV = 0.8;
 
 static double hIncrement = -0.556; //-2;
 static double sIncrement = 0.093; //-0;
 static double vIncrement = -0.011; //-0.01;
 
-static uint16_t skipFrames = 10; //TODO maybe find a better solution for this?
+static uint16_t skipFrames = 4; //TODO maybe find a better solution for this?
 
 static bool randomInput = true;
 static uint16_t randomInputChancePercent = 21;

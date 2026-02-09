@@ -74,44 +74,6 @@ static void RunningAction(void)
 	}
 }
 
-static void newRunningAction(void)
-{
-	static uint8_t yvals[16];
-	static uint8_t xOffset;
-	float now = (float) esp_timer_get_time() / 1000000.0;
-	now = fmodf(now, 100.0);
-
-	xOffset = 2 + 2 * CtrlSig_Sin(5, 0);
-
-	Visual_IncrementAllByHSV(hIncrement, sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
-
-	for (uint8_t i = 0; i < 16; i+=12)
-	{
-		// Red
-		// float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
-		float phaseDiffRadian = (i > 0 ? 1 : 0) * 45.0 * M_PI / 180.0;
-		float sinout = 6 + 6 * CtrlSig_Sin(freq, phaseDiffRadian);
-		yvals[i] = (int)sinout;
-		Position_e pos = i/4;
-    Color_t c = Color_CreateFromHsv(currH, currS, currH);
-		if (yvals[i] < 4)
-		{
-			AddrLedDriver_SetPixelRgbInPanel(pos, (xOffset+i)%4, yvals[i], c.red, c.green, c.blue);
-		}
-		else if (yvals[i] < 8) // TOP PANEL
-		{
-			Pixel_t *topPix = AddrLedDriver_GetPixelInPanelRelative(TOP, pos, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(topPix, c.red, c.green, c.blue);
-		}
-		else // OPPOSITE PANEL
-		{
-			Position_e oppositePos = AddrLedDriver_GetOppositePanel(pos);
-			Pixel_t *oppositePix = AddrLedDriver_GetPixelInPanelRelative(oppositePos, TOP, (xOffset+i)%4, yvals[i]%4);
-			AddrLedDriver_SetPixelRgb(oppositePix, c.red, c.green, c.blue);
-		}
-	}
-}
-
 bool AnimationOscillator_Init(void *arg)
 {
 	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8); // TODO depricated

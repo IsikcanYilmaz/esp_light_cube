@@ -7,6 +7,7 @@ idf_component_register(SRCS
                             "animation_manager.c"
                             "editable_value.c"
                             "ble_manager.c"
+                            "wifi_manager.c"
                             "control_signals.c"
                             "logger.c"
                             "visual_util.c"

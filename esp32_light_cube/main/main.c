@@ -14,6 +14,7 @@
 #include "addr_led_driver.h"
 #include "animation_manager.h"
 #include "ble_manager.h"
+#include "wifi_manager.h"
 
 static const char* TAG = "MAIN";
 
@@ -50,7 +51,8 @@ void app_main(void)
   ret &= AddrLedDriver_Init();
   ret &= AnimationMan_Init();
   ret &= UserCommand_Init();
-  ret &= BleMan_Init();
+  // ret &= BleMan_Init();
+  ret &= WifiManager_Init();
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
