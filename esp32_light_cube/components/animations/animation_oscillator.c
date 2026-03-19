@@ -20,13 +20,13 @@
 static const char* TAG = "ANIM_OSCILLATOR";
 
 static Color_t currColor;
-static double freq = 1.3;
-static double currH = 255.0;
-static double currS = 1.0;
+static double freq = 0.5;
+static double currH = 272.0;
+static double currS = 0.6;
 static double currV = 0.15;
-static double hIncrement = -0;
-static double sIncrement = -0;
-static double vIncrement = -0.06;
+static double hIncrement = 11;
+static double sIncrement = 0.65;
+static double vIncrement = -0.058;
 
 static EditableValue_t editableValues[] = 
 {
@@ -42,6 +42,10 @@ static EditableValueList_t editableValuesList = {.name = "oscillator", .values =
 
 static volatile AnimationState_e state = ANIMATION_STATE_UNINITIALIZED;
 
+volatile static Oscillator_t mainOsc;
+volatile static Oscillator_t speedOsc;
+volatile static Oscillator_t phaseDiffOsc;
+
 static void FadeOffAction(void)
 {
 	// If we're stopping, fade off all LEDs. Check everytime if all LEDs are off
@@ -55,28 +59,56 @@ static void FadeOffAction(void)
 
 static void RunningAction(void)
 {
+  CtrlSig_OscillatorUpdate(&mainOsc);
+  CtrlSig_OscillatorUpdate(&speedOsc);
+  CtrlSig_OscillatorUpdate(&phaseDiffOsc);
+
+  // mainOsc.freqHz = 0.25 + (0.15 * speedOsc.magnitude);
+
 	static uint8_t yvals[16];
 	float now = (float) esp_timer_get_time() / 1000000.0;
 	now = fmodf(now, 100.0);
 	// freq = 1;
 
-	Visual_IncrementAllByHSV(hIncrement, sIncrement * CtrlSig_Sin(0.01, 0),vIncrement);
-  Color_t c = Color_CreateFromHsv(currH, currS, currV);
+	Visual_IncrementAllByHSV(hIncrement, sIncrement, vIncrement + (0.010 * speedOsc.magnitude));
+
+	 // Color_t c = Color_CreateFromHsv(currH, currS, currV);
+	// for (uint8_t i = 0; i < 16; i++)
+	// {
+	// 	// Red
+	// 	float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
+	// 	float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
+	// 	yvals[i] = (int)sinout;
+	// 	Position_e pos = i/4;
+	// 	yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
+	// 	AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, c.red, c.green, c.blue);
+	// }
+
+	Color_t c = Color_CreateFromHsv(currH, currS + (0.30 * speedOsc.magnitude), currV + (0.20 * speedOsc.magnitude));
 	for (uint8_t i = 0; i < 16; i++)
-	{
-		// Red
-		float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
-		float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
-		yvals[i] = (int)sinout;
-		Position_e pos = i/4;
-		yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
-		AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, c.red, c.green, c.blue);
-	}
+  {
+    // Red
+
+    float phaseDiffRadian = (float) i * (5.0 + (20.0 * phaseDiffOsc.magnitude)) * M_TWO_PI / DEFAULT_FPS;
+    float sinout = 2 * (float) (sin(M_TWO_PI * mainOsc.currPhase + phaseDiffRadian) + 1);
+    // ESP_LOGI(TAG, "mag %f sinout %f phaseDiffRadian %f", mainOsc.magnitude, sinout, phaseDiffRadian);
+
+    Position_e pos = i/4;
+
+    yvals[i] = (int)sinout;
+    yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
+    AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, c.red, c.green, c.blue);
+  }
 }
 
 bool AnimationOscillator_Init(void *arg)
 {
 	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8); // TODO depricated
+
+  mainOsc = CtrlSig_NewOscillator(SIN, 0.5, 0);
+  speedOsc = CtrlSig_NewOscillator(SIN, 0.1, 0);
+  phaseDiffOsc = CtrlSig_NewOscillator(SIN, 0.1, 0);
+
 	state = ANIMATION_STATE_RUNNING;
 	return true;
 }

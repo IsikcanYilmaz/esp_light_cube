@@ -38,7 +38,7 @@ static const char *TAG = "ANIM_MAN";
 static uint32_t autoSwitchTimestampMs = 0;
 
 static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
-// static uint32_t framePeriodUs = (US_PER_SEC/ANIMATION_MANAGER_DEFAULT_FPS);
+static uint32_t framePeriodMs = (1000/ANIMATION_MANAGER_DEFAULT_FPS);
 
 static uint32_t autoSwitchMs = 2*60*1000;
 static bool autoSwitchEnabled = true;
@@ -200,8 +200,8 @@ static void AnimationMan_HandleAutoSwitch(void)
 static void AnimationMan_SetFps(uint32_t fps)
 {
 	framePerSecond = fps;
-	// framePeriodUs = US_PER_SEC/fps;
-	// logprint("New fps %d, period %d", fps, framePeriodUs);
+	framePeriodMs = 1000/fps;
+	logprint("New fps %d, period %d", fps, framePeriodMs);
 }
 
 static uint32_t AnimationMan_GetFps(void)
@@ -260,7 +260,7 @@ void AnimationMan_TaskHandler(void *arg)
         }
 		}
 
-    vTaskDelay(pdMS_TO_TICKS(1));
+    vTaskDelay(pdMS_TO_TICKS(framePeriodMs));
 	}
 }
 

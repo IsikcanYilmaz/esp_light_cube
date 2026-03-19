@@ -2,7 +2,11 @@
 
 #ifndef M_PI // TODO where to put this
     #define M_PI 3.14159265358979323846
+    #define M_TWO_PI (2 * 3.14159265358979323846)
 #endif
+
+#define DEFAULT_FPS (60.0) // For calculating phase increments // TODO find better way of doing this
+#define DEFAULT_DT  (M_TWO_PI / DEFAULT_FPS)
 
 typedef enum
 {
@@ -15,8 +19,12 @@ typedef enum
 typedef struct
 {
 	OscillatorType_e type;
-	double freqHz;
-	double initialPhase;
+	float freqHz;
+  float currPhase;
+
+  float magnitude; // Current output value
+
+  float dt; // phase increase per update call. in radians
 } Oscillator_t;
 
 typedef struct
@@ -31,6 +39,9 @@ typedef struct
 // A is Amplitude
 // ω is Angular frequency in radians per second. ω = 2 * pi * f
 // ϕ is Phase
-Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double initialPhase);
+Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double initialPhaseRadians);
+
+void CtrlSig_OscillatorUpdate(Oscillator_t *osc);
+double CtrlSig_OscillatorGetMagnitude(Oscillator_t *osc);
 
 float CtrlSig_Sin(float freq, float phase);

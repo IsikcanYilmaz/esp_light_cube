@@ -4,19 +4,18 @@
 // #include "button.h"
 #include "editable_value.h"
 
-#define ANIMATION_DEFAULT ANIMATION_OSCILLATOR //(ANIMATION_WALKER)
+#define ANIMATION_DEFAULT (ANIMATION_CANVAS)
 #define ANIMATION_MANAGER_DEFAULT_FPS (60)
 
 typedef enum AnimationIdx_e_
 {
-  // ANIMATION_SQUARES,
-	ANIMATION_WALKER,
-	ANIMATION_SCROLLER,
-	ANIMATION_SPARKLES,
-	ANIMATION_LINES,
-	ANIMATION_OSCILLATOR,
-	ANIMATION_SNAKES,
-	ANIMATION_GAME_OF_LIFE,
+	// ANIMATION_SCROLLER,
+	// ANIMATION_SPARKLES,
+	// ANIMATION_LINES,
+	// ANIMATION_OSCILLATOR,
+	// ANIMATION_SNAKES,
+	// ANIMATION_GAME_OF_LIFE,
+	// ANIMATION_WALKER,
 	ANIMATION_CANVAS,
 	ANIMATION_MAX
 } AnimationIdx_e;
@@ -61,7 +60,7 @@ typedef struct Animation_s_
 	void (*stop)(void);
 	void (*update)(void);
 	// void (*buttonInput)(Button_e b, ButtonGesture_e g);
-	uint8_t (*usrInput)(int argc, char **argv);
+	// uint8_t (*usrInput)(int argc, char **argv);
 	void (*signal)(AnimationSignal_e s);
 	AnimationState_e (*getState)(void);
 } Animation_s;
