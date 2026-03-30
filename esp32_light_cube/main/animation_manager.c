@@ -41,7 +41,7 @@ static uint32_t framePerSecond = ANIMATION_MANAGER_DEFAULT_FPS;
 static uint32_t framePeriodMs = (1000/ANIMATION_MANAGER_DEFAULT_FPS);
 
 static uint32_t autoSwitchMs = 2*60*1000;
-static bool autoSwitchEnabled = true;
+static bool autoSwitchEnabled = false;
 
 static double fadeOutV = 1.0;
 
@@ -325,7 +325,7 @@ int AnimationMan_TakeUsrCommand(int argc, char **argv)
 {
 	if (argc < 2) 
   {
-		ESP_LOGE(TAG, "usage: anim [set|conf|next|auto]\nOR\nanim <editable value> # to change the config of the currently playing animation");
+		ESP_LOGE(TAG, "usage: anim [set|setval|getval|conf|next|auto] OR anim <editable value> # to change the config of the currently playing animation");
 		return 0;
 	}
 
@@ -405,5 +405,10 @@ uint8_t AnimationMan_GenericGetSetValPath(EditableValueList_t *l, int argc, char
 			}
 		}
 	}
+  else
+  {
+    ESP_LOGE(TAG, "Usage: anim <getval|setval> <editable value string> <new value>");
+    return 1;
+  }
   return 0;
 }

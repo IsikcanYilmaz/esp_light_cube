@@ -13,6 +13,7 @@
 #include "esp_log.h"
 #include "colorspace_interface.h"
 #include "addr_led_driver.h"
+#include <string.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
@@ -21,6 +22,7 @@ static const char* TAG = "ANIM_OSCILLATOR";
 
 static Color_t currColor;
 static double freq = 0.5;
+static double mainOscFreq = 0.5;
 static double currH = 272.0;
 static double currS = 0.6;
 static double currV = 0.15;
@@ -37,6 +39,9 @@ static EditableValue_t editableValues[] =
 	(EditableValue_t) {.name = "currS", .valPtr = (union EightByteData_u *) &currS, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "currV", .valPtr = (union EightByteData_u *) &currV, .type = DOUBLE, .ll.d = 0.00, .ul.d = 1.00},
 	(EditableValue_t) {.name = "freq", .valPtr = (union EightByteData_u *) &freq, .type = DOUBLE, .ll.d = 0.00, .ul.d = 2.00},
+	
+  (EditableValue_t) {.name = "mainOscFreq", .valPtr = (union EightByteData_u *) &mainOscFreq, .type = FLOAT, .ll.f = 0.000, .ul.f = 2.00}
+
 };
 static EditableValueList_t editableValuesList = {.name = "oscillator", .values = &editableValues[0], .len = sizeof(editableValues)/sizeof(EditableValue_t)};
 
@@ -59,31 +64,17 @@ static void FadeOffAction(void)
 
 static void RunningAction(void)
 {
-  CtrlSig_OscillatorUpdate(&mainOsc);
-  CtrlSig_OscillatorUpdate(&speedOsc);
-  CtrlSig_OscillatorUpdate(&phaseDiffOsc);
+  Oscillator_Update(&mainOsc);
+  Oscillator_Update(&speedOsc);
+  Oscillator_Update(&phaseDiffOsc);
 
   // mainOsc.freqHz = 0.25 + (0.15 * speedOsc.magnitude);
 
 	static uint8_t yvals[16];
 	float now = (float) esp_timer_get_time() / 1000000.0;
 	now = fmodf(now, 100.0);
-	// freq = 1;
 
 	Visual_IncrementAllByHSV(hIncrement, sIncrement, vIncrement + (0.010 * speedOsc.magnitude));
-
-	 // Color_t c = Color_CreateFromHsv(currH, currS, currV);
-	// for (uint8_t i = 0; i < 16; i++)
-	// {
-	// 	// Red
-	// 	float phaseDiffRadian = i * 90.0 * CtrlSig_Sin(0.01, 0) * M_PI / 180.0;
-	// 	float sinout = 2 + 2 * CtrlSig_Sin(freq, phaseDiffRadian);
-	// 	yvals[i] = (int)sinout;
-	// 	Position_e pos = i/4;
-	// 	yvals[i] = (yvals[i] > 3) ? 3 : yvals[i];
-	// 	AddrLedDriver_SetPixelRgbInPanel(pos, i%4, yvals[i]%4, c.red, c.green, c.blue);
-	// }
-
 	Color_t c = Color_CreateFromHsv(currH, currS + (0.30 * speedOsc.magnitude), currV + (0.20 * speedOsc.magnitude));
 	for (uint8_t i = 0; i < 16; i++)
   {
@@ -105,9 +96,9 @@ bool AnimationOscillator_Init(void *arg)
 {
 	currColor = Color_CreateFromHsv(0.0, 1.0, 0.8); // TODO depricated
 
-  mainOsc = CtrlSig_NewOscillator(SIN, 0.5, 0);
-  speedOsc = CtrlSig_NewOscillator(SIN, 0.1, 0);
-  phaseDiffOsc = CtrlSig_NewOscillator(SIN, 0.1, 0);
+  mainOsc = Oscillator_Create(SIN, mainOscFreq, 0);
+  speedOsc = Oscillator_Create(SIN, 0.1, 0);
+  phaseDiffOsc = Oscillator_Create(SIN, 0.1, 0);
 
 	state = ANIMATION_STATE_RUNNING;
 	return true;
@@ -168,7 +159,16 @@ uint8_t AnimationOscillator_UsrInput(int argc, char **argv)
 		printf(" %s", argv[i]);
 	}
 	printf("\n");
-	AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv);
+  if (AnimationMan_GenericGetSetValPath(&editableValuesList, argc, argv) == 0)
+  { 
+    // If we need to do further processing depening on specific settings
+    if (argc > 1 && strncmp(argv[1], "mainOscFreq", 3) == 0) // TODO generalize oscillator settings this looks ugly
+    {
+      ASSERT_ARGS(2);
+      float f = (float) atof(argv[2]);
+      Oscillator_SetFreq(&mainOsc, f);
+    }
+  }
   return 0;
 }
 

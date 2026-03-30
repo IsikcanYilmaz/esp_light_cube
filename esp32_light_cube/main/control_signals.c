@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdint.h>
 
-Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double initialPhaseRadians)
+Oscillator_t Oscillator_Create(OscillatorType_e type, double freqHz, double initialPhaseRadians)
 {
   Oscillator_t osc;
   osc = (Oscillator_t) {.type = type, 
@@ -11,15 +11,13 @@ Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double 
                         .currPhase = fmod(initialPhaseRadians, (M_PI * 2.0)), 
                         .dt = M_TWO_PI * freqHz / DEFAULT_FPS, 
                         .magnitude = 0};
-  CtrlSig_OscillatorUpdate(&osc);
+  Oscillator_Update(&osc);
   return osc;
 }
 
-void CtrlSig_OscillatorUpdate(Oscillator_t *osc)
+void Oscillator_Update(Oscillator_t *osc)
 {
   // Increment oscillator's phase and get output value
-
-  // osc->currPhase = fmod(osc->currPhase + osc->dt, M_TWO_PI);
   osc->currPhase = osc->currPhase + osc->dt;
 
   switch(osc->type)
@@ -38,13 +36,13 @@ void CtrlSig_OscillatorUpdate(Oscillator_t *osc)
   }
 }
 
-void CtrlSig_OscillatorSetFreq(Oscillator_t *osc, double freqHz)
+void Oscillator_SetFreq(Oscillator_t *osc, double freqHz)
 {
   osc->freqHz = freqHz;
   osc->dt = M_TWO_PI * freqHz / DEFAULT_FPS;
 }
 
-double CtrlSig_OscillatorGetMagnitude(Oscillator_t *osc)
+double Oscillator_GetMagnitude(Oscillator_t *osc)
 {
   return osc->magnitude;
 }
@@ -54,3 +52,4 @@ float CtrlSig_Sin(float freq, float phase)
 	float now = (float) fmodf(esp_timer_get_time() / 1000000.0, 100);
 	return sin(2.0 * M_PI * freq * now + phase);
 }
+

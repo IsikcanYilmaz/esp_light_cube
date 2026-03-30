@@ -20,16 +20,15 @@ typedef struct
 {
 	OscillatorType_e type;
 	float freqHz;
-  float currPhase;
-
+  float currPhase; 
   float magnitude; // Current output value
-
   float dt; // phase increase per update call. in radians
 } Oscillator_t;
 
-typedef struct
+typedef struct 
 {
-	// TODO
+  float magnitude;
+  float dt;
 } Impulse_t;
 
 
@@ -39,9 +38,10 @@ typedef struct
 // A is Amplitude
 // ω is Angular frequency in radians per second. ω = 2 * pi * f
 // ϕ is Phase
-Oscillator_t CtrlSig_NewOscillator(OscillatorType_e type, double freqHz, double initialPhaseRadians);
+Oscillator_t Oscillator_Create(OscillatorType_e type, double freqHz, double initialPhaseRadians);
 
-void CtrlSig_OscillatorUpdate(Oscillator_t *osc);
-double CtrlSig_OscillatorGetMagnitude(Oscillator_t *osc);
+void Oscillator_Update(Oscillator_t *osc);
+double Oscillator_GetMagnitude(Oscillator_t *osc);
+void Oscillator_SetFreq(Oscillator_t *osc, double freqHz);
 
 float CtrlSig_Sin(float freq, float phase);
